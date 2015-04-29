@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="shortcut icon" type="image/png" href="http://pennypledge.co/static/img/favicon.ico"/>
+    <meta charset="utf-8">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Deck of Cards - an API">
+    <meta name="author" content="Deck of Cards">
+
+    <!-- Facebook -->
+    <meta property="og:title" content="Deck of Cards" />
+    <meta property="og:image" content="http://deckofcardsapi.com/static/img/cards.png" />
+    <meta property="og:url" content="http://deckofcardsapi.com" />
+    <meta property="og:description" content="Deck of Cards - an API." />
+    <meta property="og:type" content="website" />
+
+    <!-- Twitter -->
+    <meta name="twitter:title" content="Deck of Cards" />
+    <meta name="twitter:url" content="http://deckofcardsapi.com" />
+    <meta name="twitter:card" content="Deck of Cards - an API" />
+    <meta name="twitter:image" content="http://deckofcardsapi.com/static/img/cards.png" />
+    
+    <link rel="stylesheet" href="{{STATIC_URL}}css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+    <link href='http://fonts.googleapis.com/css?family=Source+Code+Pro:400,500' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,100' rel='stylesheet' type='text/css'>
+    <title>Deck of Cards API</title>
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+    h1, h2, h3, h4, h5, h6{
+        font-family: 'Roboto', sans-serif;
+        font-weight: 100;
+    }
+    body, p{
+        font-weight:100;
+    }
+    p{
+        letter-spacing: 1px;
+        font-size:130%;
+    }
+    .page{
+        margin:0px;
+        padding:50px 20px;
+        background-image: -webkit-linear-gradient(top, #1A4A1C, #308834 600px);
+        background-image: -moz-linear-gradient(top, #1A4A1C, #308834 600px);
+        background-image: -o-linear-gradient(top, #1A4A1C, #308834 600px);
+        background-image: -ms-linear-gradient(top, #1A4A1C, #308834 600px);
+        background-image: linear-gradient(to bottom, #1A4A1C, #308834 600px);
+        color:#fff;
+    }
+    pre{
+        font-family: 'Source Code Pro', monospace;
+        font-size: 18px;
+    }
+
+    .card-image{
+        width:200px;
+        position:absolute;
+        right:0px;
+        top:0px;
+    }
+    code{
+        font-size:100%;
+        background-color:rgba(1,1,1,0);
+    }
+    .head{
+        padding:60px;
+        text-align:center;
+    }
+    var{
+        color:#B1C725;
+        font-size:105%;
+        font-weight:300;
+    }
+    .code-header{
+        letter-spacing: 1px;
+        font-size:130%;
+        background-color:rgba(1,1,1,.5);
+    }
+    pre{
+        background-color:rgba(1,1,1,.3);
+        color:#fff;
+        border:none;
+        border-radius:10px;
+        padding:20px;
+    }
+    .section-header{
+        padding-top: 100px;
+        padding-bottom:20px;
+    }
+    .title{
+        font-size: 72px;
+    }
+    .footer{
+        text-align:center;
+    }
+    .icon{
+        background:white;
+        color:#333;
+        padding:7px;
+        width:38px;
+        height:38px;
+        border-radius:50%;
+        font-size:120%;
+        text-align:center;
+    }
+    a{
+        color:#B1C725;
+    }
+    </style>
+  </head>
+<body>
+<div class="page">
+    <img src='{{STATIC_URL}}img/blackjack2.png' class="card-image">
+    <div class="head">
+        <h1 class="title">Deck of Cards</h1>
+        <h3 class="subtitle">An API</h3>
+    </div>
+
+<div class="container">
+
+<h2 class="section-header">Shuffle the Cards:</h2>
+<pre>
+http://deckofcardsapi.com/api/shuffle/?deck_count=1
+</pre>
+
+<p>Add <var>deck_count</var> as a GET or POST parameter to define the number of Decks you want to use. Blackjack typically uses 6 decks. The default is 1.</p>
+<br>
+<h3>Response:</h3>
+<pre>
+{
+    "success": true, 
+    "deck_id": "3p40paa87x90", 
+    "remaining": 52
+}
+</pre>
+
+<h2 class="section-header">Draw a Card:</h2>
+<pre>
+http://deckofcardsapi.com/api/draw/&lt;&lt;deck_id&gt;&gt;/?count=2
+</pre>
+<p>The count variable defines how many cards to draw from the deck. Be sure to replace <var>deck_id</var> with a valid deck_id. We use the deck_id as an identifier so we know who is playing with what deck. After two weeks, if actions have been made on the deck then we throw it away.</p>
+<br>
+<h3>Response:</h3>
+<pre>
+{
+    "success": true, 
+    "cards": [
+        {
+            "image": "http://deckofcardsapi.com/static/img/KINGHEARTS.png", 
+            "value": "KING", 
+            "suit": "HEARTS"
+        }, 
+        {
+            "image": "http://deckofcardsapi.com/static/img/8CLUBS.png", 
+            "value": "8", 
+            "suit": "CLUBS"
+        }
+    ], 
+    "deck_id":"3p40paa87x90", 
+    "remaining": 50
+}
+</pre>
+
+
+<h2 class="section-header">Reshuffle the Cards:</h2>
+<pre>
+http://deckofcardsapi.com/api/shuffle/&lt;&lt;deck_id&gt;&gt;/
+</pre>
+
+<p>Don't throw away a deck when all you want to do is shuffle. Include the <var>deck_id</var> on your call to shuffle your cards. Don't worry about reminding us how many decks you are playing with.</p>
+<br>
+<h3>Response:</h3>
+<pre>
+{
+    "success": true, 
+    "deck_id": "3p40paa87x90", 
+    "remaining": 52
+}
+</pre>
+
+<br><br>
+<p class="footer">
+If you like this project. Send me a quarter:<br>
+<pledgeplugin appid='p603v2p51' image_src='' tag='' ></pledgeplugin>
+<br><br>
+Am I forgetting something? Check out this project on <a href="http://github.com">GitHub</a>.<br><br> 
+Made by Chase Roberts.<br><br>
+    <a href="" target="_blank"><i class="fa fa-twitter icon"></i></a>
+    <a href="https://github.com/crobertsbmw/" target="_blank"><i class="fa fa-github icon"></i></a>             
+<br>
+</p>
+</div>
+</div>
+
+</body>
+<script type="text/javascript" src='https://pennypledge.co/static/js/penny-plugin.js'></script>
+</html>
+

@@ -1,0 +1,168 @@
+#subscribed {
+  display: none;
+  padding-top: 50px;
+  overflow: auto; }
+
+.navbar {
+  background-color: rgba(27, 72, 93, 0.95);
+  border-color: rgba(38, 102, 133, 0.9); }
+
+body {
+  height: 100%;
+  min-height: 100%;
+  position: relative; }
+
+body, h1, h2, h3, h4, h5, h6, p {
+  font-family: 'Raleway', sans-serif; }
+
+.navbar a {
+  color: #fff; }
+
+.navbar a:hover {
+  color: #ddd; }
+
+.navbar-nav > li > a:hover {
+  background-color: #1b485d; }
+
+.navbar-nav > li > a:active {
+  background-color: #1b485d; }
+
+.navbar-nav > li > a:visited {
+  background-color: #1b485d; }
+
+.nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
+  background-color: #1b485d; }
+
+.logo {
+  position: relative;
+  top: -9px; }
+
+.btn-primary {
+  color: #266685;
+  background-color: #fff;
+  border-color: #266685; }
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active {
+  color: #3185ae;
+  background-color: #fff;
+  border-color: #3185ae; }
+
+.icon-bar {
+  background: #FFF; }
+
+a {
+  color: #266685; }
+
+a:hover {
+  color: #3185ae; }
+
+/* I don't remember what the pagination is for. So comment it away for now.
+.pagination>li>a, .pagination>li>span{ 
+    color:#44d18c;
+}
+.pagination>li>a:hover, .pagination>li>span:hover{
+    color:#30997a;
+}
+.pagination>.active>a, .pagination>.active>span, .pagination>.active>a:hover, .pagination>.active>span:hover, .pagination>.active>a:focus, .pagination>.active>span:focus{
+    background-color:#44d18c;
+    border-color:#44d18c;
+}
+*/
+.footer {
+  padding: 15px 10% 15px 10%;
+  background: #266685;
+  color: #fff;
+  border-top: 2px solid #3185ae; }
+
+.footer a {
+  color: #fff;
+  clear: both;
+  position: relative;
+  z-index: 10;
+  height: 3em;
+  margin-top: -3em; }
+
+.navbar-brand {
+  font-size: 150%; }
+
+#login-box {
+  margin-top: 30px; }
+
+#login-box h3 {
+  text-align: center;
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: -1px; }
+
+#login-box p {
+  text-align: center; }
+
+.banner {
+  padding-top: 150px;
+  padding-bottom: 50px;
+  text-align: center;
+  background: url("/static/img/viral_bg_dark.png") no-repeat center fixed;
+  background-size: cover;
+  margin-bottom: 30px;
+  font-weight: 200;
+  color: #fff; }
+
+.container {
+  margin-top: 100px;
+  margin-bottom: 50px; }
+
+.whitebackground {
+  background: #fff; }
+
+.small-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  padding: 5px 10px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 3px;
+  margin-bottom: 0;
+  font-weight: normal;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  cursor: pointer;
+  background-image: none;
+  border: 1px solid transparent;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+  color: #333;
+  background-color: #fff;
+  border-color: #ccc; }
+
+.alert {
+  display: none; }
+
+#backdrop {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  z-index: 2000;
+  background-color: rgba(0, 0, 0, 0.5); }
+
+.overlay {
+  background-color: #fff;
+  position: fixed;
+  top: 5%;
+  left: 5%;
+  width: 90%;
+  height: 90%;
+  z-index: 3000;
+  border: 1px solid #ddd;
+  border-radius: 15px; }
+
+.super-big {
+  font-size: 50px; }
+
+/*# sourceMappingURL=virality.css.map */

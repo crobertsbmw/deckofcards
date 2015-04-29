@@ -1,0 +1,5 @@
+Django==1.8
+Pillow==2.8.0
+argparse==1.2.1
+stevedore==0.15
+jsonfield==1.0.0
