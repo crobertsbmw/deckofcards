@@ -63,6 +63,6 @@ def card_to_dict(card):
 
     d['value'] = value
     d['suit'] = suit
-    d['image'] = '127.0.0.1:8000/static/img/'+value+suit+'.png'
+    d['image'] = 'http://deckofcardsapi.com/static/img/'+value+suit+'.png'
 
     return d
