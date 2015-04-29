@@ -10,6 +10,7 @@ def shuffle(request, key=''):
         deck_count = request.POST.get('deck_count', 1)
     else:
         deck_count = request.GET.get('deck_count', 1)
+    deck_count = int(deck_count)
     if deck_count > 20:
         return HttpResponse(json.dumps({'success':False,'error':'The max number of Decks is 20.'}), content_type="application/json")
     if key:
