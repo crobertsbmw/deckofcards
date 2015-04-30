@@ -12,6 +12,7 @@ build/
 develop-eggs/
 dist/
 eggs/
+settings.py
 lib/
 lib64/
 parts/
