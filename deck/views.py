@@ -5,12 +5,14 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import authenticate, login, logout
 from deck.models import User, Deck, card_to_dict
 
-def shuffle(request, key=''):
+def _getRequestVar(request, key):
     if request.method == 'POST':
-        deck_count = request.POST.get('deck_count', 1)
+        return request.POST.get(key, 1)
     else:
-        deck_count = request.GET.get('deck_count', 1)
-    deck_count = int(deck_count)
+        return request.GET.get(key, 1)
+
+def shuffle(request, key=''):
+    deck_count = int(_getRequestVar(request, 'deck_count'))
     if deck_count > 20:
         return HttpResponse(json.dumps({'success':False,'error':'The max number of Decks is 20.'}), content_type="application/json")
     if key:
@@ -23,10 +25,7 @@ def shuffle(request, key=''):
     return HttpResponse(json.dumps(resp), content_type="application/json")
 
 def draw(request, key):
-    if request.method == 'POST':
-        card_count = int(request.POST.get('count', 1))
-    else:
-        card_count = int(request.GET.get('count', 1))
+    card_count = int(_getRequestVar(request, 'count'))
     deck = Deck.objects.get(key=key)
     cards = deck.stack[0:card_count]
     deck.stack = deck.stack[card_count:]
