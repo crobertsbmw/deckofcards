@@ -27,11 +27,15 @@ def new_deck(request, key='', shuffle=False):
         deck = Deck()
         deck.deck_count = deck_count
     deck.open_new()
+    shuffled = False
     if shuffle:
         random.shuffle(deck.stack)
-
+        shuffled = True
     deck.save() #save the deck_count.
-    resp = {'success':True, 'deck_id':deck.key, 'remaining':len(deck.stack)}
+    if shuffled:
+        resp = {'success':True, 'deck_id':deck.key, 'remaining':len(deck.stack), 'shuffled':False}        
+    else:
+        resp = {'success':True, 'deck_id':deck.key, 'remaining':len(deck.stack)}
     return HttpResponse(json.dumps(resp), content_type="application/json")
 
 def draw(request, key):
