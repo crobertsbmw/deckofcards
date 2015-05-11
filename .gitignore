@@ -12,6 +12,7 @@ build/
 develop-eggs/
 dist/
 eggs/
+spades/settings.py
 settings.py
 lib/
 lib64/
