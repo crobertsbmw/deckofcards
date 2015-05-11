@@ -17,8 +17,8 @@ class User(AbstractUser):
 
 CARDS = ['AS', '2S', '3S', '4S', '5S', '6S', '7S', '8S', '9S', '0S', 'JS', 'QS', 'KS',
         'AD', '2D', '3D', '4D', '5D', '6D', '7D', '8D', '9D', '0D', 'JD', 'QD', 'KD',
-        'AH', '2H', '3H', '4H', '5H', '6H', '7H', '8H', '9H', '0H', 'JH', 'QH', 'KH',
-        'AC', '2C', '3C', '4C', '5C', '6C', '7C', '8C', '9C', '0C', 'JC', 'QC', 'KC']
+        'AC', '2C', '3C', '4C', '5C', '6C', '7C', '8C', '9C', '0C', 'JC', 'QC', 'KC',
+        'AH', '2H', '3H', '4H', '5H', '6H', '7H', '8H', '9H', '0H', 'JH', 'QH', 'KH']
 
 class Deck(models.Model):
     key = models.CharField(default=random_string, max_length=15, db_index=True)
@@ -26,11 +26,10 @@ class Deck(models.Model):
     deck_count = models.IntegerField(default=1)
     stack = JSONField(null=True, blank=True)
 
-    def shuffle(self):
+    def open_new(self):
         stack = []
         for i in range(0,self.deck_count):
             stack = stack+CARDS[:]
-        random.shuffle(stack)
         self.stack = stack
         self.last_used = datetime.datetime.now()
         self.save()
@@ -38,6 +37,8 @@ class Deck(models.Model):
 def card_to_dict(card):
     value = card[:1]
     suit = card[1:]
+    d = {}
+    d['image'] = 'http://deckofcardsapi.com/static/img/'+value+suit+'.svg'
 
     if value == 'A':
         value = 'ACE'
@@ -59,10 +60,7 @@ def card_to_dict(card):
     elif suit == 'C':
         suit = 'CLUBS'
 
-    d = {}
-
     d['value'] = value
     d['suit'] = suit
-    d['image'] = 'http://deckofcardsapi.com/static/img/'+value+suit+'.png'
 
     return d
