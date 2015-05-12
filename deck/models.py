@@ -38,7 +38,9 @@ def card_to_dict(card):
     value = card[:1]
     suit = card[1:]
     d = {}
-    d['image'] = 'http://deckofcardsapi.com/static/img/'+value+suit+'.svg'
+    d['image'] = 'http://deckofcardsapi.com/static/img/'+value+suit+'.png'
+    d['images'] = {'svg':'http://deckofcardsapi.com/static/img/'+value+suit+'.svg',
+                   'png':'http://deckofcardsapi.com/static/img/'+value+suit+'.png'}
 
     if value == 'A':
         value = 'ACE'
