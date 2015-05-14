@@ -33,7 +33,7 @@ def new_deck(request, key='', shuffle=False):
         shuffled = True
     deck.save() #save the deck_count.
     if shuffled:
-        resp = {'success':True, 'deck_id':deck.key, 'remaining':len(deck.stack), 'shuffled':False}        
+        resp = {'success':True, 'deck_id':deck.key, 'remaining':len(deck.stack), 'shuffled':False}
     else:
         resp = {'success':True, 'deck_id':deck.key, 'remaining':len(deck.stack)}
     return HttpResponse(json.dumps(resp), content_type="application/json")
@@ -50,7 +50,7 @@ def draw(request, key):
         success = False
     cards = deck.stack[0:card_count]
     deck.stack = deck.stack[card_count:]
-    deck.save() 
+    deck.save()
 
     a = []
     for card in cards:
