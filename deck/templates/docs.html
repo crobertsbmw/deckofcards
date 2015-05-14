@@ -222,6 +222,25 @@ http://deckofcardsapi.com/api/new/
 }
 </pre>
 
+<h2 class="section-header">A Partial Deck:</h2>
+<pre>
+http://deckofcardsapi.com/api/shuffle/?cards=AS,2S,KS,AD,2D,KD,AC,2C,KC,AH,2H,KH
+</pre>
+<p>If you want to use a partial deck, then you can pass a list of cards you want to use <var>cards</var> parameter. Seprarate the cards with commas, and each card is a two character case-insensitive string:</p>
+<p><ol>
+  <li>The value, one of A (for an ace), 2, 3, 4, 5, 6, 7, 8, 9, 0 (for a ten), J (jack), Q (queen), or K (king);</li>
+  <li>The suit, one of S (Spades), D (Diamonds), C (Clubs), or H (Hearts).</li>
+</ol></p>
+<p>In this example, we are asking for a deck consisting of all the aces, twos, and kings.</p>
+<h3>Response:</h3>
+<pre>
+{
+    "success": true,
+    "deck_id": "3p40paa87x90",
+    "remaining": 12
+}
+</pre>
+
 <br><br>
 <p class="footer">
 If you like this project. Send me a quarter:<br>
