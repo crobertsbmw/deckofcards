@@ -15,6 +15,7 @@ def shuffle(request, key=''):
     return new_deck(request, key, True)
 
 def new_deck(request, key='', shuffle=False):
+    print(request.META['HTTP_ACCEPT'])
     deck_count = int(_get_request_var(request, 'deck_count'))
     deck_cards = _get_request_var(request, 'cards', None)
     if deck_count > 20:
@@ -62,3 +63,26 @@ def draw(request, key):
         resp = {'success':success, 'deck_id':deck.key, 'cards':a, 'remaining':len(deck.stack)}
 
     return HttpResponse(json.dumps(resp), content_type="application/json")
+
+def draw(request, key):
+    try:
+        deck = Deck.objects.get(key=key)
+    except Deck.DoesNotExist:
+        return HttpResponse(json.dumps({'success':False,'error':'Deck ID does not exist.'}), content_type="application/json", status=404)
+    _get_request_var(request, 'count')
+    if card_count > len(deck.stack):
+        success = False
+    cards = deck.stack[0:card_count]
+    deck.stack = deck.stack[card_count:]
+    deck.save() 
+
+    a = []
+    for card in cards:
+        a.append(card_to_dict(card))
+    if not success:
+        resp = {'success':success, 'deck_id':deck.key, 'cards':a, 'remaining':len(deck.stack), 'error':'Not enough cards remaining to draw '+str(card_count)+' additional'}
+    else:
+        resp = {'success':success, 'deck_id':deck.key, 'cards':a, 'remaining':len(deck.stack)}
+
+    return HttpResponse(json.dumps(resp), content_type="application/json")
+
