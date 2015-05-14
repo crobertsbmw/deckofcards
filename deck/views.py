@@ -63,7 +63,7 @@ def draw(request, key):
         resp = {'success':success, 'deck_id':deck.key, 'cards':a, 'remaining':len(deck.stack)}
 
     return HttpResponse(json.dumps(resp), content_type="application/json")
-
+'''
 def draw(request, key):
     try:
         deck = Deck.objects.get(key=key)
@@ -85,4 +85,4 @@ def draw(request, key):
         resp = {'success':success, 'deck_id':deck.key, 'cards':a, 'remaining':len(deck.stack)}
 
     return HttpResponse(json.dumps(resp), content_type="application/json")
-
+'''
