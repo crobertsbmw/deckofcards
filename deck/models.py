@@ -25,6 +25,7 @@ class Deck(models.Model):
     last_used = models.DateTimeField(default=datetime.datetime.now)
     deck_count = models.IntegerField(default=1)
     stack = JSONField(null=True, blank=True)
+    piles = JSONField(null=True, blank=True)
 
     def open_new(self, cards_used=None):
         stack = []
@@ -37,7 +38,7 @@ class Deck(models.Model):
             cards = [x for x in CARDS if x in cards_used.split(',')]
 
         for i in range(0,self.deck_count):
-            stack = stack+cards[:]
+            stack = stack+cards[:] #adding the [:] forces the array to be copied.
         self.stack = stack
         self.last_used = datetime.datetime.now()
         self.save()

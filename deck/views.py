@@ -97,6 +97,8 @@ def add_to_pile(request, key, pile):
         # Only allow real cards
         cards = [x for x in cards.split(',') if x not in deck.stack and x in CARDS]
 
+    if not deck.piles:
+        deck.piles = {}
     for key in deck.piles: #iterate through all the piles and remove any specified cards from those piles.
         p = deck.piles[key] #times like these that I question if I should have just made piles a model instead of a json field...
         for card in cards: 
@@ -110,7 +112,7 @@ def add_to_pile(request, key, pile):
     for key in deck.piles:
         piles.append(key)
 
-    resp = {'success':True, 'deck_id':deck.key, 'cards':a, 'remaining':len(deck.stack), 'piles':piles}
+    resp = {'success':True, 'deck_id':deck.key, 'remaining':len(deck.stack), 'piles':piles}
     response = HttpResponse(json.dumps(resp), content_type="application/json")
     response['Access-Control-Allow-Origin'] = '*'
     return response
