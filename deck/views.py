@@ -19,12 +19,16 @@ def new_deck(request, key='', shuffle=False):
     deck_count = int(_get_request_var(request, 'deck_count'))
     deck_cards = _get_request_var(request, 'cards', None)
     if deck_count > 20:
-        return HttpResponse(json.dumps({'success':False,'error':'The max number of Decks is 20.'}), content_type="application/json")
+        response = HttpResponse(json.dumps({'success':False,'error':'The max number of Decks is 20.'}), content_type="application/json")
+        response['Access-Control-Allow-Origin'] = '*'
+        return response
     if key:
         try:
             deck = Deck.objects.get(key=key)
         except Deck.DoesNotExist:
-            return HttpResponse(json.dumps({'success':False,'error':'Deck ID does not exist.'}), content_type="application/json", status=404)
+            response = HttpResponse(json.dumps({'success':False,'error':'Deck ID does not exist.'}), content_type="application/json", status=404)
+            response['Access-Control-Allow-Origin'] = '*'
+            return response
     else:
         deck = Deck()
         deck.deck_count = deck_count
@@ -38,7 +42,10 @@ def new_deck(request, key='', shuffle=False):
         resp = {'success':True, 'deck_id':deck.key, 'remaining':len(deck.stack)}
     else:
         resp = {'success':True, 'deck_id':deck.key, 'remaining':len(deck.stack), 'shuffled':False}
-    return HttpResponse(json.dumps(resp), content_type="application/json")
+
+    response = HttpResponse(json.dumps(resp), content_type="application/json")
+    response['Access-Control-Allow-Origin'] = '*'
+    return response
 
 def draw(request, key):
     success = True
@@ -46,8 +53,9 @@ def draw(request, key):
     try:
         deck = Deck.objects.get(key=key)
     except Deck.DoesNotExist:
-        return HttpResponse(json.dumps({'success':False,'error':'Deck ID does not exist.'}), content_type="application/json", status=404)
-
+        response = HttpResponse(json.dumps({'success':False,'error':'Deck ID does not exist.'}), content_type="application/json", status=404)
+        response['Access-Control-Allow-Origin'] = '*'
+        return response
     if card_count > len(deck.stack):
         success = False
     cards = deck.stack[0:card_count]
@@ -62,7 +70,10 @@ def draw(request, key):
     else:
         resp = {'success':success, 'deck_id':deck.key, 'cards':a, 'remaining':len(deck.stack)}
 
-    return HttpResponse(json.dumps(resp), content_type="application/json")
+    response = HttpResponse(json.dumps(resp), content_type="application/json")
+    response['Access-Control-Allow-Origin'] = '*'
+    return response
+    
 '''
 def draw(request, key):
     try:
