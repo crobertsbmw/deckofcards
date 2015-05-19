@@ -83,3 +83,34 @@ class DeckTest(TestCase):
         self.assertEqual(cards[0]['code'], card1['code'])
         piles = resp['piles']
         self.assertEqual(piles['chase']['remaining'], 0)
+
+    def test_partial_deck(self):
+        request = self.request_factory.get("/", {'cards':'AC,AD,AH,AS'})
+        response = shuffle(request)
+        self.assertEqual(response.status_code, 200)
+        resp = json.loads(response.content.decode('utf-8'))
+        self.assertEqual(resp['success'], True)
+        self.assertEqual(resp['shuffled'], True)
+        deck_id = resp['deck_id']
+        self.assertEqual(resp['remaining'], 4)
+
+        request = self.request_factory.get("/", {'count':4})
+        response = draw(request, deck_id)
+        self.assertEqual(response.status_code, 200)
+        resp = json.loads(response.content.decode('utf-8'))
+        self.assertEqual(resp['success'], True)
+        one, two, three, four = False, False, False, False
+        for card in resp['cards']:
+            if card['code'] == 'AS':
+                one = True
+            elif card['code'] == 'AD':
+                two = True
+            elif card['code'] == 'AH':
+                three = True
+            elif card['code'] == 'AC':
+                four = True
+        self.assertEqual(resp['remaining'], 0)
+        self.assertEqual(one, True)
+        self.assertEqual(two, True)
+        self.assertEqual(three, True)
+        self.assertEqual(four, True)

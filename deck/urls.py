@@ -11,6 +11,6 @@ urlpatterns = patterns('',
     url(r'^deck/(?P<key>\w+)/shuffle/$', 'deck.views.shuffle', name='shuffle_key'),
     url(r'^deck/(?P<key>\w+)/draw/$', 'deck.views.draw', name='draw'),
 
-    url(r'^deck/(?P<key>\w+)/pile/(?P<pile>\w+)/add/$', 'deck.views.add_to_pile', name='pil'),
-    url(r'^deck/(?P<key>\w+)/pile/(?P<pile>\w+)/draw/$', 'deck.views.draw_from_pile', name='pil'),
+    url(r'^deck/(?P<key>\w+)/pile/(?P<pile>\w+)/add/$', 'deck.views.add_to_pile', name='add'),
+    url(r'^deck/(?P<key>\w+)/pile/(?P<pile>\w+)/draw/$', 'deck.views.draw_from_pile', name='draw_pile'),
 )

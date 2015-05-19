@@ -148,7 +148,7 @@
 
 <h2 class="section-header">Shuffle the Cards:</h2>
 <pre>
-http://deckofcardsapi.com/api/shuffle/?deck_count=1
+http://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1
 </pre>
 
 <p>Add <var>deck_count</var> as a GET or POST parameter to define the number of Decks you want to use. Blackjack typically uses 6 decks. The default is 1.</p>
@@ -158,13 +158,14 @@ http://deckofcardsapi.com/api/shuffle/?deck_count=1
 {
     "success": true,
     "deck_id": "3p40paa87x90",
+    "shuffled": true,
     "remaining": 52
 }
 </pre>
 
 <h2 class="section-header">Draw a Card:</h2>
 <pre>
-http://deckofcardsapi.com/api/draw/&lt;&lt;deck_id&gt;&gt;/?count=2
+http://deckofcardsapi.com/api/deck/&lt;&lt;deck_id&gt;&gt;/draw/?count=2
 </pre>
 <p>The count variable defines how many cards to draw from the deck. Be sure to replace <var>deck_id</var> with a valid deck_id. We use the deck_id as an identifier so we know who is playing with what deck. After two weeks, if no actions have been made on the deck then we throw it away.</p>
 <br>
@@ -177,11 +178,12 @@ http://deckofcardsapi.com/api/draw/&lt;&lt;deck_id&gt;&gt;/?count=2
             "image": "http://deckofcardsapi.com/static/img/KH.png",
             "value": "KING",
             "suit": "HEARTS"
+            "code": "KH"
         },
         {
             "image": "http://deckofcardsapi.com/static/img/8C.png",
             "value": "8",
-            "suit": "CLUBS"
+            "suit": "8C"
         }
     ],
     "deck_id":"3p40paa87x90",
@@ -192,7 +194,7 @@ http://deckofcardsapi.com/api/draw/&lt;&lt;deck_id&gt;&gt;/?count=2
 
 <h2 class="section-header">Reshuffle the Cards:</h2>
 <pre>
-http://deckofcardsapi.com/api/shuffle/&lt;&lt;deck_id&gt;&gt;/
+http://deckofcardsapi.com/api/deck/&lt;&lt;deck_id&gt;&gt;/shuffle/
 </pre>
 
 <p>Don't throw away a deck when all you want to do is shuffle. Include the <var>deck_id</var> on your call to shuffle your cards. Don't worry about reminding us how many decks you are playing with.</p>
@@ -202,13 +204,14 @@ http://deckofcardsapi.com/api/shuffle/&lt;&lt;deck_id&gt;&gt;/
 {
     "success": true,
     "deck_id": "3p40paa87x90",
+    "shuffled": true,
     "remaining": 52
 }
 </pre>
 
 <h2 class="section-header">A Brand New Deck:</h2>
 <pre>
-http://deckofcardsapi.com/api/new/
+http://deckofcardsapi.com/api/deck/new/
 </pre>
 
 <p>Open a brand new deck of cards. <br>A-spades, 2-spades, 3-spades... followed by diamonds, clubs, then hearts.
@@ -217,16 +220,16 @@ http://deckofcardsapi.com/api/new/
 {
     "success": true,
     "deck_id": "3p40paa87x90",
-    "remaining": 52,
-    "shuffled": false
+    "shuffled": false,
+    "remaining": 52
 }
 </pre>
 
 <h2 class="section-header">A Partial Deck:</h2>
 <pre>
-http://deckofcardsapi.com/api/shuffle/?cards=AS,2S,KS,AD,2D,KD,AC,2C,KC,AH,2H,KH
+http://deckofcardsapi.com/api/deck/shuffle/?cards=AS,2S,KS,AD,2D,KD,AC,2C,KC,AH,2H,KH
 </pre>
-<p>If you want to use a partial deck, then you can pass a list of cards you want to use using the <var>cards</var> parameter. Separate the cards with commas, and each card is a just a two character case-insensitive string:</p>
+<p>If you want to use a partial deck, then you can pass the card codes you want to use using the <var>cards</var> parameter. Separate the card codes with commas, and each card code is a just a two character case-insensitive string:</p>
 <p><ol>
   <li>The value, one of A (for an ace), 2, 3, 4, 5, 6, 7, 8, 9, 0 (for a ten), J (jack), Q (queen), or K (king);</li>
   <li>The suit, one of S (Spades), D (Diamonds), C (Clubs), or H (Hearts).</li>
@@ -237,9 +240,59 @@ http://deckofcardsapi.com/api/shuffle/?cards=AS,2S,KS,AD,2D,KD,AC,2C,KC,AH,2H,KH
 {
     "success": true,
     "deck_id": "3p40paa87x90",
+    "shuffled": true,
     "remaining": 12
 }
 </pre>
+
+<h2 class="section-header">Adding to Piles</h2>
+<pre>
+http://deckofcardsapi.com/api/deck/&lt;&lt;deck_id&gt;&gt;/pile/&lt;&lt;pile_name&gt;&gt;/add/?cards=AS,2S
+</pre>
+<p>Piles can be used for discarding, players hands, or whatever else. Piles are created on the fly, just give a pile a name and add a drawn card to the pile. If the pile didn't exist before, it does now. After a card has been drawn from the deck it can be moved from pile to pile.</p>
+
+<h3>Response:</h3>
+<pre>
+{
+    "success": true,
+    "deck_id": "3p40paa87x90",
+    "remaining": 12,
+    "piles": {
+        "discard": {
+            "remaining": 2
+        }
+    }
+}
+</pre>
+
+<h2 class="section-header">Drawing from Piles</h2>
+<pre>
+http://deckofcardsapi.com/api/deck/&lt;&lt;deck_id&gt;&gt;/pile/&lt;&lt;pile_name&gt;&gt;/draw/?cards=AS
+</pre>
+<p>Specify the cards that you want to draw from the pile. The default is to just draw off the top of the pile (it's a <a href="http://en.wikipedia.org/wiki/Stack_(abstract_data_type)">stack</a>).</p>
+
+<h3>Response:</h3>
+<pre>
+{
+    "success": true,
+    "deck_id": "3p40paa87x90",
+    "remaining": 12,
+    "piles": {
+        "discard": {
+            "remaining": 1
+        }
+    },
+    "cards": [
+        {
+            "image": "http://deckofcardsapi.com/static/img/AS.png",
+            "value": "ACE",
+            "suit": "SPADES"
+            "code": "AS"
+        }
+    ]
+}
+</pre>
+
 
 <br><br>
 <p class="footer">
