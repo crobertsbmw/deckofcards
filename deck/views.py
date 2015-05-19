@@ -20,7 +20,7 @@ def shuffle(request, key=''):
     return new_deck(request, key, True)
 
 def new_deck(request, key='', shuffle=False):
-    print(request.META['HTTP_ACCEPT'])
+    #print(request.META['HTTP_ACCEPT'])
     deck_count = int(_get_request_var(request, 'deck_count'))
     deck_cards = _get_request_var(request, 'cards', None)
     if deck_count > 20:
@@ -43,10 +43,8 @@ def new_deck(request, key='', shuffle=False):
         random.shuffle(deck.stack)
         shuffled = True
     deck.save() #save the deck_count.
-    if shuffled:
-        resp = {'success':True, 'deck_id':deck.key, 'remaining':len(deck.stack)}
-    else:
-        resp = {'success':True, 'deck_id':deck.key, 'remaining':len(deck.stack), 'shuffled':False}
+
+    resp = {'success':True, 'deck_id':deck.key, 'remaining':len(deck.stack), 'shuffled':shuffled}
 
     response = HttpResponse(json.dumps(resp), content_type="application/json")
     response['Access-Control-Allow-Origin'] = '*'
@@ -108,12 +106,62 @@ def add_to_pile(request, key, pile):
     deck.piles[pile] = cards #add the specified cards to the new pile
     deck.save()
 
-    piles = []
-    for key in deck.piles:
-        piles.append(key)
+    piles = {}
+    for k in deck.piles:
+        piles[k] = {"remaining":len(deck.piles[k])}
 
     resp = {'success':True, 'deck_id':deck.key, 'remaining':len(deck.stack), 'piles':piles}
     response = HttpResponse(json.dumps(resp), content_type="application/json")
     response['Access-Control-Allow-Origin'] = '*'
     return response
 
+def draw_from_pile(request, key, pile):
+    try:
+        deck = Deck.objects.get(key=key)
+    except Deck.DoesNotExist:
+        return HttpResponse(json.dumps({'success':False,'error':'Deck ID does not exist.'}), content_type="application/json", status=404)
+
+    cards = _get_request_var(request, 'cards', None)
+    cards_in_response = []
+
+    p = deck.piles[pile] #times like these that I question if I should have just made piles a model instead of a json field...
+
+    if cards:
+        # Ignore case
+        cards = cards.upper()
+        # Only allow real cards
+        cards = [x for x in cards.split(',') if x in CARDS]
+   
+        for card in cards:
+            try:
+                p.remove(card)
+                cards_in_response.append(card)
+            except:
+                response = HttpResponse(json.dumps({'success':False,'error':'The pile, '+pile+' does not contain the requested cards.'}), content_type="application/json", status=404)
+                response['Access-Control-Allow-Origin'] = '*'
+                return response
+    else:
+        card_count = int(_get_request_var(request, 'count'))
+        if card_count > len(p):
+            response = HttpResponse(json.dumps({'success':False,'error':'Not enough cards remaining to draw '+str(card_count)+' additional'}), content_type="application/json", status=404)
+            response['Access-Control-Allow-Origin'] = '*'
+            return response
+
+        cards_in_response = p[-card_count:]
+        p = p[:-card_count]
+    deck.piles[pile] = p
+    deck.save()
+    
+    a = []
+
+    for card in cards_in_response:
+        a.append(card_to_dict(card))
+
+    piles = {}
+    for k in deck.piles:
+        piles[k] = {"remaining":len(deck.piles[k])}
+
+    resp = {'success':True, 'deck_id':deck.key, 'cards':a, 'piles':piles}
+    response = HttpResponse(json.dumps(resp), content_type="application/json")
+    response['Access-Control-Allow-Origin'] = '*'
+    return response

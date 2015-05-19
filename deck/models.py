@@ -47,6 +47,7 @@ def card_to_dict(card):
     value = card[:1]
     suit = card[1:]
     d = {}
+    d['code'] = value+suit
     d['image'] = 'http://deckofcardsapi.com/static/img/'+value+suit+'.png'
     d['images'] = {'svg':'http://deckofcardsapi.com/static/img/'+value+suit+'.svg',
                    'png':'http://deckofcardsapi.com/static/img/'+value+suit+'.png'}
