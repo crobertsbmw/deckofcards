@@ -50,15 +50,22 @@ def new_deck(request, key='', shuffle=False):
     response['Access-Control-Allow-Origin'] = '*'
     return response
 
-def draw(request, key):
+def draw(request, key=None):
     success = True
     card_count = int(_get_request_var(request, 'count'))
-    try:
-        deck = Deck.objects.get(key=key)
-    except Deck.DoesNotExist:
-        response = HttpResponse(json.dumps({'success':False,'error':'Deck ID does not exist.'}), content_type="application/json", status=404)
-        response['Access-Control-Allow-Origin'] = '*'
-        return response
+    if not key:
+        deck = Deck()
+        deck.deck_count = int(_get_request_var(request, 'deck_count'))
+        deck.open_new()
+        random.shuffle(deck.stack)
+        deck.save()
+    else:
+        try:
+            deck = Deck.objects.get(key=key)
+        except Deck.DoesNotExist:
+            response = HttpResponse(json.dumps({'success':False,'error':'Deck ID does not exist.'}), content_type="application/json", status=404)
+            response['Access-Control-Allow-Origin'] = '*'
+            return response
     if card_count > len(deck.stack):
         success = False
     cards = deck.stack[0:card_count]

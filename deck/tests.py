@@ -114,3 +114,10 @@ class DeckTest(TestCase):
         self.assertEqual(two, True)
         self.assertEqual(three, True)
         self.assertEqual(four, True)
+    def test_draw_new(self):
+        request = self.request_factory.get("/", {'count':5})
+        response = draw(request)
+        self.assertEqual(response.status_code, 200)
+        resp = json.loads(response.content.decode('utf-8'))
+        self.assertEqual(resp['success'], True)
+        self.assertEqual(resp['remaining'], 47)
