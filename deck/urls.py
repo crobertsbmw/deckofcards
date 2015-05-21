@@ -9,6 +9,7 @@ urlpatterns = patterns('',
     url(r'^deck/new/$', 'deck.views.new_deck', name='new_deck'),
     url(r'^deck/new/shuffle/$', 'deck.views.shuffle', name='shuffle'),
     url(r'^deck/(?P<key>\w+)/shuffle/$', 'deck.views.shuffle', name='shuffle_key'),
+    url(r'^deck/new/draw/$', 'deck.views.draw', name='new_draw'),
     url(r'^deck/(?P<key>\w+)/draw/$', 'deck.views.draw', name='draw'),
 
     url(r'^deck/(?P<key>\w+)/pile/(?P<pile>\w+)/add/$', 'deck.views.add_to_pile', name='add'),
