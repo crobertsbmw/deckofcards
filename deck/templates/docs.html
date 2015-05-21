@@ -134,6 +134,13 @@
     a{
         color:#B1C725;
     }
+    .note{
+        background-color:#469183;
+        color:#fff;
+        border:none;
+        border-radius:3px;
+        padding:10px;
+    }
     </style>
   </head>
 <body>
@@ -168,7 +175,7 @@ http://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1
 http://deckofcardsapi.com/api/deck/&lt;&lt;deck_id&gt;&gt;/draw/?count=2
 </pre>
 <p>The count variable defines how many cards to draw from the deck. Be sure to replace <var>deck_id</var> with a valid deck_id. We use the deck_id as an identifier so we know who is playing with what deck. After two weeks, if no actions have been made on the deck then we throw it away.</p>
-<!--<p class="bg-info">TIP: replace <var>deck_id</var> with "new" to create a shuffled deck and draw cards from that deck in the same request.</p>-->
+<p class="note"><span style="font-weight:300;">TIP</span>: replace <var>deck_id</var> with "new" to create a shuffled deck and draw cards from that deck in the same request.</p>
 <br>
 <h3>Response:</h3>
 <pre>
