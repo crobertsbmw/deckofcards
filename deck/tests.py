@@ -85,6 +85,7 @@ class DeckTest(TestCase):
         self.assertEqual(piles['chase']['remaining'], 0)
 
     def test_partial_deck(self):
+        #test to make sure a new partial deck is returned when requested
         request = self.request_factory.get("/", {'cards':'AC,AD,AH,AS'})
         response = shuffle(request)
         self.assertEqual(response.status_code, 200)
@@ -94,6 +95,7 @@ class DeckTest(TestCase):
         deck_id = resp['deck_id']
         self.assertEqual(resp['remaining'], 4)
 
+        #draw 4 cards and make sure they match the input data (and verify deck is empty)
         request = self.request_factory.get("/", {'count':4})
         response = draw(request, deck_id)
         self.assertEqual(response.status_code, 200)
@@ -114,6 +116,17 @@ class DeckTest(TestCase):
         self.assertEqual(two, True)
         self.assertEqual(three, True)
         self.assertEqual(four, True)
+
+        #verify that reshuffling a partial deck returns a partial deck
+        request = self.request_factory.get("/", {'cards':'KC,KD,KH,KS'})
+        response = shuffle(request)
+        resp = json.loads(response.content.decode('utf-8'))
+        deck_id = resp['deck_id']
+        reshuffleRequest = self.request_factory.get("/", {})
+        response = shuffle(reshuffleRequest, deck_id)
+        resp = json.loads(response.content.decode('utf-8'))
+        self.assertEqual(resp['remaining'], 4)
+
     def test_draw_new(self):
         request = self.request_factory.get("/", {'count':5})
         response = draw(request)
