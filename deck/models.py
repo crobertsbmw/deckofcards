@@ -30,19 +30,18 @@ class Deck(models.Model):
 
     def open_new(self, cards_used=None):
         stack = []
-        if cards_used is None:
+        if cards_used is None: #use a subset of a standard deck
             if self.deck_contents is None:
                 cards = CARDS
             else:
                 cards = self.deck_contents[:]
-        else:
-            # Ignore case
+        else: #use all the cards
             cards_used = cards_used.upper()
             # Only allow real cards
             cards = [x for x in CARDS if x in cards_used.split(',')]
-            self.deck_contents = cards[:]
+            self.deck_contents = cards[:] #save the subset for future shuffles
 
-        for i in range(0,self.deck_count):
+        for i in range(0,self.deck_count): #for loop over how many decks someone wants. Blackjack is usually 6.
             stack = stack+cards[:] #adding the [:] forces the array to be copied.
         self.stack = stack
         self.last_used = datetime.datetime.now()
