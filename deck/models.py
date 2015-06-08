@@ -47,6 +47,10 @@ class Deck(models.Model):
         self.last_used = datetime.datetime.now()
         self.save()
 
+    def save(self, *args, **kwargs):
+        self.last_used = datetime.datetime.now()
+        super(Deck, self).save(*args, **kwargs)
+
 def card_to_dict(card):
     value = card[:1]
     suit = card[1:]

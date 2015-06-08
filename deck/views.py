@@ -1,4 +1,4 @@
-import json, random
+import json, random, datetime
 from django.shortcuts import render
 from django.shortcuts import render_to_response, redirect, HttpResponse, render, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
@@ -144,13 +144,15 @@ def draw_from_pile(request, key, pile):
                 p.remove(card)
                 cards_in_response.append(card)
             except:
-                response = HttpResponse(json.dumps({'success':False,'error':'The pile, '+pile+' does not contain the requested cards.'}), content_type="application/json", status=404)
+                response = HttpResponse(json.dumps({'success':False,'error':'The pile, '+pile+\
+                    ' does not contain the requested cards.'}), content_type="application/json", status=404)
                 response['Access-Control-Allow-Origin'] = '*'
                 return response
     else:
         card_count = int(_get_request_var(request, 'count'))
         if card_count > len(p):
-            response = HttpResponse(json.dumps({'success':False,'error':'Not enough cards remaining to draw '+str(card_count)+' additional'}), content_type="application/json", status=404)
+            response = HttpResponse(json.dumps({'success':False,'error':'Not enough cards remaining to draw '+\
+                str(card_count)+' additional'}), content_type="application/json", status=404)
             response['Access-Control-Allow-Origin'] = '*'
             return response
 
@@ -172,3 +174,13 @@ def draw_from_pile(request, key, pile):
     response = HttpResponse(json.dumps(resp), content_type="application/json")
     response['Access-Control-Allow-Origin'] = '*'
     return response
+
+def clean_old_decks():
+    two_weeks_ago = datetime.datetime.now() - datetime.timedelta(days=15)
+    decks = Deck.objects.filter(last_used__lt=two_weeks_ago)
+    num = decks.count()
+    decks.delete()
+    print(str(num) + " decks deleted from db.")
+    #we only guarentee a deck for two weeks. But this funtion is only run manually from shell, whenever I feel to do it.
+
+
