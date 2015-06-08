@@ -26,16 +26,21 @@ class Deck(models.Model):
     deck_count = models.IntegerField(default=1)
     stack = JSONField(null=True, blank=True)
     piles = JSONField(null=True, blank=True)
+    deck_contents = JSONField(null=True, blank=True)
 
     def open_new(self, cards_used=None):
         stack = []
         if cards_used is None:
-            cards = CARDS
+            if self.deck_contents is None:
+                cards = CARDS
+            else:
+                cards = self.deck_contents[:]
         else:
             # Ignore case
             cards_used = cards_used.upper()
             # Only allow real cards
             cards = [x for x in CARDS if x in cards_used.split(',')]
+            self.deck_contents = cards[:]
 
         for i in range(0,self.deck_count):
             stack = stack+cards[:] #adding the [:] forces the array to be copied.
