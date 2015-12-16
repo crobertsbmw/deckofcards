@@ -182,5 +182,3 @@ def clean_old_decks():
     decks.delete()
     print(str(num) + " decks deleted from db.")
     #we only guarentee a deck for two weeks. But this funtion is only run manually from shell, whenever I feel to do it.
-
-
