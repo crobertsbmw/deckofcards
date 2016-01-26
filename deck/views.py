@@ -110,7 +110,10 @@ def add_to_pile(request, key, pile):
             if card in pile:
                 p.remove(card)
 
-    deck.piles[pile] = cards #add the specified cards to the new pile
+    try: #try to add to the pile
+        deck.piles[pile].extend(cards)
+    except KeyError as e:#the pile is brand new
+        deck.piles[pile] = cards #add the specified cards to the new pile
     deck.save()
 
     piles = {}
