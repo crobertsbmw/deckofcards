@@ -177,11 +177,3 @@ def draw_from_pile(request, key, pile):
     response = HttpResponse(json.dumps(resp), content_type="application/json")
     response['Access-Control-Allow-Origin'] = '*'
     return response
-
-def clean_old_decks():
-    two_weeks_ago = datetime.datetime.now() - datetime.timedelta(days=15)
-    decks = Deck.objects.filter(last_used__lt=two_weeks_ago)
-    num = decks.count()
-    decks.delete()
-    print(str(num) + " decks deleted from db.")
-    #we only guarentee a deck for two weeks. But this funtion is only run manually from shell, whenever I feel to do it.
