@@ -53,11 +53,11 @@ WSGI_APPLICATION = 'spades.wsgi.application'
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
 DATABASES = {
-    'legacy': {
+    'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'database'),
     },
-    'default': {
+    'legacy': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
         'NAME': 'spades_db',                      # Or path to database file if using sqlite3.
         # The following settings are not used with sqlite3:
