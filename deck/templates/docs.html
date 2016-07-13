@@ -257,6 +257,22 @@ http://deckofcardsapi.com/api/deck/new/shuffle/?cards=AS,2S,KS,AD,2D,KD,AC,2C,KC
 }
 </pre>
 
+<h2 class="section-header" id="deck-info">Deck Info:</h2>
+<pre>
+http://deckofcardsapi.com/api/deck/&lt;&lt;deck_id&gt;&gt;/
+</pre>
+<p>If you ever need to check the status of a deck, whether you lost track of how many cards are remaining or if that deck has been shuffled.</p>
+
+<h3>Response:</h3>
+<pre>
+{
+    "success": true,
+    "deck_id": "3p40paa87x90",
+    "shuffled": false,
+    "remaining": 52
+}
+</pre>
+
 <h2 class="section-header" id="add-to-pile">Adding to Piles</h2>
 <pre>
 http://deckofcardsapi.com/api/deck/&lt;&lt;deck_id&gt;&gt;/pile/&lt;&lt;pile_name&gt;&gt;/add/?cards=AS,2S
@@ -318,16 +334,16 @@ Bugs? Features? View this on <a href="https://github.com/crobertsbmw/deckofcards
 
 <br><hr>
 
-<h3 class="text-center" id="projects">
+<!-- <h3 class="text-center" id="projects">
 See what people are doing with Deck of Cards:
 </h3><br>
 <div class="row">
     <div class="col-md-6 col-lg-4 text-center">
         <a href="https://www.npmjs.com/package/node-of-cards"><img src="{{STATIC_URL}}img/node-of-cards.png"></a>
     </div>
-</div>
+</div> -->
 <br>
-<p class="text-center">Have you made something cool? <a href="https://twitter.com/crobertsbmw">Let me know.</a></p>
+<p class="text-center">I would love to see what you are making with this API. Please <a href="https://twitter.com/crobertsbmw">tweet at me!</a></p>
 
 </div>
 </div>

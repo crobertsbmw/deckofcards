@@ -27,7 +27,8 @@ class Deck(models.Model):
     stack = JSONField(null=True, blank=True)
     piles = JSONField(null=True, blank=True)
     deck_contents = JSONField(null=True, blank=True)
-
+    shuffled = models.BooleanField(default=False)
+    
     def open_new(self, cards_used=None):
         stack = []
         if cards_used is None: #use a subset of a standard deck

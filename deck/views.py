@@ -20,7 +20,6 @@ def shuffle(request, key=''):
     return new_deck(request, key, True)
 
 def new_deck(request, key='', shuffle=False):
-    #print(request.META['HTTP_ACCEPT'])
     deck_count = int(_get_request_var(request, 'deck_count'))
     deck_cards = _get_request_var(request, 'cards', None)
     if deck_count > 20:
@@ -38,14 +37,28 @@ def new_deck(request, key='', shuffle=False):
         deck = Deck()
         deck.deck_count = deck_count
     deck.open_new(deck_cards)
-    shuffled = False
+    deck.shuffled = False
     if shuffle:
         random.shuffle(deck.stack)
-        shuffled = True
+        deck.shuffled = True
     deck.save() #save the deck_count.
 
-    resp = {'success':True, 'deck_id':deck.key, 'remaining':len(deck.stack), 'shuffled':shuffled}
+    resp = {'success':True, 'deck_id':deck.key, 'remaining':len(deck.stack), 'shuffled':deck.shuffled}
 
+    response = HttpResponse(json.dumps(resp), content_type="application/json")
+    response['Access-Control-Allow-Origin'] = '*'
+    return response
+
+def deck_info(request, key=0):
+    success = True
+    try:
+        deck = Deck.objects.get(key=key)
+    except Deck.DoesNotExist:
+        response = HttpResponse(json.dumps({'success':False, 'error':'Deck ID does not exist.'}), content_type="application/json", status=404)
+        response['Access-Control-Allow-Origin'] = '*'
+        return response
+
+    resp = {'success':True, 'deck_id':deck.key, 'remaining':len(deck.stack), 'shuffled':deck.shuffled}
     response = HttpResponse(json.dumps(resp), content_type="application/json")
     response['Access-Control-Allow-Origin'] = '*'
     return response
@@ -58,6 +71,7 @@ def draw(request, key=None):
         deck.deck_count = int(_get_request_var(request, 'deck_count'))
         deck.open_new()
         random.shuffle(deck.stack)
+        deck.shuffled = True
         deck.save()
     else:
         try:
