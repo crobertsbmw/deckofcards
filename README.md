@@ -19,7 +19,7 @@ Usage
 -----
 
 ```
-python manage.py runserver 0.0.0.0:8000
+python manage.py runserver 127.0.0.1:8000
 ```
 
 Once the server is running you can access it at http://127.0.0.1:8000 (or the machine's address if the machine is remote). API documentation is available at the app's front page or at http://deckofcardsapi.com.
