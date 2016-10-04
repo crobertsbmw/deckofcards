@@ -56,6 +56,8 @@ def card_to_dict(card):
     value = card[:1]
     suit = card[1:]
     d = {}
+    if value+suit == "AD":
+        d['image'] = 'http://deckofcardsapi.com/static/img/aceDiamonds.png'
     d['code'] = value+suit
     d['image'] = 'http://deckofcardsapi.com/static/img/'+value+suit+'.png'
     d['images'] = {'svg':'http://deckofcardsapi.com/static/img/'+value+suit+'.svg',
@@ -80,9 +82,6 @@ def card_to_dict(card):
         suit = 'HEARTS'
     elif suit == 'C':
         suit = 'CLUBS'
-        
-    if value+suit == "AD":
-        d['image'] = 'http://deckofcardsapi.com/static/img/aceDiamonds.png'
 
     d['value'] = value
     d['suit'] = suit
