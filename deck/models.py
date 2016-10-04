@@ -56,13 +56,13 @@ def card_to_dict(card):
     value = card[:1]
     suit = card[1:]
     d = {}
-    if value+suit == "AD":
-        d['image'] = 'http://deckofcardsapi.com/static/img/aceDiamonds.png'
     d['code'] = value+suit
     d['image'] = 'http://deckofcardsapi.com/static/img/'+value+suit+'.png'
     d['images'] = {'svg':'http://deckofcardsapi.com/static/img/'+value+suit+'.svg',
                    'png':'http://deckofcardsapi.com/static/img/'+value+suit+'.png'}
 
+    if value+suit == "AD":
+        d['image'] = 'http://deckofcardsapi.com/static/img/aceDiamonds.png'
     if value == 'A':
         value = 'ACE'
     elif value == 'J':
