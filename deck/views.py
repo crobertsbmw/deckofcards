@@ -114,7 +114,7 @@ def add_to_pile(request, key, pile):
         # Ignore case
         cards = cards.upper()
         # Only allow real cards
-        cards = [x for x in cards.split(',') if x not in deck.stack and x in CARDS]
+        cards = [x for x in cards.split(',') if x in CARDS]
 
     if not deck.piles:
         deck.piles = {}
