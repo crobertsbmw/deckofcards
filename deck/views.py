@@ -118,6 +118,7 @@ def add_to_pile(request, key, pile):
 
     if not deck.piles:
         deck.piles = {}
+        
     for key in deck.piles: #iterate through all the piles and remove any specified cards from those piles.
         p = deck.piles[key] #times like these that I question if I should have just made piles a model instead of a json field...
         for card in cards: 
