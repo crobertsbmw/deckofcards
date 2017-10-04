@@ -140,6 +140,32 @@ def add_to_pile(request, key, pile):
     response['Access-Control-Allow-Origin'] = '*'
     return response
 
+def list_cards_in_pile(request, key, pile):
+    try:
+        deck = Deck.objects.get(key=key)
+    except Deck.DoesNotExist:
+        return HttpResponse(json.dumps({'success':False,'error':'Deck ID does not exist.'}), content_type="application/json", status=404)
+
+    cards = _get_request_var(request, 'cards', None)
+    cards_in_response = []
+
+    piles = {}
+
+    for k in deck.piles: #iterate through all the piles and remove any specified cards from those piles.
+        r = len(deck.piles[k])
+        if k != pile:
+            piles[k] = {"remaining":r}
+        else:
+            a = []
+            for card in deck.piles[k]:
+                a.append(card_to_dict(card))
+            piles[k] = {"remaining":r, "cards":a}
+
+    resp = {'success':True, 'cards':[], 'deck_id':deck.key, 'remaining':len(deck.stack), 'piles': piles}
+    response = HttpResponse(json.dumps(resp), content_type="application/json")
+    response['Access-Control-Allow-Origin'] = '*'
+    return response
+
 def draw_from_pile(request, key, pile):
     try:
         deck = Deck.objects.get(key=key)
