@@ -306,6 +306,43 @@ https://deckofcardsapi.com/api/deck/&lt;&lt;deck_id&gt;&gt;/pile/&lt;&lt;pile_na
 }
 </pre>
 
+<h2 class="section-header" id="draw-from-pile">Listing Cards in Piles</h2>
+<pre>
+https://deckofcardsapi.com/api/deck/&lt;&lt;deck_id&gt;&gt;/pile/&lt;&lt;pile_name&gt;&gt;/list
+</pre>
+
+<h3>Response:</h3>
+<pre>
+{
+    "success": true,
+    "deck_id": "d5x0uw65g416",
+    "remaining": "42",
+    "piles": {
+        "player1": {
+            "remaining": "3"
+        },
+        "player2": {
+            "cards": [
+                {
+                    "image": "https://deckofcardsapi.com/static/img/KH.png",
+                    "value": "KING",
+                    "suit": "HEARTS",
+                    "code": "KH"
+                },
+                {
+                    "image": "https://deckofcardsapi.com/static/img/8C.png",
+                    "value": "8",
+                    "suit": "CLUBS",
+                    "code": "8C"
+                }
+            ],
+            "remaining": "2"
+        }
+    },
+    "cards": [ ]
+}
+</pre>
+
 <h2 class="section-header" id="draw-from-pile">Drawing from Piles</h2>
 <pre>
 https://deckofcardsapi.com/api/deck/&lt;&lt;deck_id&gt;&gt;/pile/&lt;&lt;pile_name&gt;&gt;/draw/?cards=AS
