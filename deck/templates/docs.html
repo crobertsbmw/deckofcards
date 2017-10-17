@@ -306,10 +306,32 @@ https://deckofcardsapi.com/api/deck/&lt;&lt;deck_id&gt;&gt;/pile/&lt;&lt;pile_na
 }
 </pre>
 
+<h2 class="section-header" id="shuffle-pile">Shuffle Piles</h2>
+<pre>
+https://deckofcardsapi.com/api/deck/&lt;&lt;deck_id&gt;&gt;/pile/&lt;&lt;pile_name&gt;&gt;/shuffle
+</pre>
+<p class="note"><span style="font-weight:300;">Note</span>: This will not work with multiple decks.</p>
+
+<h3>Response:</h3>
+<pre>
+{
+    "success": true,
+    "deck_id": "3p40paa87x90",
+    "remaining": 12,
+    "piles": {
+        "discard": {
+            "remaining": 2
+        }
+    }
+}
+</pre>
+
 <h2 class="section-header" id="draw-from-pile">Listing Cards in Piles</h2>
 <pre>
 https://deckofcardsapi.com/api/deck/&lt;&lt;deck_id&gt;&gt;/pile/&lt;&lt;pile_name&gt;&gt;/list
 </pre>
+
+<p class="note"><span style="font-weight:300;">Note</span>: This will not work with multiple decks.</p>
 
 <h3>Response:</h3>
 <pre>
@@ -339,7 +361,6 @@ https://deckofcardsapi.com/api/deck/&lt;&lt;deck_id&gt;&gt;/pile/&lt;&lt;pile_na
             "remaining": "2"
         }
     },
-    "cards": [ ]
 }
 </pre>
 
