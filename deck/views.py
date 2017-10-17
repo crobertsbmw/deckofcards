@@ -235,3 +235,39 @@ def draw_from_pile(request, key, pile):
     response = HttpResponse(json.dumps(resp), content_type="application/json")
     response['Access-Control-Allow-Origin'] = '*'
     return response
+
+def draw_from_pile_bottom(request, key, pile):
+    try:
+        deck = Deck.objects.get(key=key)
+    except Deck.DoesNotExist:
+        return HttpResponse(json.dumps({'success':False,'error':'Deck ID does not exist.'}), content_type="application/json", status=404)
+
+    cards_in_response = []
+
+    p = deck.piles[pile]
+
+    card_count = int(_get_request_var(request, 'count'))
+    if card_count > len(p):
+        response = HttpResponse(json.dumps({'success':False,'error':'Not enough cards remaining to draw '+\
+            str(card_count)+' additional'}), content_type="application/json", status=404)
+        response['Access-Control-Allow-Origin'] = '*'
+        return response
+
+    cards_in_response = p[0:card_count]
+    p = p[card_count:len(p)]
+    deck.piles[pile] = p
+    deck.save()
+    
+    a = []
+
+    for card in cards_in_response:
+        a.append(card_to_dict(card))
+
+    piles = {}
+    for k in deck.piles:
+        piles[k] = {"remaining":len(deck.piles[k])}
+
+    resp = {'success':True, 'deck_id':deck.key, 'cards':a, 'piles':piles}
+    response = HttpResponse(json.dumps(resp), content_type="application/json")
+    response['Access-Control-Allow-Origin'] = '*'
+    return response
