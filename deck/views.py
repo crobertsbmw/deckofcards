@@ -140,6 +140,26 @@ def add_to_pile(request, key, pile):
     response['Access-Control-Allow-Origin'] = '*'
     return response
 
+def shuffle_pile(request, key, pile):
+    try:
+        deck = Deck.objects.get(key=key)
+    except Deck.DoesNotExist:
+        return HttpResponse(json.dumps({'success':False,'error':'Deck ID does not exist.'}), content_type="application/json", status=404)
+
+    piles = {}
+
+    random.shuffle(deck.piles[pile])
+    deck.save()
+
+    for k in deck.piles: #iterate through all the piles and get the count.
+        r = len(deck.piles[k])
+        piles[k] = {"remaining":r}
+
+    resp = {'success':True, 'deck_id':deck.key, 'remaining':len(deck.stack), 'piles': piles}
+    response = HttpResponse(json.dumps(resp), content_type="application/json")
+    response['Access-Control-Allow-Origin'] = '*'
+    return response
+
 def list_cards_in_pile(request, key, pile):
     try:
         deck = Deck.objects.get(key=key)
