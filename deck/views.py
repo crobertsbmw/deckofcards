@@ -166,7 +166,8 @@ def list_cards_in_pile(request, key, pile):
     response['Access-Control-Allow-Origin'] = '*'
     return response
 
-def draw_from_pile(request, key, pile):
+
+def draw_from_pile(request, key, pile, bottom=""):
     try:
         deck = Deck.objects.get(key=key)
     except Deck.DoesNotExist:
@@ -200,8 +201,13 @@ def draw_from_pile(request, key, pile):
             response['Access-Control-Allow-Origin'] = '*'
             return response
 
-        cards_in_response = p[-card_count:]
-        p = p[:-card_count]
+        if bottom.lower() == "bottom": #draw from the bottom of the pile
+            cards_in_response = p[0:card_count]
+            p = p[card_count:len(p)]
+        else: #draw cards from the top of the pile
+            cards_in_response = p[-card_count:]
+            p = p[:-card_count]
+
     deck.piles[pile] = p
     deck.save()
     

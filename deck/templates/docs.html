@@ -346,8 +346,10 @@ https://deckofcardsapi.com/api/deck/&lt;&lt;deck_id&gt;&gt;/pile/&lt;&lt;pile_na
 <h2 class="section-header" id="draw-from-pile">Drawing from Piles</h2>
 <pre>
 https://deckofcardsapi.com/api/deck/&lt;&lt;deck_id&gt;&gt;/pile/&lt;&lt;pile_name&gt;&gt;/draw/?cards=AS
+https://deckofcardsapi.com/api/deck/&lt;&lt;deck_id&gt;&gt;/pile/&lt;&lt;pile_name&gt;&gt;/draw/?count=2
+https://deckofcardsapi.com/api/deck/&lt;&lt;deck_id&gt;&gt;/draw/bottom/
 </pre>
-<p>Specify the cards that you want to draw from the pile. The default is to just draw off the top of the pile (it's a <a href="http://en.wikipedia.org/wiki/Stack_(abstract_data_type)">stack</a>).</p>
+<p>Specify the cards that you want to draw from the pile. The default is to just draw off the top of the pile (it's a <a href="http://en.wikipedia.org/wiki/Stack_(abstract_data_type)">stack</a>). Or add the <var>bottom</var> parameter to the URL to draw from the bottom.</p>
 
 <h3>Response:</h3>
 <pre>
