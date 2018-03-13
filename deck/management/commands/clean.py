@@ -1,6 +1,9 @@
-from django.core.management.base import BaseCommand
 import datetime
+
+from django.core.management.base import BaseCommand
+
 from deck.models import Deck
+
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
