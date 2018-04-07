@@ -1,6 +1,8 @@
-import json, random
+import json
+import random
 
 from django.shortcuts import HttpResponse
+
 from deck.models import Deck, card_to_dict
 
 CARDS = ['AS', '2S', '3S', '4S', '5S', '6S', '7S', '8S', '9S', '0S', 'JS', 'QS', 'KS',
