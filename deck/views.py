@@ -22,7 +22,7 @@ def new_deck(request, key='', shuffle=False):
     deck_cards = _get_request_var(request, 'cards', None)
     if deck_count > 20:
         response = HttpResponse(
-            json.dumps({'success': False,'error': 'The max number of Decks is 20.'}),
+            json.dumps({'success': False, 'error': 'The max number of Decks is 20.'}),
             content_type="application/json"
         )
         response['Access-Control-Allow-Origin'] = '*'
@@ -32,7 +32,7 @@ def new_deck(request, key='', shuffle=False):
             deck = Deck.objects.get(key=key)
         except Deck.DoesNotExist:
             response = HttpResponse(
-                json.dumps({'success': False,'error': 'Deck ID does not exist.'}),
+                json.dumps({'success': False, 'error': 'Deck ID does not exist.'}),
                 content_type="application/json",
                 status=404
             )
@@ -125,7 +125,7 @@ def add_to_pile(request, key, pile):
         deck = Deck.objects.get(key=key)
     except Deck.DoesNotExist:
         return HttpResponse(
-            json.dumps({'success': False,'error':'Deck ID does not exist.'}),
+            json.dumps({'success': False, 'error': 'Deck ID does not exist.'}),
             content_type="application/json",
             status=404
         )
@@ -133,7 +133,7 @@ def add_to_pile(request, key, pile):
     cards = _get_request_var(request, 'cards', None)
     if cards is None:
         response = HttpResponse(
-            json.dumps({'success': False,'error': 'You must specify cards to add to the pile.'}),
+            json.dumps({'success': False, 'error': 'You must specify cards to add to the pile.'}),
             content_type="application/json",
             status=404
         )
@@ -162,9 +162,9 @@ def add_to_pile(request, key, pile):
 
     piles = {}
     for k in deck.piles:
-        piles[k] = {"remaining":len(deck.piles[k])}
+        piles[k] = {'remaining': len(deck.piles[k])}
 
-    resp = {'success':True, 'deck_id':deck.key, 'remaining': len(deck.stack), 'piles': piles}
+    resp = {'success': True, 'deck_id': deck.key, 'remaining': len(deck.stack), 'piles': piles}
     response = HttpResponse(json.dumps(resp), content_type="application/json")
     response['Access-Control-Allow-Origin'] = '*'
     return response
@@ -199,7 +199,7 @@ def list_cards_in_pile(request, key, pile):
         deck = Deck.objects.get(key=key)
     except Deck.DoesNotExist:
         return HttpResponse(
-            json.dumps({'success': False,'error': 'Deck ID does not exist.'}),
+            json.dumps({'success': False, 'error': 'Deck ID does not exist.'}),
             content_type="application/json",
             status=404
         )
@@ -227,7 +227,7 @@ def draw_from_pile(request, key, pile, bottom=""):
         deck = Deck.objects.get(key=key)
     except Deck.DoesNotExist:
         return HttpResponse(
-            json.dumps({'success': False,'error': 'Deck ID does not exist.'}),
+            json.dumps({'success': False, 'error': 'Deck ID does not exist.'}),
             content_type="application/json",
             status=404
         )
@@ -235,7 +235,7 @@ def draw_from_pile(request, key, pile, bottom=""):
     cards = _get_request_var(request, 'cards', None)
     cards_in_response = []
 
-    p = deck.piles[pile]  #  times like these that I question if I should have just made piles a model instead of a json field...
+    p = deck.piles[pile]  # times like these that I question if I should have just made piles a model instead of a json field...
 
     if cards:
         # Ignore case
@@ -262,7 +262,7 @@ def draw_from_pile(request, key, pile, bottom=""):
         if card_count > len(p):
             response = HttpResponse(
                 json.dumps({
-                    'success': False,'error': 'Not enough cards remaining to draw %s additional' % str(card_count)
+                    'success': False, 'error': 'Not enough cards remaining to draw %s additional' % str(card_count)
                 }),
                 content_type="application/json",
                 status=404

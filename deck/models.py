@@ -16,7 +16,7 @@ class User(AbstractUser):
     class Meta:
         verbose_name = 'User'
         verbose_name_plural = 'Users'
-        ordering = ['date_joined',]
+        ordering = ['date_joined', ]
 
     def __unicode__(self):
         return self.email
@@ -53,8 +53,8 @@ class Deck(models.Model):
             cards = [x for x in CARDS if x in cards_used.split(',')]
             self.deck_contents = cards[:]  # save the subset for future shuffles
 
-        for i in range(0,self.deck_count):  # for loop over how many decks someone wants. Blackjack is usually 6.
-            stack = stack+cards[:]  # adding the [:] forces the array to be copied.
+        for i in range(0, self.deck_count):  # for loop over how many decks someone wants. Blackjack is usually 6.
+            stack = stack + cards[:]  # adding the [:] forces the array to be copied.
         self.stack = stack
         self.last_used = datetime.datetime.now()
         self.save()

@@ -39,7 +39,7 @@ class DeckTest(TestCase):
         self.assertEqual(resp['shuffled'], True)
         self.assertEqual(resp['remaining'], 52)
 
-        request = self.request_factory.get("/", {"count":10})
+        request = self.request_factory.get("/", {"count": 10})
         response = draw(request, deck_id)
         self.assertEqual(response.status_code, 200)
         resp = json.loads(response.content.decode('utf-8'))
@@ -93,7 +93,7 @@ class DeckTest(TestCase):
         self.assertEqual(resp['remaining'], 4)
 
         # draw 4 cards and make sure they match the input data (and verify deck is empty)
-        request = self.request_factory.get("/", {'count':4})
+        request = self.request_factory.get("/", {'count': 4})
         response = draw(request, deck_id)
         self.assertEqual(response.status_code, 200)
         resp = json.loads(response.content.decode('utf-8'))
@@ -125,7 +125,7 @@ class DeckTest(TestCase):
         self.assertEqual(resp['remaining'], 4)
 
     def test_draw_new(self):
-        request = self.request_factory.get("/", {'count':5})
+        request = self.request_factory.get("/", {'count': 5})
         response = draw(request)
         self.assertEqual(response.status_code, 200)
         resp = json.loads(response.content.decode('utf-8'))
