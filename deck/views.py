@@ -1,12 +1,9 @@
-import json, random
+import json
+import random
 
 from django.shortcuts import HttpResponse
-from deck.models import Deck, card_to_dict
 
-CARDS = ['AS', '2S', '3S', '4S', '5S', '6S', '7S', '8S', '9S', '0S', 'JS', 'QS', 'KS',
-         'AD', '2D', '3D', '4D', '5D', '6D', '7D', '8D', '9D', '0D', 'JD', 'QD', 'KD',
-         'AC', '2C', '3C', '4C', '5C', '6C', '7C', '8C', '9C', '0C', 'JC', 'QC', 'KC',
-         'AH', '2H', '3H', '4H', '5H', '6H', '7H', '8H', '9H', '0H', 'JH', 'QH', 'KH']
+from deck.models import Deck, card_to_dict, CARDS
 
 
 def _get_request_var(request, key, default=1):
@@ -25,7 +22,7 @@ def new_deck(request, key='', shuffle=False):
     deck_cards = _get_request_var(request, 'cards', None)
     if deck_count > 20:
         response = HttpResponse(
-            json.dumps({'success': False,'error': 'The max number of Decks is 20.'}),
+            json.dumps({'success': False, 'error': 'The max number of Decks is 20.'}),
             content_type="application/json"
         )
         response['Access-Control-Allow-Origin'] = '*'
@@ -35,7 +32,7 @@ def new_deck(request, key='', shuffle=False):
             deck = Deck.objects.get(key=key)
         except Deck.DoesNotExist:
             response = HttpResponse(
-                json.dumps({'success': False,'error': 'Deck ID does not exist.'}),
+                json.dumps({'success': False, 'error': 'Deck ID does not exist.'}),
                 content_type="application/json",
                 status=404
             )
@@ -128,7 +125,7 @@ def add_to_pile(request, key, pile):
         deck = Deck.objects.get(key=key)
     except Deck.DoesNotExist:
         return HttpResponse(
-            json.dumps({'success': False,'error':'Deck ID does not exist.'}),
+            json.dumps({'success': False, 'error': 'Deck ID does not exist.'}),
             content_type="application/json",
             status=404
         )
@@ -136,7 +133,7 @@ def add_to_pile(request, key, pile):
     cards = _get_request_var(request, 'cards', None)
     if cards is None:
         response = HttpResponse(
-            json.dumps({'success': False,'error': 'You must specify cards to add to the pile.'}),
+            json.dumps({'success': False, 'error': 'You must specify cards to add to the pile.'}),
             content_type="application/json",
             status=404
         )
@@ -165,9 +162,9 @@ def add_to_pile(request, key, pile):
 
     piles = {}
     for k in deck.piles:
-        piles[k] = {"remaining":len(deck.piles[k])}
+        piles[k] = {'remaining': len(deck.piles[k])}
 
-    resp = {'success':True, 'deck_id':deck.key, 'remaining': len(deck.stack), 'piles': piles}
+    resp = {'success': True, 'deck_id': deck.key, 'remaining': len(deck.stack), 'piles': piles}
     response = HttpResponse(json.dumps(resp), content_type="application/json")
     response['Access-Control-Allow-Origin'] = '*'
     return response
@@ -202,7 +199,7 @@ def list_cards_in_pile(request, key, pile):
         deck = Deck.objects.get(key=key)
     except Deck.DoesNotExist:
         return HttpResponse(
-            json.dumps({'success': False,'error': 'Deck ID does not exist.'}),
+            json.dumps({'success': False, 'error': 'Deck ID does not exist.'}),
             content_type="application/json",
             status=404
         )
@@ -230,7 +227,7 @@ def draw_from_pile(request, key, pile, bottom=""):
         deck = Deck.objects.get(key=key)
     except Deck.DoesNotExist:
         return HttpResponse(
-            json.dumps({'success': False,'error': 'Deck ID does not exist.'}),
+            json.dumps({'success': False, 'error': 'Deck ID does not exist.'}),
             content_type="application/json",
             status=404
         )
@@ -238,7 +235,7 @@ def draw_from_pile(request, key, pile, bottom=""):
     cards = _get_request_var(request, 'cards', None)
     cards_in_response = []
 
-    p = deck.piles[pile]  #  times like these that I question if I should have just made piles a model instead of a json field...
+    p = deck.piles[pile]  # times like these that I question if I should have just made piles a model instead of a json field...
 
     if cards:
         # Ignore case
@@ -265,7 +262,7 @@ def draw_from_pile(request, key, pile, bottom=""):
         if card_count > len(p):
             response = HttpResponse(
                 json.dumps({
-                    'success': False,'error': 'Not enough cards remaining to draw %s additional' % str(card_count)
+                    'success': False, 'error': 'Not enough cards remaining to draw %s additional' % str(card_count)
                 }),
                 content_type="application/json",
                 status=404
