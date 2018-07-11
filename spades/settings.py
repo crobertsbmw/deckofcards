@@ -1,19 +1,18 @@
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 
-DEBUG = True
-
+DEBUG = False
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
+if 'croberts' in BASE_DIR:
+    DEBUG = True
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'REPLACE_ME_BEFORE_PRODUCTION'
 
 
-ALLOWED_HOSTS = ['.spades.com']
+ALLOWED_HOSTS = ['.deckofcarsapi.com']
 
 AUTH_USER_MODEL = 'deck.User'
 

@@ -130,8 +130,8 @@ def add_to_pile(request, key, pile):
             status=404
         )
 
-    cards = _get_request_var(request, 'cards', None)
-    if cards is None:
+    cards_specified = _get_request_var(request, 'cards', None)
+    if cards_specified is None:
         response = HttpResponse(
             json.dumps({'success': False, 'error': 'You must specify cards to add to the pile.'}),
             content_type="application/json",
@@ -139,25 +139,25 @@ def add_to_pile(request, key, pile):
         )
         response['Access-Control-Allow-Origin'] = '*'
         return response
-    else:
-        # Ignore case
-        cards = cards.upper()
-        # Only allow real cards
-        cards = [x for x in cards.split(',') if x not in deck.stack and x in CARDS]  # the card needs to be drawn before it can be added to a pile.
+    
+    cards_specified = cards_specified.upper()
+    # Only allow real cards
+    cards_specified = [x for x in cards_specified.split(',') if x not in deck.stack and x in CARDS]  # the card needs to be drawn before it can be added to a pile.
 
     if not deck.piles:
         deck.piles = {}
 
+    print(deck.piles)
     for key in deck.piles:  # iterate through all the piles and remove any specified cards from those piles.
         p = deck.piles[key]  # times like these that I question if I should have just made piles a model instead of a json field...
-        for card in cards: 
-            if card in pile:
+        for card in cards_specified: 
+            if card in p:
                 p.remove(card)
 
     try:  # try to add to the pile
-        deck.piles[pile].extend(cards)
+        deck.piles[pile].extend(cards_specified)
     except KeyError as e:  # the pile is brand new
-        deck.piles[pile] = cards  # add the specified cards to the new pile
+        deck.piles[pile] = cards_specified  # add the specified cards to the new pile
     deck.save()
 
     piles = {}
