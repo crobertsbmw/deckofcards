@@ -31,13 +31,8 @@ def new_deck(request, key='', shuffle=False):
         try:
             deck = Deck.objects.get(key=key)
         except Deck.DoesNotExist:
-            response = HttpResponse(
-                json.dumps({'success': False, 'error': 'Deck ID does not exist.'}),
-                content_type="application/json",
-                status=404
-            )
-            response['Access-Control-Allow-Origin'] = '*'
-            return response
+            deck_id_does_not_exist()
+            
     else:
         deck = Deck()
         deck.deck_count = deck_count
@@ -59,13 +54,7 @@ def deck_info(request, key=0):
     try:
         deck = Deck.objects.get(key=key)
     except Deck.DoesNotExist:
-        response = HttpResponse(
-            json.dumps({'success': False, 'error': 'Deck ID does not exist.'}),
-            content_type="application/json",
-            status=404
-        )
-        response['Access-Control-Allow-Origin'] = '*'
-        return response
+        deck_id_does_not_exist()
 
     resp = {'success': True, 'deck_id': deck.key, 'remaining': len(deck.stack), 'shuffled': deck.shuffled}
     response = HttpResponse(json.dumps(resp), content_type="application/json")
@@ -87,13 +76,8 @@ def draw(request, key=None):
         try:
             deck = Deck.objects.get(key=key)
         except Deck.DoesNotExist:
-            response = HttpResponse(
-                json.dumps({'success': False, 'error': 'Deck ID does not exist.'}),
-                content_type="application/json",
-                status=404
-            )
-            response['Access-Control-Allow-Origin'] = '*'
-            return response
+            deck_id_does_not_exist()
+            
     if card_count > len(deck.stack):
         success = False
     cards = deck.stack[0:card_count]
@@ -124,11 +108,7 @@ def add_to_pile(request, key, pile):
     try:
         deck = Deck.objects.get(key=key)
     except Deck.DoesNotExist:
-        return HttpResponse(
-            json.dumps({'success': False, 'error': 'Deck ID does not exist.'}),
-            content_type="application/json",
-            status=404
-        )
+        deck_id_does_not_exist()
 
     cards_specified = _get_request_var(request, 'cards', None)
     if cards_specified is None:
@@ -169,16 +149,20 @@ def add_to_pile(request, key, pile):
     response['Access-Control-Allow-Origin'] = '*'
     return response
 
+def deck_id_does_not_exist():
+    response = HttpResponse(
+        json.dumps({'success': False, 'error': 'Deck ID does not exist.'}),
+        content_type="application/json",
+        status=404
+    )
+    response['Access-Control-Allow-Origin'] = '*'
+    return response
 
 def shuffle_pile(request, key, pile):
     try:
         deck = Deck.objects.get(key=key)
     except Deck.DoesNotExist:
-        return HttpResponse(
-            json.dumps({'success': False, 'error': 'Deck ID does not exist.'}),
-            content_type="application/json",
-            status=404
-        )
+        return deck_id_does_not_exist()
 
     piles = {}
     random.shuffle(deck.piles[pile])
@@ -198,11 +182,7 @@ def list_cards_in_pile(request, key, pile):
     try:
         deck = Deck.objects.get(key=key)
     except Deck.DoesNotExist:
-        return HttpResponse(
-            json.dumps({'success': False, 'error': 'Deck ID does not exist.'}),
-            content_type="application/json",
-            status=404
-        )
+        deck_id_does_not_exist()
 
     piles = {}
 
@@ -226,11 +206,7 @@ def draw_from_pile(request, key, pile, bottom=""):
     try:
         deck = Deck.objects.get(key=key)
     except Deck.DoesNotExist:
-        return HttpResponse(
-            json.dumps({'success': False, 'error': 'Deck ID does not exist.'}),
-            content_type="application/json",
-            status=404
-        )
+        deck_id_does_not_exist()
 
     cards = _get_request_var(request, 'cards', None)
     cards_in_response = []
