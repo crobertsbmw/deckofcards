@@ -57,9 +57,9 @@ def card_to_dict(card):
     suit = card[1:]
     d = {}
     d['code'] = value+suit
-    d['image'] = 'http://deckofcardsapi.com/static/img/'+value+suit+'.png'
-    d['images'] = {'svg':'http://deckofcardsapi.com/static/img/'+value+suit+'.svg',
-                   'png':'http://deckofcardsapi.com/static/img/'+value+suit+'.png'}
+    d['image'] = 'https://deckofcardsapi.com/static/img/'+value+suit+'.png'
+    d['images'] = {'svg':'https://deckofcardsapi.com/static/img/'+value+suit+'.svg',
+                   'png':'https://deckofcardsapi.com/static/img/'+value+suit+'.png'}
 
     if value+suit == "AD":
         d['image'] = 'http://deckofcardsapi.com/static/img/aceDiamonds.png'
