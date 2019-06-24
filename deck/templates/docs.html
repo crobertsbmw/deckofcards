@@ -1,3 +1,4 @@
+{% load static from staticfiles %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -41,7 +42,7 @@
     <meta name="twitter:card" content="Deck of Cards - an API for playing cards" />
     <meta name="twitter:image" content="https://deckofcardsapi.com/static/img/cards.png" />
 
-    <link rel="stylesheet" href="{{STATIC_URL}}css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 
     <link href='https://fonts.googleapis.com/css?family=Source+Code+Pro:400,500' rel='stylesheet' type='text/css'>
@@ -159,7 +160,7 @@
   </head>
 <body>
 <div class="page">
-    <img src='{{STATIC_URL}}img/blackjack2.png' class="card-image">
+    <img src='{% static "img/blackjack2.png" %}' class="card-image">
     <div class="head">
         <h1 class="title">Deck of Cards</h1>
         <h3 class="subtitle">An API</h3>
