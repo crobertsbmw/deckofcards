@@ -12,7 +12,7 @@ if 'croberts' in BASE_DIR:
 SECRET_KEY = 'REPLACE_ME_BEFORE_PRODUCTION'
 
 
-ALLOWED_HOSTS = ['.deckofcarsapi.com']
+ALLOWED_HOSTS = ['.deckofcardsapi.com']
 
 AUTH_USER_MODEL = 'deck.User'
 
