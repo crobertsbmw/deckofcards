@@ -3,7 +3,7 @@ import random
 
 from django.shortcuts import HttpResponse
 
-from deck.models import Deck, card_to_dict, CARDS
+from deck.models import Deck, card_to_dict, CARDS_EXCLUDING_JOKERS, CARDS_INCLUDING_JOKERS
 
 
 def _get_request_var(request, key, default=1):
@@ -14,12 +14,14 @@ def _get_request_var(request, key, default=1):
 
 
 def shuffle(request, key=''):
-    return new_deck(request, key, True)
+     return new_deck(request, key, True)
 
 
 def new_deck(request, key='', shuffle=False):
     deck_count = int(_get_request_var(request, 'deck_count'))
     deck_cards = _get_request_var(request, 'cards', None)
+    jokers_enabled = _get_request_var(request, 'jokers', '0') == '1'
+
     if deck_count > 20:
         response = HttpResponse(
             json.dumps({'success': False, 'error': 'The max number of Decks is 20.'}),
@@ -36,7 +38,7 @@ def new_deck(request, key='', shuffle=False):
     else:
         deck = Deck()
         deck.deck_count = deck_count
-    deck.open_new(deck_cards)
+    deck.open_new(deck_cards, jokers_enabled)
     deck.shuffled = False
     if shuffle:
         random.shuffle(deck.stack)
@@ -63,12 +65,13 @@ def deck_info(request, key=0):
 
 
 def draw(request, key=None):
+    jokers_enabled = _get_request_var(request, 'jokers', '0') == '1'
     success = True
     card_count = int(_get_request_var(request, 'count'))
     if not key:
         deck = Deck()
         deck.deck_count = int(_get_request_var(request, 'deck_count'))
-        deck.open_new()
+        deck.open_new(None, jokers_enabled)
         random.shuffle(deck.stack)
         deck.shuffled = True
         deck.save()
@@ -105,6 +108,7 @@ def draw(request, key=None):
 
 
 def add_to_pile(request, key, pile):
+    jokers_enabled = _get_request_var(request, 'jokers', '0') == '1'
     try:
         deck = Deck.objects.get(key=key)
     except Deck.DoesNotExist:
@@ -122,7 +126,7 @@ def add_to_pile(request, key, pile):
     
     cards_specified = cards_specified.upper()
     # Only allow real cards
-    cards_specified = [x for x in cards_specified.split(',') if x not in deck.stack and x in CARDS]  # the card needs to be drawn before it can be added to a pile.
+    cards_specified = [x for x in cards_specified.split(',') if x not in deck.stack and x in (CARDS_EXCLUDING_JOKERS, CARDS_INCLUDING_JOKERS)[jokers_enabled==True]]  # the card needs to be drawn before it can be added to a pile.
 
     if not deck.piles:
         deck.piles = {}
@@ -149,6 +153,7 @@ def add_to_pile(request, key, pile):
     response['Access-Control-Allow-Origin'] = '*'
     return response
 
+
 def deck_id_does_not_exist():
     response = HttpResponse(
         json.dumps({'success': False, 'error': 'Deck ID does not exist.'}),
@@ -157,6 +162,7 @@ def deck_id_does_not_exist():
     )
     response['Access-Control-Allow-Origin'] = '*'
     return response
+
 
 def shuffle_pile(request, key, pile):
     try:
@@ -203,6 +209,7 @@ def list_cards_in_pile(request, key, pile):
 
 
 def draw_from_pile(request, key, pile, bottom=""):
+    jokers_enabled = _get_request_var(request, 'jokers', '0') == '1'
     try:
         deck = Deck.objects.get(key=key)
     except Deck.DoesNotExist:
@@ -217,7 +224,7 @@ def draw_from_pile(request, key, pile, bottom=""):
         # Ignore case
         cards = cards.upper()
         # Only allow real cards
-        cards = [x for x in cards.split(',') if x in CARDS]
+        cards = [x for x in cards.split(',') if x in (CARDS_EXCLUDING_JOKERS, CARDS_INCLUDING_JOKERS)[jokers_enabled==True]]
    
         for card in cards:
             try:
