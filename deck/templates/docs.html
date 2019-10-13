@@ -42,7 +42,7 @@
     <meta name="twitter:card" content="Deck of Cards - an API for playing cards" />
     <meta name="twitter:image" content="https://deckofcardsapi.com/static/img/cards.png" />
 
-    <link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 
     <link href='https://fonts.googleapis.com/css?family=Source+Code+Pro:400,500' rel='stylesheet' type='text/css'>
@@ -67,7 +67,7 @@
         font-size:130%;
     }
     .page{
-        margin:0px;
+        margin:0;
         padding:50px 20px;
         background-image: -webkit-linear-gradient(top, #1A4A1C, #308834 600px);
         background-image: -moz-linear-gradient(top, #1A4A1C, #308834 600px);
@@ -84,8 +84,8 @@
     .card-image{
         width:200px;
         position:absolute;
-        right:0px;
-        top:0px;
+        right:0;
+        top:0;
     }
     code{
         font-size:100%;
@@ -100,12 +100,7 @@
         font-size:105%;
         font-weight:300;
     }
-    .code-header{
-        letter-spacing: 1px;
-        font-size:130%;
-        background-color:rgba(1,1,1,.5);
-    }
-    pre, .dark{
+    pre{
         background-color:rgba(1,1,1,.3);
         color:#fff;
         border:none;
@@ -145,9 +140,6 @@
         border-radius:3px;
         padding:10px;
     }
-    .col-md-6{
-        margin-bottom:15px;
-    }
     .uinotebook img{
         width:50%;
         min-width:320px;
@@ -156,9 +148,13 @@
         margin-top: 10px;
         font-weight: 300;
     }
+    .github-ribbon{
+        position: absolute;
+    }
     </style>
   </head>
 <body>
+<a href="https://github.com/crobertsbmw/deckofcards"><img width="149" height="149" src="https://github.blog/wp-content/uploads/2008/12/forkme_left_darkblue_121621.png?resize=149%2C149" class="github-ribbon attachment-full size-full" alt="Fork me on GitHub" data-recalc-dims="1"></a>
 <div class="page">
     <img src='{% static "img/blackjack2.png" %}' class="card-image">
     <div class="head">
@@ -268,22 +264,6 @@ https://deckofcardsapi.com/api/deck/new/shuffle/?cards=AS,2S,KS,AD,2D,KD,AC,2C,K
     "remaining": 12
 }
 </pre>
-
-<!-- <h2 class="section-header" id="deck-info">Deck Info:</h2>
-<pre>
-https://deckofcardsapi.com/api/deck/&lt;&lt;deck_id&gt;&gt;/
-</pre>
-<p>If you ever need to check the status of a deck, whether you lost track of how many cards are remaining or if that deck has been shuffled.</p>
-
-<h3>Response:</h3>
-<pre>
-{
-    "success": true,
-    "deck_id": "3p40paa87x90",
-    "shuffled": false,
-    "remaining": 52
-}
-</pre> -->
 
 <h2 class="section-header" id="add-to-pile">Adding to Piles</h2>
 <pre>
@@ -409,14 +389,6 @@ Bugs? Features? View this on <a href="https://github.com/crobertsbmw/deckofcards
 
 <br><hr>
 
-<!-- <h3 class="text-center" id="projects">
-See what people are doing with Deck of Cards:
-</h3><br>
-<div class="row">
-    <div class="col-md-6 col-lg-4 text-center">
-        <a href="https://www.npmjs.com/package/node-of-cards"><img src="{{STATIC_URL}}img/node-of-cards.png"></a>
-    </div>
-</div> -->
 <br>
 <p class="text-center">I would love to see what you are making with this API. Please <a href="https://twitter.com/crobertsbmw">tweet at me!</a></p>
 
@@ -424,4 +396,3 @@ See what people are doing with Deck of Cards:
 </div>
 </body>
 </html>
-<!-- 140 -->
