@@ -237,7 +237,7 @@ https://deckofcardsapi.com/api/deck/new/
 </pre>
 
 <p>Open a brand new deck of cards. <br>A-spades, 2-spades, 3-spades... followed by diamonds, clubs, then hearts.
-<p class="note"><span style="font-weight:300;">NEW </span>(Oct 2019): Add <var>jokers=1</var> as a GET or POST parameter to your request to include two Jokers in the deck. (I understand that <var>jokers=1</var> returning you <var>2</var> jokers may be a little confusing. A standard deck of cards has 2 jokers, and it's standard for <var>1</var> to be used as a <a href="https://en.wikipedia.org/wiki/Truth_value">truthy boolean value</a> and <var>0</var> for a falsey value. You can always use <var>jokers=2</var> as a truthy value.)</p>
+<p class="note"><span style="font-weight:300;">NEW </span>(Oct 2019): Add <var>jokers_enabled=true</var> as a GET or POST parameter to your request to include two Jokers in the deck.</p>
 
 <h3>Response:</h3>
 <pre>
