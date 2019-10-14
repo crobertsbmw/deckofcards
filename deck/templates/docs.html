@@ -134,7 +134,7 @@
         color:#eee;
     }
     .note{
-        background-color:#469183;
+        background-color:#87a68b5c;
         color:#fff;
         border:none;
         border-radius:3px;
@@ -154,7 +154,8 @@
     </style>
   </head>
 <body>
-<a href="https://github.com/crobertsbmw/deckofcards"><img width="149" height="149" src="https://github.blog/wp-content/uploads/2008/12/forkme_left_darkblue_121621.png?resize=149%2C149" class="github-ribbon attachment-full size-full" alt="Fork me on GitHub" data-recalc-dims="1"></a>
+<a href="https://github.com/crobertsbmw/deckofcards"><img width="149" height="149" src="https://github.blog/wp-content/uploads/2008/12/forkme_left_green_007200.png?resize=300%2C300" class="github-ribbon attachment-full size-full" alt="Fork me on GitHub" data-recalc-dims="1"></a>
+
 <div class="page">
     <img src='{% static "img/blackjack2.png" %}' class="card-image">
     <div class="head">
@@ -170,7 +171,7 @@ https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1
 </pre>
 
 <p>Add <var>deck_count</var> as a GET or POST parameter to define the number of Decks you want to use. Blackjack typically uses 6 decks. The default is 1.</p>
-<p>Add <var>jokers=1</var> as a GET parameter to enable the use of jokers in the pack. The default is for jokers to be disabled.</p>
+
 <br>
 <h3>Response:</h3>
 <pre>
@@ -236,6 +237,8 @@ https://deckofcardsapi.com/api/deck/new/
 </pre>
 
 <p>Open a brand new deck of cards. <br>A-spades, 2-spades, 3-spades... followed by diamonds, clubs, then hearts.
+<p class="note"><span style="font-weight:300;">NEW </span>(Oct 2019): Add <var>jokers=1</var> as a GET or POST parameter to your request to include two Jokers in the deck. (I understand that <var>jokers=1</var> returning you <var>2</var> jokers may be a little confusing. A standard deck of cards has 2 jokers, and it's standard for <var>1</var> to be used as a <a href="https://en.wikipedia.org/wiki/Truth_value">truthy boolean value</a> and <var>0</var> for a falsey value. You can always use <var>jokers=2</var> as a truthy value.)</p>
+
 <h3>Response:</h3>
 <pre>
 {
