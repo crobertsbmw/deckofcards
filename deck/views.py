@@ -13,8 +13,8 @@ def _get_request_var(request, key, default=1):
         return request.GET.get(key, default)
 
 def get_jokers_enabled(request):
-    j = _get_request_var(request, 'jokers', '0')
-    return bool(int(j))
+    j = _get_request_var(request, 'jokers_enabled', 'false')
+    return j=='true'
 
 def shuffle(request, key=''):
     print("shuffle")
@@ -131,9 +131,7 @@ def add_to_pile(request, key, pile):
     cards_specified = cards_specified.upper()
     # Only allow real cards
 
-    all_cards = CARDS
-    if jokers_enabled:
-        all_cards += JOKERS
+    all_cards = (CARDS, CARDS + JOKERS)[jokers_enabled]
     cards_specified = [x for x in cards_specified.split(',') if x not in deck.stack and x in all_cards]  # check that the cards has been drawn and is a valid card code.
 
     if not deck.piles:
