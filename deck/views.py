@@ -16,7 +16,6 @@ def get_jokers_enabled(request):
     return j=='true'
 
 def shuffle(request, key=''):
-    print("shuffle")
     return new_deck(request, key, True)
 
 
@@ -24,7 +23,6 @@ def new_deck(request, key='', shuffle=False):
     deck_count = int(_get_request_var(request, 'deck_count'))
     deck_cards = _get_request_var(request, 'cards', None)
     jokers_enabled = get_jokers_enabled(request)
-    print("new deck", jokers_enabled)
     if deck_count > 20:
         response = HttpResponse(
             json.dumps({'success': False, 'error': 'The max number of Decks is 20.'}),
@@ -32,13 +30,13 @@ def new_deck(request, key='', shuffle=False):
         )
         response['Access-Control-Allow-Origin'] = '*'
         return response
-    if key:
+    if key: #we are shuffling an existing deck
         try:
             deck = Deck.objects.get(key=key)
+            deck.piles = {}
         except Deck.DoesNotExist:
             deck_id_does_not_exist()
-            
-    else:
+    else: #creating a new deck
         deck = Deck()
         deck.deck_count = deck_count
     deck.open_new(deck_cards, jokers_enabled)
