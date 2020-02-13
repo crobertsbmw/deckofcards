@@ -4,7 +4,6 @@ import random
 from django.shortcuts import HttpResponse
 from deck.models import Deck, card_to_dict, CARDS, JOKERS
 
-
 def _get_request_var(request, key, default=1):
     if request.method == 'POST':
         return request.POST.get(key, default)

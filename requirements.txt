@@ -1,4 +1,4 @@
-django==2.0.8
+django==2.2.10
 jsonfield==1.0.0
 pbr==0.10.8
 six==1.9.0
