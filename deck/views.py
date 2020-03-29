@@ -1,8 +1,14 @@
 import json
 import random
 
-from django.shortcuts import HttpResponse
+from django.shortcuts import HttpResponse, render
 from deck.models import Deck, card_to_dict, CARDS, JOKERS
+
+def doc_page(request):
+    c = request.COOKIES.get('v', random.choice([1,2]))
+    response = render(request, 'docs.html', {'v':int(c)})
+    response.set_cookie("v", c)
+    return response
 
 def _get_request_var(request, key, default=1):
     if request.method == 'POST':

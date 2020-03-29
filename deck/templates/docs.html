@@ -76,11 +76,6 @@
         background-image: linear-gradient(to bottom, #1A4A1C, #308834 600px);
         color:#fff;
     }
-    pre{
-        font-family: 'Source Code Pro', monospace;
-        font-size: 18px;
-    }
-
     .card-image{
         width:200px;
         position:absolute;
@@ -101,6 +96,8 @@
         font-weight:300;
     }
     pre{
+        font-family: 'Source Code Pro', monospace;
+        font-size: 18px;
         background-color:rgba(1,1,1,.3);
         color:#fff;
         border:none;
@@ -140,13 +137,24 @@
         border-radius:3px;
         padding:10px;
     }
+    .uinotebook {
+        margin-top: 100px;
+        background-color:rgba(1,1,1,.3);
+        color:#fff;
+        border:none;
+        border-radius:10px;
+        padding:30px;
+    }
+    .uinotebook a{
+        color: #FFF;
+    }
     .uinotebook img{
         width:50%;
         min-width:320px;
     }
     .uinotebook h3{
-        margin-top: 10px;
-        font-weight: 300;
+        margin-top:0px;
+        margin-bottom: 20px;
     }
     .github-ribbon{
         position: absolute;
@@ -379,8 +387,19 @@ https://deckofcardsapi.com/api/deck/&lt;&lt;deck_id&gt;&gt;/draw/bottom/
 }
 </pre>
 
-<a href="https://computerengineeringforbabies.com/" style="color:#fff300;"><h3 class="section-header text-center">One last thing. Are you a parent to a small child?</h3></a>
+{% if v == 1 %}
+<a href="https://computerengineeringforbabies.com/?ref=doc1" style="color:#fff300;"><h3 class="section-header text-center">One last thing. Are you a parent to a small child?</h3></a>
+{% elif v == 2 %}
+<div class="uinotebook">
+<a href="https://computerengineeringforbabies.com/?ref=doc2">
+    <h3 class="text-center">Lastly, click to pre-order the book I am working on!</h3>
 
+    <div class="text-center">
+        <img src='{% static "img/book.png" %}' style="max-width:100%; width:500px">
+    </div>
+</a>
+</div>
+{% endif %}
 <h2 class="section-header text-center">Thank You!</h2>
 
 <br/>
