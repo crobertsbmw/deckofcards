@@ -81,6 +81,8 @@ def card_to_dict(card):
 
     if code == 'AD':
         card_dict['image'] = 'https://deckofcardsapi.com/static/img/aceDiamonds.png'
+        card_dict['images']['png'] = 'https://deckofcardsapi.com/static/img/aceDiamonds.png'
+        card_dict['images']['svg'] = 'https://deckofcardsapi.com/static/img/aceDiamonds.svg'
 
     card_dict['value'] = VALUES.get(value) or value
     card_dict['suit'] = SUITS.get(suit) or suit
