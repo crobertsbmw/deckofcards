@@ -39,6 +39,7 @@ def new_deck(request, key='', shuffle=False):
         try:
             deck = Deck.objects.get(key=key)
             deck.piles = {}
+            jokers_enabled = deck.include_jokers
         except Deck.DoesNotExist:
             deck_id_does_not_exist()
     else: #creating a new deck
