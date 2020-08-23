@@ -42,7 +42,7 @@ class Deck(models.Model):
     include_jokers = models.BooleanField(null=False, default=False)
     
     def open_new(self, cards_used=None, jokers_enabled=False):
-        self.include_jokers = jokers_enabled
+        self.include_jokers = False if jokers_enabled is None else jokers_enabled
         stack = []
         if cards_used is None: # use all the cards
             if self.deck_contents is None:
