@@ -39,7 +39,7 @@ class Deck(models.Model):
     piles = JSONField(null=True, blank=True) 
     deck_contents = JSONField(null=True, blank=True) #All the cards that should be included when shuffling and whatnot
     shuffled = models.BooleanField(default=False)
-    include_jokers = models.BooleanField(null=False, default=False)
+    include_jokers = models.BooleanField(default=False)
     
     def open_new(self, cards_used=None, jokers_enabled=False):
         self.include_jokers = False if jokers_enabled is None else jokers_enabled
