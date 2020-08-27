@@ -120,6 +120,8 @@ def draw(request, key=None):
 
 def add_to_pile(request, key, pile):
     jokers_enabled = get_jokers_enabled(request)
+    if not jokers_enabled: jokers_enabled = 0 #prevent a tuple indices error below.
+    
     try:
         deck = Deck.objects.get(key=key)
     except Deck.DoesNotExist:
