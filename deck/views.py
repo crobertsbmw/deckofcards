@@ -18,13 +18,10 @@ def _get_request_var(request, key, default=1):
 
 def get_jokers_enabled(request):
     j = _get_request_var(request, 'jokers_enabled')
-    if j != 'true':
-        if j == 'false':
-            return False
-        else:
-            return
-    else:
-        return True
+    if isinstance(j, str):
+        if j.lower() == 'true': return True
+        if j.lower() == 'false': return False
+    return
 
 def shuffle(request, key=''):
     return new_deck(request, key, True)
