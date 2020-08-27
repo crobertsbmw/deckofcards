@@ -26,7 +26,7 @@ CARDS = ['AS', '2S', '3S', '4S', '5S', '6S', '7S', '8S', '9S', '0S', 'JS', 'QS',
          'AD', '2D', '3D', '4D', '5D', '6D', '7D', '8D', '9D', '0D', 'JD', 'QD', 'KD',
          'AC', '2C', '3C', '4C', '5C', '6C', '7C', '8C', '9C', '0C', 'JC', 'QC', 'KC',
          'AH', '2H', '3H', '4H', '5H', '6H', '7H', '8H', '9H', '0H', 'JH', 'QH', 'KH']
-JOKERS = ["X1", "X2"]
+JOKERS = ['X1', 'X2']
 
 SUITS = {'S': 'SPADES', 'D': 'DIAMONDS', 'H': 'HEARTS', 'C': 'CLUBS', '1': 'BLACK', '2': 'RED'}
 VALUES = {'A': 'ACE', 'J': 'JACK', 'Q': 'QUEEN', 'K': 'KING', '0': '10', 'X': 'JOKER'}
@@ -39,18 +39,20 @@ class Deck(models.Model):
     piles = JSONField(null=True, blank=True) 
     deck_contents = JSONField(null=True, blank=True) #All the cards that should be included when shuffling and whatnot
     shuffled = models.BooleanField(default=False)
+    include_jokers = models.BooleanField(default=False)
     
     def open_new(self, cards_used=None, jokers_enabled=False):
+        self.include_jokers = False if jokers_enabled is None else jokers_enabled
         stack = []
         if cards_used is None: # use all the cards
             if self.deck_contents is None:
-                cards = (CARDS, CARDS + JOKERS)[jokers_enabled]
+                cards = (CARDS, CARDS + JOKERS)[self.include_jokers]
             else:
                 cards = self.deck_contents[:]
         else: # use a subset of a standard deck
             cards_used = cards_used.upper()
             # Only allow real cards
-            valid_cards = (CARDS, CARDS + JOKERS)[jokers_enabled]
+            valid_cards = (CARDS, CARDS + JOKERS)[self.include_jokers]
             cards = [x for x in valid_cards if x in cards_used.split(',')]
             self.deck_contents = cards[:]  # save the subset for future shuffles
 

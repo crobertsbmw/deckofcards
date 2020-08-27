@@ -17,8 +17,11 @@ def _get_request_var(request, key, default=1):
         return request.GET.get(key, default)
 
 def get_jokers_enabled(request):
-    j = _get_request_var(request, 'jokers_enabled', 'false')
-    return j=='true'
+    j = _get_request_var(request, 'jokers_enabled')
+    if isinstance(j, str):
+        if j.lower() == 'true': return True
+        if j.lower() == 'false': return False
+    return
 
 def shuffle(request, key=''):
     return new_deck(request, key, True)
@@ -39,6 +42,8 @@ def new_deck(request, key='', shuffle=False):
         try:
             deck = Deck.objects.get(key=key)
             deck.piles = {}
+            if jokers_enabled is None:
+                jokers_enabled = deck.include_jokers
         except Deck.DoesNotExist:
             deck_id_does_not_exist()
     else: #creating a new deck
