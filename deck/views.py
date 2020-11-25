@@ -39,13 +39,15 @@ def new_deck(request, key='', shuffle=False):
         response['Access-Control-Allow-Origin'] = '*'
         return response
     if key: #we are shuffling an existing deck
+        print("we are here 1")
         try:
             deck = Deck.objects.get(key=key)
             deck.piles = {}
             if jokers_enabled is None:
                 jokers_enabled = deck.include_jokers
         except Deck.DoesNotExist:
-            deck_id_does_not_exist()
+            print("we are here 3")
+            return deck_id_does_not_exist()
     else: #creating a new deck
         deck = Deck()
         deck.deck_count = deck_count
@@ -67,7 +69,7 @@ def deck_info(request, key=0):
     try:
         deck = Deck.objects.get(key=key)
     except Deck.DoesNotExist:
-        deck_id_does_not_exist()
+        return deck_id_does_not_exist()
 
     resp = {'success': True, 'deck_id': deck.key, 'remaining': len(deck.stack), 'shuffled': deck.shuffled}
     response = HttpResponse(json.dumps(resp), content_type="application/json")
@@ -90,7 +92,7 @@ def draw(request, key=None):
         try:
             deck = Deck.objects.get(key=key)
         except Deck.DoesNotExist:
-            deck_id_does_not_exist()
+            return deck_id_does_not_exist()
             
     if card_count > len(deck.stack):
         success = False
@@ -125,7 +127,7 @@ def add_to_pile(request, key, pile):
     try:
         deck = Deck.objects.get(key=key)
     except Deck.DoesNotExist:
-        deck_id_does_not_exist()
+        return deck_id_does_not_exist()
 
     cards_specified = _get_request_var(request, 'cards', None)
     if cards_specified is None:
@@ -203,7 +205,7 @@ def list_cards_in_pile(request, key, pile):
     try:
         deck = Deck.objects.get(key=key)
     except Deck.DoesNotExist:
-        deck_id_does_not_exist()
+        return deck_id_does_not_exist()
 
     piles = {}
 
@@ -228,7 +230,7 @@ def draw_from_pile(request, key, pile, bottom=""):
     try:
         deck = Deck.objects.get(key=key)
     except Deck.DoesNotExist:
-        deck_id_does_not_exist()
+        return deck_id_does_not_exist()
 
     cards = _get_request_var(request, 'cards', None)
     cards_in_response = []
