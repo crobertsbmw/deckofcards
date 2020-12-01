@@ -3,6 +3,7 @@ import random
 
 from django.shortcuts import HttpResponse, render
 from deck.models import Deck, card_to_dict, CARDS, JOKERS
+from django.db import transaction
 
 def doc_page(request):
     c = request.COOKIES.get('v', random.choice([1,2]))
@@ -76,7 +77,7 @@ def deck_info(request, key=0):
     response['Access-Control-Allow-Origin'] = '*'
     return response
 
-
+@transaction.atomic
 def draw(request, key=None):
     jokers_enabled = get_jokers_enabled(request)
     success = True
