@@ -53,7 +53,7 @@ class Deck(models.Model):
             cards_used = cards_used.upper()
             # Only allow real cards
             valid_cards = (CARDS, CARDS + JOKERS)[self.include_jokers]
-            cards = [x for x in valid_cards if x in cards_used.split(',')]
+            cards = [x for x in cards_used.split(",") if x in valid_cards]
             self.deck_contents = cards[:]  # save the subset for future shuffles
 
         for i in range(0, self.deck_count):  # for loop over how many decks someone wants. Blackjack is usually 6.
