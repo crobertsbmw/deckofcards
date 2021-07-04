@@ -5,8 +5,6 @@ import datetime
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
-from jsonfield import JSONField
-
 
 def random_string():
     return ''.join(random.choice(string.ascii_lowercase + string.digits) for _ in range(12))
@@ -35,9 +33,9 @@ class Deck(models.Model):
     key = models.CharField(default=random_string, max_length=15, db_index=True)
     last_used = models.DateTimeField(default=datetime.datetime.now)
     deck_count = models.IntegerField(default=1)
-    stack = JSONField(null=True, blank=True) #The cards that haven't been drawn yet.
-    piles = JSONField(null=True, blank=True) 
-    deck_contents = JSONField(null=True, blank=True) #All the cards that should be included when shuffling and whatnot
+    stack = models.JSONField(null=True, blank=True) #The cards that haven't been drawn yet.
+    piles = models.JSONField(null=True, blank=True) 
+    deck_contents = models.JSONField(null=True, blank=True) #All the cards that should be included when shuffling and whatnot
     shuffled = models.BooleanField(default=False)
     include_jokers = models.BooleanField(default=False)
     

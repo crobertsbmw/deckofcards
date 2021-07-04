@@ -11,11 +11,14 @@ if 'croberts' in BASE_DIR:
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'REPLACE_ME_BEFORE_PRODUCTION'
 
-
-ALLOWED_HOSTS = ['.deckofcardsapi.com', '127.0.0.1']
+ALLOWED_HOSTS = ["*", '.deckofcardsapi.com', '127.0.0.1']
 
 AUTH_USER_MODEL = 'deck.User'
 
+# Default primary key field type
+# https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
+
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
