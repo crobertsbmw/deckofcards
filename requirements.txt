@@ -1,2 +1,2 @@
-django
+django==3.2.5
 django-cors-headers
