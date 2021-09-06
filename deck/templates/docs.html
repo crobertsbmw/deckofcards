@@ -104,6 +104,17 @@
         border-radius:10px;
         padding:20px;
     }
+    button {
+        border: none;
+        border-radius: 5px;
+        margin-top: 0.75em;
+        padding: 0.2em 0.6em;
+        background-color:rgba(1,1,1,.3);
+        color:#B1C725;
+    }
+    button:hover {
+        color:#eee;
+    }
     .section-header{
         padding-top: 100px;
         padding-bottom:20px;
@@ -175,8 +186,10 @@
 
 <h2 class="section-header" id="shuffle">Shuffle the Cards:</h2>
 <pre>
-<a href="{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/new/shuffle/?deck_count=1">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/new/shuffle/?deck_count=1</a>
+<a href="{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/new/shuffle/?deck_count=1"><span class="copy-text">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/new/shuffle/?deck_count=1</span></a>
+<button class="copy-btn">Copy</button>
 </pre>
+
 
 <p>Add <var>deck_count</var> as a GET or POST parameter to define the number of Decks you want to use. Blackjack typically uses 6 decks. The default is 1.</p>
 
@@ -193,7 +206,8 @@
 
 <h2 class="section-header" id="draw-card">Draw a Card:</h2>
 <pre>
-{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/draw/?count=2
+<span class="copy-text">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/draw/?count=2</span>
+<button class="copy-btn">Copy</button>
 </pre>
 <p>The count variable defines how many cards to draw from the deck. Be sure to replace <var>deck_id</var> with a valid deck_id. We use the deck_id as an identifier so we know who is playing with what deck. After two weeks, if no actions have been made on the deck then we throw it away.</p>
 <p class="note"><span style="font-weight:300;">TIP</span>: replace <var>&lt;&lt;deck_id&gt;&gt;</var> with "<var>new</var>" to create a shuffled deck and draw cards from that deck in the same request.</p>
@@ -224,7 +238,8 @@
 
 <h2 class="section-header" id="reshuffle">Reshuffle the Cards:</h2>
 <pre>
-{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/shuffle/
+<span class="copy-text">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/shuffle/</span>
+<button class="copy-btn">Copy</button>
 </pre>
 
 <p>Don't throw away a deck when all you want to do is shuffle. Include the <var>deck_id</var> on your call to shuffle your cards. Don't worry about reminding us how many decks you are playing with.</p>
@@ -241,7 +256,8 @@
 
 <h2 class="section-header" id="brand-new-deck">A Brand New Deck:</h2>
 <pre>
-<a href="{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/new/"">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/new/</a>
+<a href="{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/new/"><span class="copy-text">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/new/</span></a>
+<button class="copy-btn">Copy</button>
 </pre>
 
 <p>Open a brand new deck of cards. <br>A-spades, 2-spades, 3-spades... followed by diamonds, clubs, then hearts.
@@ -259,7 +275,8 @@
 
 <h2 class="section-header" id="partial-deck">A Partial Deck:</h2>
 <pre>
-<a href="{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/new/shuffle/?cards=AS,2S,KS,AD,2D,KD,AC,2C,KC,AH,2H,KH">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/new/shuffle/?cards=AS,2S,KS,AD,2D,KD,AC,2C,KC,AH,2H,KH</a>
+<a href="{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/new/shuffle/?cards=AS,2S,KS,AD,2D,KD,AC,2C,KC,AH,2H,KH"><span class="copy-text">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/new/shuffle/?cards=AS,2S,KS,AD,2D,KD,AC,2C,KC,AH,2H,KH</span></a>
+<button class="copy-btn">Copy</button>
 </pre>
 <p>If you want to use a partial deck, then you can pass the card codes you want to use using the <var>cards</var> parameter. Separate the card codes with commas, and each card code is a just a two character case-insensitive string:</p>
 <p><ol>
@@ -279,7 +296,8 @@
 
 <h2 class="section-header" id="add-to-pile">Adding to Piles</h2>
 <pre>
-{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/pile/&lt;&lt;pile_name&gt;&gt;/add/?cards=AS,2S
+<span class="copy-text">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/pile/&lt;&lt;pile_name&gt;&gt;/add/?cards=AS,2S</span>
+<button class="copy-btn">Copy</button>
 </pre>
 <p>Piles can be used for discarding, players hands, or whatever else. Piles are created on the fly, just give a pile a name and add a drawn card to the pile. If the pile didn't exist before, it does now. After a card has been drawn from the deck it can be moved from pile to pile.</p>
 
@@ -301,7 +319,8 @@
 
 <h2 class="section-header" id="shuffle-pile">Shuffle Piles</h2>
 <pre>
-{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/pile/&lt;&lt;pile_name&gt;&gt;/shuffle/
+<span class="copy-text">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/pile/&lt;&lt;pile_name&gt;&gt;/shuffle/</span>
+<button class="copy-btn">Copy</button>
 </pre>
 <p class="note"><span style="font-weight:300;">Note</span>: This will not work with multiple decks.</p>
 
@@ -321,8 +340,10 @@
 
 <h2 class="section-header" id="draw-from-pile">Listing Cards in Piles</h2>
 <pre>
-{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/pile/&lt;&lt;pile_name&gt;&gt;/list/
+<span class="copy-text">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/pile/&lt;&lt;pile_name&gt;&gt;/list/</span>
+<button class="copy-btn">Copy</button>
 </pre>
+
 
 <p class="note"><span style="font-weight:300;">Note</span>: This will not work with multiple decks.</p>
 
@@ -359,9 +380,10 @@
 
 <h2 class="section-header" id="draw-from-pile">Drawing from Piles</h2>
 <pre>
-{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/pile/&lt;&lt;pile_name&gt;&gt;/draw/?cards=AS
+<span class="copy-text">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/pile/&lt;&lt;pile_name&gt;&gt;/draw/?cards=AS
 {{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/pile/&lt;&lt;pile_name&gt;&gt;/draw/?count=2
-{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/draw/bottom/
+{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/draw/bottom/</span>
+<button class="copy-btn">Copy</button>
 </pre>
 <p>Specify the cards that you want to draw from the pile. The default is to just draw off the top of the pile (it's a <a href="http://en.wikipedia.org/wiki/Stack_(abstract_data_type)">stack</a>). Or add the <var>bottom</var> parameter to the URL to draw from the bottom.</p>
 
@@ -420,4 +442,5 @@ Bugs? Features? View this on <a href="https://github.com/crobertsbmw/deckofcards
 </div>
 </div>
 </body>
+<script src="./buttons.js"></script>
 </html>
