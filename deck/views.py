@@ -25,6 +25,23 @@ def get_jokers_enabled(request):
     return
 
 def shuffle(request, key=''):
+    remaining = _get_request_var(request, 'remaining')
+    if isinstance(remaining, str) and key:
+        if remaining.lower() == 'true':
+            # Shuffle remaining cards only
+            try:
+                deck = Deck.objects.get(key=key)
+            except Deck.DoesNotExist:
+                return deck_id_does_not_exist()
+            random.shuffle(deck.stack)
+            deck.shuffled = True
+            deck.save()
+
+            resp = {'success': True, 'deck_id': deck.key, 'remaining': len(deck.stack), 'shuffled': deck.shuffled}
+            response = HttpResponse(json.dumps(resp), content_type="application/json")
+            response['Access-Control-Allow-Origin'] = '*'
+            return response
+    # Normal (legacy) functionality re-sets and shuffles whole deck
     return new_deck(request, key, True)
 
 
