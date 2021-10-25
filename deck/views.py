@@ -122,13 +122,12 @@ def draw(request, key=None):
 
 
 def add_to_pile(request, key, pile):
-    jokers_enabled = get_jokers_enabled(request)
-    if not jokers_enabled: jokers_enabled = 0 #prevent a tuple indices error below.
-    
     try:
         deck = Deck.objects.get(key=key)
     except Deck.DoesNotExist:
         return deck_id_does_not_exist()
+
+    jokers_enabled = deck.include_jokers
 
     cards_specified = _get_request_var(request, 'cards', None)
     if cards_specified is None:
