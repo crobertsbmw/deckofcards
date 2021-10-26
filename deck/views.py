@@ -143,8 +143,6 @@ def return_to_deck(request, key):
     except Deck.DoesNotExist:
         return deck_id_does_not_exist()
     
-    print("Deck stack:"+json.dumps(deck.stack))
-
     cards_in_use = deck.stack[:] # make a copy
 
     if deck.piles:
@@ -171,6 +169,35 @@ def return_to_deck(request, key):
     response['Access-Control-Allow-Origin'] = '*'
     return response
 
+def return_pile_to_deck(request, key, pile):
+    try:
+        deck = Deck.objects.get(key=key)
+    except Deck.DoesNotExist:
+        return deck_id_does_not_exist()
+    
+    if deck.piles and pile in deck.piles:
+        deck.stack.extend(deck.piles[pile])
+        deck.piles[pile] = []
+        deck.save()
+
+        piles = {}
+        for k in deck.piles:  # iterate through all the piles and get the count.
+            r = len(deck.piles[k])
+            piles[k] = {"remaining": r}
+        resp = {'success': True, 'deck_id': deck.key, 'remaining': len(deck.stack), 'piles': piles}
+        response = HttpResponse(json.dumps(resp), content_type="application/json")
+        response['Access-Control-Allow-Origin'] = '*'
+        return response
+    else:
+        response = HttpResponse(
+            json.dumps({
+                'success': False, 'error': 'The pile, %s does not exist.' % pile
+            }),
+            content_type="application/json",
+            status=404
+            )
+        response['Access-Control-Allow-Origin'] = '*'
+        return response
 
 def add_to_pile(request, key, pile):
     try:

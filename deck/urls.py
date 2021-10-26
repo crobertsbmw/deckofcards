@@ -22,4 +22,5 @@ urlpatterns = [
     url(r'^deck/(?P<key>\w+)/pile/(?P<pile>\w+)/shuffle/$', views.shuffle_pile, name='shuffle_pile'),
     url(r'^deck/(?P<key>\w+)/pile/(?P<pile>\w+)/draw/$', views.draw_from_pile, name='draw_pile'),
     url(r'^deck/(?P<key>\w+)/pile/(?P<pile>\w+)/draw/(?P<location>\w+)/$', views.draw_from_pile, name='draw_pile'),
+    url(r'^deck/(?P<key>\w+)/pile/(?P<pile>\w+)/return/$', views.return_pile_to_deck, name='return'),   
 ]
