@@ -25,6 +25,23 @@ def get_jokers_enabled(request):
     return
 
 def shuffle(request, key=''):
+    remaining = _get_request_var(request, 'remaining')
+    if isinstance(remaining, str) and key:
+        if remaining.lower() == 'true':
+            # Shuffle remaining cards only
+            try:
+                deck = Deck.objects.get(key=key)
+            except Deck.DoesNotExist:
+                return deck_id_does_not_exist()
+            random.shuffle(deck.stack)
+            deck.shuffled = True
+            deck.save()
+
+            resp = {'success': True, 'deck_id': deck.key, 'remaining': len(deck.stack), 'shuffled': deck.shuffled}
+            response = HttpResponse(json.dumps(resp), content_type="application/json")
+            response['Access-Control-Allow-Origin'] = '*'
+            return response
+    # Normal (legacy) functionality re-sets and shuffles whole deck
     return new_deck(request, key, True)
 
 
@@ -120,6 +137,67 @@ def draw(request, key=None):
     response['Access-Control-Allow-Origin'] = '*'
     return response
 
+def return_to_deck(request, key):
+    try:
+        deck = Deck.objects.get(key=key)
+    except Deck.DoesNotExist:
+        return deck_id_does_not_exist()
+    
+    cards_in_use = deck.stack[:] # make a copy
+
+    if deck.piles:
+        for k in deck.piles:  # iterate through all the piles and list cards in use for specified pile.
+            for card in deck.piles[k]:
+                cards_in_use.append(card)
+
+    cards_specified = _get_request_var(request, 'cards', None)
+    valid_cards = deck.deck_contents or (CARDS, CARDS + JOKERS)[deck.include_jokers]
+
+    if cards_specified is None:
+        # Return all free cards to the deck
+        cards_specified = [x for x in valid_cards if x not in cards_in_use]
+    else:
+        cards_specified = cards_specified.upper()
+        cards_specified = [x for x in cards_specified.split(',') if x not in cards_in_use and x in valid_cards]  # check that the cards has been drawn (not in use) and is a valid card from this deck
+    
+    deck.stack.extend(cards_specified)
+    deck.save()
+
+    resp = {'success': True, 'deck_id': deck.key, 'remaining': len(deck.stack)}
+
+    response = HttpResponse(json.dumps(resp), content_type="application/json")
+    response['Access-Control-Allow-Origin'] = '*'
+    return response
+
+def return_pile_to_deck(request, key, pile):
+    try:
+        deck = Deck.objects.get(key=key)
+    except Deck.DoesNotExist:
+        return deck_id_does_not_exist()
+    
+    if deck.piles and pile in deck.piles:
+        deck.stack.extend(deck.piles[pile])
+        deck.piles[pile] = []
+        deck.save()
+
+        piles = {}
+        for k in deck.piles:  # iterate through all the piles and get the count.
+            r = len(deck.piles[k])
+            piles[k] = {"remaining": r}
+        resp = {'success': True, 'deck_id': deck.key, 'remaining': len(deck.stack), 'piles': piles}
+        response = HttpResponse(json.dumps(resp), content_type="application/json")
+        response['Access-Control-Allow-Origin'] = '*'
+        return response
+    else:
+        response = HttpResponse(
+            json.dumps({
+                'success': False, 'error': 'The pile, %s does not exist.' % pile
+            }),
+            content_type="application/json",
+            status=404
+            )
+        response['Access-Control-Allow-Origin'] = '*'
+        return response
 
 def add_to_pile(request, key, pile):
     try:
@@ -225,7 +303,7 @@ def list_cards_in_pile(request, key, pile):
     return response
 
 
-def draw_from_pile(request, key, pile, bottom=""):
+def draw_from_pile(request, key, pile, location=""):
     jokers_enabled = get_jokers_enabled(request)
     try:
         deck = Deck.objects.get(key=key)
@@ -269,8 +347,12 @@ def draw_from_pile(request, key, pile, bottom=""):
             )
             response['Access-Control-Allow-Origin'] = '*'
             return response
-
-        if bottom.lower() == "bottom":  # draw from the bottom of the pile
+        if location.lower() == "random":  # draw random cards
+            for i in range(card_count):
+                random_card_index = random.randint(0, len(p)-1)
+                random_card = p.pop(random_card_index)
+                cards_in_response.append(random_card)
+        elif location.lower() == "bottom":  # draw from the bottom of the pile
             cards_in_response = p[0:card_count]
             p = p[card_count:len(p)]
         else:  # draw cards from the top of the pile
