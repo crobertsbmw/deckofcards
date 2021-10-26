@@ -137,6 +137,40 @@ def draw(request, key=None):
     response['Access-Control-Allow-Origin'] = '*'
     return response
 
+def return_to_deck(request, key):
+    try:
+        deck = Deck.objects.get(key=key)
+    except Deck.DoesNotExist:
+        return deck_id_does_not_exist()
+    
+    print("Deck stack:"+json.dumps(deck.stack))
+
+    cards_in_use = deck.stack[:] # make a copy
+
+    if deck.piles:
+        for k in deck.piles:  # iterate through all the piles and list cards in use for specified pile.
+            for card in deck.piles[k]:
+                cards_in_use.append(card)
+
+    cards_specified = _get_request_var(request, 'cards', None)
+    valid_cards = deck.deck_contents or (CARDS, CARDS + JOKERS)[deck.include_jokers]
+
+    if cards_specified is None:
+        # Return all free cards to the deck
+        cards_specified = [x for x in valid_cards if x not in cards_in_use]
+    else:
+        cards_specified = cards_specified.upper()
+        cards_specified = [x for x in cards_specified.split(',') if x not in cards_in_use and x in valid_cards]  # check that the cards has been drawn (not in use) and is a valid card from this deck
+    
+    deck.stack.extend(cards_specified)
+    deck.save()
+
+    resp = {'success': True, 'deck_id': deck.key, 'remaining': len(deck.stack)}
+
+    response = HttpResponse(json.dumps(resp), content_type="application/json")
+    response['Access-Control-Allow-Origin'] = '*'
+    return response
+
 
 def add_to_pile(request, key, pile):
     try:

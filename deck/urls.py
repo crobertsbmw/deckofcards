@@ -15,6 +15,7 @@ urlpatterns = [
     url(r'^deck/new/draw/$', views.draw, name='new_draw'),
     url(r'^deck/(?P<key>\w+)/draw/$', views.draw, name='draw'),
     url(r'^deck/(?P<key>\w+)/$', views.deck_info, name='info'),
+    url(r'^deck/(?P<key>\w+)/return/$', views.return_to_deck, name='return'),
 
     url(r'^deck/(?P<key>\w+)/pile/(?P<pile>\w+)/add/$', views.add_to_pile, name='add'),
     url(r'^deck/(?P<key>\w+)/pile/(?P<pile>\w+)/list/$', views.list_cards_in_pile, name='list_pile'),
