@@ -242,7 +242,7 @@ def list_cards_in_pile(request, key, pile):
     return response
 
 
-def draw_from_pile(request, key, pile, bottom=""):
+def draw_from_pile(request, key, pile, location=""):
     jokers_enabled = get_jokers_enabled(request)
     try:
         deck = Deck.objects.get(key=key)
@@ -286,8 +286,12 @@ def draw_from_pile(request, key, pile, bottom=""):
             )
             response['Access-Control-Allow-Origin'] = '*'
             return response
-
-        if bottom.lower() == "bottom":  # draw from the bottom of the pile
+        if location.lower() == "random":  # draw random cards
+            for i in range(card_count):
+                random_card_index = random.randint(0, len(p)-1)
+                random_card = p.pop(random_card_index)
+                cards_in_response.append(random_card)
+        elif location.lower() == "bottom":  # draw from the bottom of the pile
             cards_in_response = p[0:card_count]
             p = p[card_count:len(p)]
         else:  # draw cards from the top of the pile

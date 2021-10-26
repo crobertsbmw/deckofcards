@@ -20,5 +20,5 @@ urlpatterns = [
     url(r'^deck/(?P<key>\w+)/pile/(?P<pile>\w+)/list/$', views.list_cards_in_pile, name='list_pile'),
     url(r'^deck/(?P<key>\w+)/pile/(?P<pile>\w+)/shuffle/$', views.shuffle_pile, name='shuffle_pile'),
     url(r'^deck/(?P<key>\w+)/pile/(?P<pile>\w+)/draw/$', views.draw_from_pile, name='draw_pile'),
-    url(r'^deck/(?P<key>\w+)/pile/(?P<pile>\w+)/draw/(?P<bottom>\w+)/$', views.draw_from_pile, name='draw_pile'),
+    url(r'^deck/(?P<key>\w+)/pile/(?P<pile>\w+)/draw/(?P<location>\w+)/$', views.draw_from_pile, name='draw_pile'),
 ]
