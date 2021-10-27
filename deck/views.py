@@ -174,10 +174,19 @@ def return_pile_to_deck(request, key, pile):
         deck = Deck.objects.get(key=key)
     except Deck.DoesNotExist:
         return deck_id_does_not_exist()
+
+    cards_specified = _get_request_var(request, 'cards', None)
     
     if deck.piles and pile in deck.piles:
-        deck.stack.extend(deck.piles[pile])
-        deck.piles[pile] = []
+        if cards_specified is None:
+            # Return all cards from the pile to the deck
+            deck.stack.extend(deck.piles[pile])
+            deck.piles[pile] = []
+        else:
+            cards_specified = cards_specified.upper()
+            cards_specified = [x for x in cards_specified.split(',') if x in deck.piles[pile]]  # check that the cards are in the pile
+            deck.stack.extend(cards_specified) # put specified cards back into deck.stack
+            deck.piles[pile] = [x for x in deck.piles[pile] if x not in cards_specified] # remove sepcified cards
         deck.save()
 
         piles = {}
