@@ -241,9 +241,10 @@
 <h2 class="section-header" id="reshuffle">Reshuffle the Cards:</h2>
 <pre>
 {{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/shuffle/
+{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/shuffle/?remaining=true
 </pre>
 
-<p>Don't throw away a deck when all you want to do is shuffle. Include the <var>deck_id</var> on your call to shuffle your cards. Don't worry about reminding us how many decks you are playing with.</p>
+<p>Don't throw away a deck when all you want to do is shuffle. Include the <var>deck_id</var> on your call to shuffle your cards. Don't worry about reminding us how many decks you are playing with. Adding the <var>remaining=true</var> parameter will only shuffle those cards remaining in the main stack, leaving any piles or drawn cards alone.</p>
 <br>
 <h3>Response:</h3>
 <pre>
@@ -378,8 +379,9 @@
 {{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/pile/&lt;&lt;pile_name&gt;&gt;/draw/?cards=AS
 {{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/pile/&lt;&lt;pile_name&gt;&gt;/draw/?count=2
 {{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/draw/bottom/
+{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/draw/random/
 </pre>
-<p>Specify the cards that you want to draw from the pile. The default is to just draw off the top of the pile (it's a <a href="http://en.wikipedia.org/wiki/Stack_(abstract_data_type)">stack</a>). Or add the <var>bottom</var> parameter to the URL to draw from the bottom.</p>
+<p>Specify the cards that you want to draw from the pile. The default is to just draw off the top of the pile (it's a <a href="http://en.wikipedia.org/wiki/Stack_(abstract_data_type)">stack</a>). Add <var>/bottom/</var> to the URL to draw from the bottom or <var>/random/</var> to draw random cards - both of these also accept the <var>count</var> parameter.</p>
 
 <h3>Response:</h3>
 <pre>
@@ -400,6 +402,31 @@
             "code": "AS"
         }
     ]
+}
+</pre>
+
+<h2 class="section-header" id="return">Returning cards to the deck:</h2>
+<pre>
+{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/return/
+{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/pile/&lt;&lt;pile_name&gt;&gt;/return/
+{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/return/?cards=AS,2S
+{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/pile/&lt;&lt;pile_name&gt;&gt;/return/?cards=AS,2S
+</pre>
+
+<p>Use this call to return cards which have been drawn or cards from a pile back to the main deck to re-use. Both versions can take the <var>cards</var> parameter for a list of cards to return (if valid).</p>
+<br>
+<h3>Response:</h3>
+<pre>
+{
+    "success": true,
+    "deck_id": "3p40paa87x90",
+    "shuffled": true,
+    "remaining": 52
+    "piles": {
+        "discard": {
+            "remaining": 0
+        }
+    }
 }
 </pre>
 
