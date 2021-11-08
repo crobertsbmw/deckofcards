@@ -26,16 +26,15 @@ CARDS = ['AS', '2S', '3S', '4S', '5S', '6S', '7S', '8S', '9S', '0S', 'JS', 'QS',
          'AH', '2H', '3H', '4H', '5H', '6H', '7H', '8H', '9H', '0H', 'JH', 'QH', 'KH']
 
 CARDS_ES = ['AO', '2O', '3O', '4O', '5O', '6O', '7O', '8O', '9O', 'SO', 'CO', 'RO',
-         'AC', '2C', '3C', '4C', '5C', '6C', '7C', '8C', '9C', 'SC', 'CC', 'RC',
-         'AE', '2E', '3E', '4E', '5E', '6E', '7E', '8E', '9E', 'SE', 'CE', 'RE',
-         'AB', '2B', '3B', '4B', '5B', '6B', '7B', '8B', '9B', 'SB', 'CB', 'RB',
-         ]
+            'AC', '2C', '3C', '4C', '5C', '6C', '7C', '8C', '9C', 'SC', 'CC', 'RC',
+            'AE', '2E', '3E', '4E', '5E', '6E', '7E', '8E', '9E', 'SE', 'CE', 'RE',
+            'AB', '2B', '3B', '4B', '5B', '6B', '7B', '8B', '9B', 'SB', 'CB', 'RB']
 JOKERS = ['X1', 'X2']
 
 SUITS = {'S': 'SPADES', 'D': 'DIAMONDS', 'H': 'HEARTS', 'C': 'CLUBS', '1': 'BLACK', '2': 'RED'}
 SUITS_ES = {'O': 'OROS', 'C': 'COPAS', 'E': 'ESPADAS', 'B': 'BASTOS'}
 VALUES = {'A': 'ACE', 'J': 'JACK', 'Q': 'QUEEN', 'K': 'KING', '0': '10', 'X': 'JOKER'}
-VALUES_ES = {'S': 'SOTA', 'C': 'CABALLO', 'R': 'REY', 'X': 'JOKER'}
+VALUES_ES = {'A': 'AS', 'S': 'SOTA', 'C': 'CABALLO', 'R': 'REY', 'X': 'JOKER'}
 
 class Deck(models.Model):
     key = models.CharField(default=random_string, max_length=15, db_index=True)
@@ -82,39 +81,38 @@ class Deck(models.Model):
         self.last_used = datetime.datetime.now()
         super(Deck, self).save(*args, **kwargs)
 
-def card_to_dict(card):
+def card_to_dict(card, deck_type=None):
     value = card[:1]
     suit = card[1:]
 
     code = value + suit
-    card_dict = {
-        'code': code,
-        'image': 'https://deckofcardsapi.com/static/img/%s.png' % code,
-        'images': {
-            'svg': 'https://deckofcardsapi.com/static/img/%s.svg' % code,
-            'png': 'https://deckofcardsapi.com/static/img/%s.png' % code
+    if deck_type is None:
+        card_dict = {
+            'code': code,
+            'image': 'https://deckofcardsapi.com/static/img/%s.png' % code,
+            'images': {
+                'svg': 'https://deckofcardsapi.com/static/img/%s.svg' % code,
+                'png': 'https://deckofcardsapi.com/static/img/%s.png' % code
+            }
         }
-    }
+        
+        if code == 'AD':
+            card_dict['image'] = 'https://deckofcardsapi.com/static/img/aceDiamonds.png'
+            card_dict['images']['png'] = 'https://deckofcardsapi.com/static/img/aceDiamonds.png'
+            card_dict['images']['svg'] = 'https://deckofcardsapi.com/static/img/aceDiamonds.svg'
+            
+        card_dict['value'] = VALUES.get(value) or value
+        card_dict['suit'] = SUITS.get(suit) or suit
 
-    if code == 'AD':
-        card_dict['image'] = 'https://deckofcardsapi.com/static/img/aceDiamonds.png'
-        card_dict['images']['png'] = 'https://deckofcardsapi.com/static/img/aceDiamonds.png'
-        card_dict['images']['svg'] = 'https://deckofcardsapi.com/static/img/aceDiamonds.svg'
+    else:
+        card_dict = {
+            'code': code,
+            'image': 'http://localhost:8000/static/img/%s' % deck_type + '/%s.jpg'  % code,
+        }
 
-    card_dict['value'] = VALUES.get(value) or value
-    card_dict['suit'] = SUITS.get(suit) or suit
-    return card_dict
-
-def card_to_dict_es(card):
-    value = card[:1]
-    suit = card[1:]
-
-    code = value + suit
-    card_dict = {
-        'code': code,
-        'image': 'http://localhost:8000/static/img/baraja/%s.jpg' % code,
-    }
-
-    card_dict['value'] = VALUES_ES.get(value) or value
-    card_dict['suit'] = SUITS_ES.get(suit) or suit
+        if deck_type == "spanish":
+            card_dict['value'] = VALUES_ES.get(value) or value
+            card_dict['suit'] = SUITS_ES.get(suit) or suit
+        
+                
     return card_dict

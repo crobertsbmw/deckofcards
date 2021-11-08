@@ -3,7 +3,7 @@ import random
 
 from django.shortcuts import HttpResponse, render
 from deck.models import Deck, card_to_dict, CARDS, JOKERS
-from deck.models import card_to_dict_es, CARDS_ES
+from deck.models import CARDS_ES
 from django.db import transaction
 
 def doc_page(request):
@@ -54,7 +54,7 @@ def new_deck(request, key='', shuffle=False):
     deck_count = int(_get_request_var(request, 'deck_count'))
     deck_cards = _get_request_var(request, 'cards', None)
     jokers_enabled = get_jokers_enabled(request)
-    deck_type = get_deck_type(request)
+    deck_type = get_deck_type(request) if get_deck_type(request) != 1  else None
     if deck_count > 20:
         response = HttpResponse(
             json.dumps({'success': False, 'error': 'The max number of Decks is 20.'}),
@@ -105,7 +105,7 @@ def deck_info(request, key=0):
 @transaction.atomic
 def draw(request, key=None):
     jokers_enabled = get_jokers_enabled(request)
-    #deck_type = get_deck_type(request)
+    deck_type = get_deck_type(request) if get_deck_type(request) != 1  else None
     success = True
     card_count = int(_get_request_var(request, 'count'))
     if not key:
@@ -129,12 +129,7 @@ def draw(request, key=None):
 
     a = []
     for card in cards:
-        if deck.deck_type == "spanish":
-            a.append(card_to_dict_es(card))
-            print("espanol")
-        else:
-            a.append(card_to_dict(card))
-            print("no espanol")
+        a.append(card_to_dict(card,deck.deck_type))
 
     if not success:
         resp = {
@@ -325,10 +320,7 @@ def list_cards_in_pile(request, key, pile):
         else:
             a = []
             for card in deck.piles[k]:
-                if deck.deck_type == "spanish":
-                    a.append(card_to_dict_es(card))
-                else:
-                    a.append(card_to_dict(card))
+                a.append(card_to_dict(card,deck.deck_type))
                     
             piles[k] = {"remaining": r, "cards": a}
 
@@ -404,10 +396,7 @@ def draw_from_pile(request, key, pile, location=""):
     a = []
 
     for card in cards_in_response:
-        if deck.deck_type == "spanish":
-            a.append(card_to_dict_es(card))
-        else:
-            a.append(card_to_dict(card))
+        a.append(card_to_dict(card,deck.deck_type))
 
     piles = {}
     for k in deck.piles:
