@@ -34,7 +34,7 @@ JOKERS = ['X1', 'X2']
 SUITS = {'S': 'SPADES', 'D': 'DIAMONDS', 'H': 'HEARTS', 'C': 'CLUBS', '1': 'BLACK', '2': 'RED'}
 SUITS_ES = {'O': 'OROS', 'C': 'COPAS', 'E': 'ESPADAS', 'B': 'BASTOS'}
 VALUES = {'A': 'ACE', 'J': 'JACK', 'Q': 'QUEEN', 'K': 'KING', '0': '10', 'X': 'JOKER'}
-VALUES_ES = {'A': 'AS', 'S': 'SOTA', 'C': 'CABALLO', 'R': 'REY', 'X': 'JOKER'}
+VALUES_ES = {'A': 'AS', 'S': 'SOTA', 'C': 'CABALLO', 'R': 'REY', 'X': 'COMODÍN'}
 
 class Deck(models.Model):
     key = models.CharField(default=random_string, max_length=15, db_index=True)

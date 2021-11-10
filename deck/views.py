@@ -43,6 +43,11 @@ def shuffle(request, key=''):
             deck.save()
 
             resp = {'success': True, 'deck_id': deck.key, 'remaining': len(deck.stack), 'shuffled': deck.shuffled}
+            if deck.deck_type is None:
+                resp['deck_type'] = 'default'
+            else:
+                resp['deck_type'] = deck.deck_type
+    
             response = HttpResponse(json.dumps(resp), content_type="application/json")
             response['Access-Control-Allow-Origin'] = '*'
             return response
@@ -85,7 +90,11 @@ def new_deck(request, key='', shuffle=False):
     deck.save()  # save the deck_count.
 
     resp = {'success': True, 'deck_id': deck.key, 'remaining': len(deck.stack), 'shuffled': deck.shuffled}
-
+    if deck_type is None:
+        resp['deck_type'] = 'default'
+    else:
+        resp['deck_type'] = deck_type
+        
     response = HttpResponse(json.dumps(resp), content_type="application/json")
     response['Access-Control-Allow-Origin'] = '*'
     return response
@@ -98,6 +107,10 @@ def deck_info(request, key=0):
         return deck_id_does_not_exist()
 
     resp = {'success': True, 'deck_id': deck.key, 'remaining': len(deck.stack), 'shuffled': deck.shuffled}
+    if deck.deck_type is None:
+        resp['deck_type'] = 'default'
+    else:
+        resp['deck_type'] = deck.deck_type
     response = HttpResponse(json.dumps(resp), content_type="application/json")
     response['Access-Control-Allow-Origin'] = '*'
     return response
@@ -142,6 +155,11 @@ def draw(request, key=None):
     else:
         resp = {'success': success, 'deck_id': deck.key, 'cards': a, 'remaining': len(deck.stack)}
 
+    if deck.deck_type is None:
+        resp['deck_type'] = 'default'
+    else:
+        resp['deck_type'] = deck.deck_type
+            
     response = HttpResponse(json.dumps(resp), content_type="application/json")
     response['Access-Control-Allow-Origin'] = '*'
     return response
@@ -176,7 +194,11 @@ def return_to_deck(request, key):
     deck.save()
 
     resp = {'success': True, 'deck_id': deck.key, 'remaining': len(deck.stack)}
-
+    if deck.deck_type is None:
+        resp['deck_type'] = 'default'
+    else:
+        resp['deck_type'] = deck.deck_type    
+    
     response = HttpResponse(json.dumps(resp), content_type="application/json")
     response['Access-Control-Allow-Origin'] = '*'
     return response
@@ -206,6 +228,12 @@ def return_pile_to_deck(request, key, pile):
             r = len(deck.piles[k])
             piles[k] = {"remaining": r}
         resp = {'success': True, 'deck_id': deck.key, 'remaining': len(deck.stack), 'piles': piles}
+        if deck.deck_type is None:
+            resp['deck_type'] = 'default'
+        else:
+            resp['deck_type'] = deck.deck_type
+    
+        
         response = HttpResponse(json.dumps(resp), content_type="application/json")
         response['Access-Control-Allow-Origin'] = '*'
         return response
@@ -270,6 +298,11 @@ def add_to_pile(request, key, pile):
         piles[k] = {'remaining': len(deck.piles[k])}
 
     resp = {'success': True, 'deck_id': deck.key, 'remaining': len(deck.stack), 'piles': piles}
+    if deck.deck_type is None:
+        resp['deck_type'] = 'default'
+    else:
+        resp['deck_type'] = deck.deck_type
+    
     response = HttpResponse(json.dumps(resp), content_type="application/json")
     response['Access-Control-Allow-Origin'] = '*'
     return response
@@ -300,6 +333,11 @@ def shuffle_pile(request, key, pile):
         piles[k] = {"remaining": r}
 
     resp = {'success': True, 'deck_id': deck.key, 'remaining': len(deck.stack), 'piles': piles}
+    if deck.deck_type is None:
+        resp['deck_type'] = 'default'
+    else:
+        resp['deck_type'] = deck.deck_type
+    
     response = HttpResponse(json.dumps(resp), content_type="application/json")
     response['Access-Control-Allow-Origin'] = '*'
     return response
@@ -325,6 +363,11 @@ def list_cards_in_pile(request, key, pile):
             piles[k] = {"remaining": r, "cards": a}
 
     resp = {'success': True, 'deck_id': deck.key, 'remaining': len(deck.stack), 'piles': piles}
+    if deck.deck_type is None:
+        resp['deck_type'] = 'default'
+    else:
+        resp['deck_type'] = deck.deck_type
+    
     response = HttpResponse(json.dumps(resp), content_type="application/json")
     response['Access-Control-Allow-Origin'] = '*'
     return response
@@ -403,6 +446,11 @@ def draw_from_pile(request, key, pile, location=""):
         piles[k] = {"remaining": len(deck.piles[k])}
 
     resp = {'success': True, 'deck_id': deck.key, 'cards': a, 'piles': piles}
+    if deck.deck_type is None:
+        resp['deck_type'] = 'default'
+    else:
+        resp['deck_type'] = deck.deck_type
+    
     response = HttpResponse(json.dumps(resp), content_type="application/json")
     response['Access-Control-Allow-Origin'] = '*'
     return response
