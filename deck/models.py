@@ -1,6 +1,7 @@
 import random
 import string
 import datetime
+import re
 
 from django.db import models
 from django.contrib.auth.models import AbstractUser
@@ -47,7 +48,7 @@ class Deck(models.Model):
     include_jokers = models.BooleanField(default=False)
     deck_type = models.CharField(max_length=20,null=True,default=None)
     
-    def open_new(self, cards_used=None, jokers_enabled=False, deck_type=None):
+    def open_new(self, cards_used=None, jokers_enabled=False, deck_type=None, cards_excluded=None):
         self.include_jokers = False if jokers_enabled is None else jokers_enabled
         self.deck_type = None if deck_type is None else deck_type
         stack = []
@@ -59,6 +60,17 @@ class Deck(models.Model):
                     cards = (CARDS, CARDS + JOKERS)[self.include_jokers]
             else:
                 cards = self.deck_contents[:]
+        if cards_excluded is not None: # exclude a subset of a standard deck
+            cards_excluded = cards_excluded.upper()
+            # Only allow real cards
+            if self.deck_type == "spanish":
+                valid_cards = (CARDS_ES, CARDS_ES + JOKERS)[self.include_jokers]
+            else:
+                valid_cards = (CARDS, CARDS + JOKERS)[self.include_jokers]
+            cards_excluded = sum([list(filter(re.compile(x+"\w").match,valid_cards)) for x in cards_excluded.split(",")],[])
+            [valid_cards.remove(x) for x in cards_excluded]            
+            self.deck_contents = cards = valid_cards[:]
+                
         else: # use a subset of a standard deck
             cards_used = cards_used.upper()
             # Only allow real cards

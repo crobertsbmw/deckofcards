@@ -60,6 +60,7 @@ def new_deck(request, key='', shuffle=False):
     deck_cards = _get_request_var(request, 'cards', None)
     jokers_enabled = get_jokers_enabled(request)
     deck_type = get_deck_type(request) if get_deck_type(request) != 1  else None
+    cards_excluded = _get_request_var(request, 'exclude', None)
     if deck_count > 20:
         response = HttpResponse(
             json.dumps({'success': False, 'error': 'The max number of Decks is 20.'}),
@@ -82,7 +83,7 @@ def new_deck(request, key='', shuffle=False):
     else: #creating a new deck
         deck = Deck()
         deck.deck_count = deck_count
-    deck.open_new(deck_cards, jokers_enabled, deck_type)
+    deck.open_new(deck_cards, jokers_enabled, deck_type, cards_excluded)
     deck.shuffled = False
     if shuffle:
         random.shuffle(deck.stack)
