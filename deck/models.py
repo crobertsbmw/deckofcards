@@ -119,7 +119,8 @@ def card_to_dict(card, deck_type=None):
     else:
         card_dict = {
             'code': code,
-            'image': 'http://localhost:8000/static/img/%s' % deck_type + '/%s.jpg'  % code,
+            #'image': 'http://localhost:8000/static/img/%s' % deck_type + '/%s.jpg'  % code
+            'image': 'https://deckofcardsapi.com/static/img/%s' % deck_type + '/%s.jpg'  % code
         }
 
         if deck_type == "spanish":
