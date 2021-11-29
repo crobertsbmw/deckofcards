@@ -274,6 +274,26 @@
 }
 </pre>
 
+<h2 class="section-header" id="deck-type">Type of Deck:</h2>
+<pre>
+<a href="{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/new/?deck_type=&lt;&lt;deck_type&gt;&gt;"">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/new/?deck_type=&lt;&lt;deck_type&gt;&gt;</a>
+</pre>
+
+<p>Make a new deck specifying its <var>deck_type</var> parameter. The default deck type is the english deck.
+<p class="note"><span style="font-weight:300;">Note:</span> As of now, only spanish deck is implemented.<br>Card codes follow the same logic as defined in "A Partial Deck", with the difference of using the respective spanish names </p>
+
+<h3>Response:</h3>
+<pre>
+{
+    "success": true,
+    "deck_id": "3p40paa87x90",
+    "shuffled": false,
+    "remaining": 48,
+    "deck_type": "spanish"
+}
+</pre>
+
+
 <h2 class="section-header" id="partial-deck">A Partial Deck:</h2>
 <pre>
 <a href="{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/new/shuffle/?cards=AS,2S,KS,AD,2D,KD,AC,2C,KC,AH,2H,KH">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/new/shuffle/?cards=AS,2S,KS,AD,2D,KD,AC,2C,KC,AH,2H,KH</a>
@@ -293,6 +313,24 @@
     "remaining": 12
 }
 </pre>
+
+<h2 class="section-header" id="partial-deck">Partial Deck Excluding Values from All Suites:</h2>
+<pre>
+<a href="{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/new/shuffle/?exclude=8,9">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/new/shuffle/?exclude=8,9</a>
+</pre>
+<p>An inverted way of making a partial deck. You can pass the card values (defined above) you want to exclude from all suites using the <var>exclude</var> parameter.
+<p>In this example, we are asking for a deck that won't have any 8s or 9s.</p>
+<h3>Response:</h3>
+<pre>
+{
+    "success": true,
+    "deck_id": "3p40paa87x90",
+    "shuffled": true,
+    "remaining": 44,
+    "deck_type": "default"
+}
+</pre>
+
 
 <h2 class="section-header" id="add-to-pile">Adding to Piles</h2>
 <pre>
