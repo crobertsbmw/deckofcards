@@ -170,6 +170,22 @@
     .github-ribbon{
         position: absolute;
     }
+    .kickstart {
+        background-color: #d23737;
+        color: #fff;
+        text-decoration: none;
+        padding-left: 20px;
+        padding-right: 20px;
+        padding-top: 8px;
+        padding-bottom: 8px;
+        border-radius: 8px;
+        font-size: 1.4em;
+        font-weight: 300;
+    }
+    .kickstart:hover, .kickstart:active, .kickstart:visited {
+        text-decoration: none;
+    }
+    
     </style>
   </head>
 <body>
@@ -238,11 +254,14 @@
 
 <h2 class="section-header" id="reshuffle">Reshuffle the Cards:</h2>
 <pre>
-<span class="copy-text">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/shuffle/</span>
+
+<span class="copy-text">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/shuffle/
+{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/shuffle/?remaining=true</span>
 <button class="copy-btn">Copy</button>
+
 </pre>
 
-<p>Don't throw away a deck when all you want to do is shuffle. Include the <var>deck_id</var> on your call to shuffle your cards. Don't worry about reminding us how many decks you are playing with.</p>
+<p>Don't throw away a deck when all you want to do is shuffle. Include the <var>deck_id</var> on your call to shuffle your cards. Don't worry about reminding us how many decks you are playing with. Adding the <var>remaining=true</var> parameter will only shuffle those cards remaining in the main stack, leaving any piles or drawn cards alone.</p>
 <br>
 <h3>Response:</h3>
 <pre>
@@ -261,7 +280,7 @@
 </pre>
 
 <p>Open a brand new deck of cards. <br>A-spades, 2-spades, 3-spades... followed by diamonds, clubs, then hearts.
-<p class="note"><span style="font-weight:300;">NEW </span>(Oct 2019): Add <var>jokers_enabled=true</var> as a GET or POST parameter to your request to include two Jokers in the deck.</p>
+<p class="note"><span style="font-weight:300;">Hot Tip:</span> Add <var>jokers_enabled=true</var> as a GET or POST parameter to your request to include two Jokers in the deck.</p>
 
 <h3>Response:</h3>
 <pre>
@@ -382,10 +401,12 @@
 <pre>
 <span class="copy-text">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/pile/&lt;&lt;pile_name&gt;&gt;/draw/?cards=AS
 {{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/pile/&lt;&lt;pile_name&gt;&gt;/draw/?count=2
-{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/draw/bottom/</span>
+{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/draw/bottom/
+{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/draw/random/</span>
 <button class="copy-btn">Copy</button>
+
 </pre>
-<p>Specify the cards that you want to draw from the pile. The default is to just draw off the top of the pile (it's a <a href="http://en.wikipedia.org/wiki/Stack_(abstract_data_type)">stack</a>). Or add the <var>bottom</var> parameter to the URL to draw from the bottom.</p>
+<p>Specify the cards that you want to draw from the pile. The default is to just draw off the top of the pile (it's a <a href="http://en.wikipedia.org/wiki/Stack_(abstract_data_type)">stack</a>). Add <var>/bottom/</var> to the URL to draw from the bottom or <var>/random/</var> to draw random cards - both of these also accept the <var>count</var> parameter.</p>
 
 <h3>Response:</h3>
 <pre>
@@ -409,10 +430,66 @@
 }
 </pre>
 
+<h2 class="section-header" id="return">Returning cards to the deck:</h2>
+<pre>
+{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/return/
+{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/pile/&lt;&lt;pile_name&gt;&gt;/return/
+{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/return/?cards=AS,2S
+{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/pile/&lt;&lt;pile_name&gt;&gt;/return/?cards=AS,2S
+</pre>
+
+<p>Use this call to return cards which have been drawn or cards from a pile back to the main deck to re-use. Both versions can take the <var>cards</var> parameter for a list of cards to return (if valid).</p>
+<br>
+<h3>Response:</h3>
+<pre>
+{
+    "success": true,
+    "deck_id": "3p40paa87x90",
+    "shuffled": true,
+    "remaining": 52
+    "piles": {
+        "discard": {
+            "remaining": 0
+        }
+    }
+}
+</pre>
+
 {% if v == 1 %}
-<a href="https://computerengineeringforbabies.com/" style="color:#fff300;"><h3 class="section-header text-center">One last thing. Are you a parent to a small child?</h3></a>
+<h3 class="section-header text-center" style="font-weight: 300;">Lastly, I am working on a kids' book, Computer Engineering for Babies. So if you know any babies or anyone else that enjoys gates buttons & LEDs, then check it out!</h3>
+<a href="https://computerengineeringforbabies.com/home?ss_source=ptads&ss_campaign_name=spades&ss_ad_id=var1" style="color:#fff300;">
+    <div class="text-center">
+        <div class="video_container">
+            <video width="400px" height="250px" autoplay muted loop>
+            <source src="/static/book_gif.mov" type="video/mp4">
+            </video> 
+        </div>
+    </div>
+</a>
+<div style="padding-bottom: 30px; padding-top: 0px; display: flex; justify-content: center;">
+    <a href="https://computerengineeringforbabies.com/home?ss_source=ptads&ss_campaign_name=spades&ss_ad_id=var1" class="kickstart" style="display: flex; justify-content:center; align-items: center;">
+        <div>CHECK IT OUT&nbsp;</div>
+        <span style="font-size:1.8em">&nbsp;&#128073;</span>
+    </a>
+</div>
 {% elif v == 2 %}
-<a href="https://computerengineeringforbabies.com/" style="color:#fff300;"><h3 class="section-header text-center">One last thing. Are you a parent to a small child?</h3></a>
+<h3 class="section-header text-center" style="font-weight: 300;">One last thing, my side project, Computer Engineering for Babies, just wrapped up on Kickstarter, but I am still taking preorders. So if you know any babies, or anyone that enjoys gates buttons & LEDs, then check it out!</h3>
+<a href="https://computerengineeringforbabies.com/home?ss_source=ptads&ss_campaign_name=spades&ss_ad_id=var2" style="color:#fff300;">
+    <div class="text-center">
+        <img src='{% static "book_image.jpg" %}' style="max-width:100%; width:400px">
+    </div>
+</a>
+<div style="padding-bottom: 30px; padding-top: 10px; display: flex; justify-content: center;">
+    <a href="https://computerengineeringforbabies.com/home?ss_source=ptads&ss_campaign_name=spades&ss_ad_id=var2" class="kickstart" style="display: flex; justify-content:center; align-items: center;">
+        <div>CHECK IT OUT&nbsp;</div>
+        <span style="font-size:1.8em">&nbsp;&#128073;</span>
+    </a>
+</div>
+{% endif %}
+
+
+
+<!-- <a href="https://computerengineeringforbabies.com/" style="color:#fff300;"><h3 class="section-header text-center">One last thing. If you know anyone with young kids, check out my book on Kickstarter!</h3></a> -->
 <!-- <div class="uinotebook">
 <a href="https://computerengineeringforbabies.com/?ref=doc2">
     <h3 class="text-center">Lastly, click to pre-order the book I am working on!</h3>
@@ -422,7 +499,7 @@
     </div>
 </a>
 </div> -->
-{% endif %}
+
 <h2 class="section-header text-center">Thank You!</h2>
 
 <br/>
