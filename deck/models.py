@@ -57,7 +57,6 @@ class Deck(models.Model):
         for i in range(0, self.deck_count):  # for loop over how many decks someone wants. Blackjack is usually 6.
             stack = stack + cards[:]  # adding the [:] forces the array to be copied.
         self.stack = stack
-        print("STACK", stack)
         self.last_used = datetime.datetime.now()
         self.save()
 
