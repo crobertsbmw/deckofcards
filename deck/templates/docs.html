@@ -228,22 +228,30 @@
 <h3>Response:</h3>
 <pre>
 {
-    "success": true,
+    "success": true, 
+    "deck_id": "kxozasf3edqu", 
     "cards": [
         {
-            "image": "{{ request.scheme }}://{{ request.META.HTTP_HOST }}/static/img/KH.png",
-            "value": "KING",
-            "suit": "HEARTS",
-            "code": "KH"
-        },
+            "code": "6H", 
+            "image": "https://deckofcardsapi.com/static/img/6H.png", 
+            "images": {
+                          "svg": "https://deckofcardsapi.com/static/img/6H.svg", 
+                          "png": "https://deckofcardsapi.com/static/img/6H.png"
+                      }, 
+            "value": "6", 
+            "suit": "HEARTS"
+        }, 
         {
-            "image": "{{ request.scheme }}://{{ request.META.HTTP_HOST }}/static/img/8C.png",
-            "value": "8",
-            "suit": "CLUBS",
-            "code": "8C"
+            "code": "5S", 
+            "image": "https://deckofcardsapi.com/static/img/5S.png", 
+            "images": {
+                          "svg": "https://deckofcardsapi.com/static/img/5S.svg", 
+                          "png": "https://deckofcardsapi.com/static/img/5S.png"
+                      }, 
+            "value": "5", 
+            "suit": "SPADES"
         }
-    ],
-    "deck_id":"3p40paa87x90",
+    ], 
     "remaining": 50
 }
 </pre>
