@@ -56,6 +56,13 @@ def new_deck(request, key='', shuffle=False):
         )
         response['Access-Control-Allow-Origin'] = '*'
         return response
+    if deck_count < 1:
+        response = HttpResponse(
+            json.dumps({'success': False, 'error': 'The min number of Decks is 1.'}),
+            content_type="application/json"
+        )
+        response['Access-Control-Allow-Origin'] = '*'
+        return response
     if key: #we are shuffling an existing deck
         print("we are here 1")
         try:
