@@ -400,8 +400,8 @@
 <pre>
 <span class="copy-text">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/pile/&lt;&lt;pile_name&gt;&gt;/draw/?cards=AS</span> <button class="copy-btn">copy</button>
 {{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/pile/&lt;&lt;pile_name&gt;&gt;/draw/?count=2
-{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/draw/bottom/
-{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/draw/random/
+{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/pile/&lt;&lt;pile_name&gt;&gt;/draw/bottom/
+{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/pile/&lt;&lt;pile_name&gt;&gt;/draw/random/
 </pre>
 <p>Specify the cards that you want to draw from the pile. The default is to just draw off the top of the pile (it's a <a href="http://en.wikipedia.org/wiki/Stack_(abstract_data_type)">stack</a>). Add <var>/bottom/</var> to the URL to draw from the bottom or <var>/random/</var> to draw random cards - both of these also accept the <var>count</var> parameter.</p>
 
