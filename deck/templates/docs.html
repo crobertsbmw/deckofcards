@@ -48,7 +48,6 @@
     <link href='https://fonts.googleapis.com/css?family=Source+Code+Pro:400,500' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Roboto:400,300,100' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
 
     <title>Deck of Cards API</title>
 
@@ -223,9 +222,7 @@
 <h2 class="section-header" id="shuffle">Shuffle the Cards:</h2>
 <pre>
   <code class="language-json">
-<span class="copy-text">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/new/shuffle/?deck_count=1</span>
-  </code>
-<button class="copy-btn">copy</button>
+<span class="copy-text">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/new/shuffle/?deck_count=1</span></code>&nbsp;<button class="copy-btn">copy</button>
 </pre>
 
 
@@ -247,9 +244,7 @@
 <h2 class="section-header" id="draw-card">Draw a Card:</h2>
 <pre>
   <code class="language-json">
-<span class="copy-text">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/draw/?count=2</span>
-  </code>
-<button class="copy-btn">copy</button>
+<span class="copy-text">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/draw/?count=2</span></code>&nbsp;<button class="copy-btn">copy</button>
 </pre>
 <p>The count variable defines how many cards to draw from the deck. Be sure to replace <var>deck_id</var> with a valid deck_id. We use the deck_id as an identifier so we know who is playing with what deck. After two weeks, if no actions have been made on the deck then we throw it away.</p>
 <p class="note"><span style="font-weight:300;">TIP</span>: replace <var>&lt;&lt;deck_id&gt;&gt;</var> with "<var>new</var>" to create a shuffled deck and draw cards from that deck in the same request.</p>
@@ -292,9 +287,7 @@
 <pre>
   <code class="language-json">
 <span class="copy-text">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/shuffle/
-{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/shuffle/?remaining=true</span> <button class="copy-btn">copy</button>
-  </code>
-
+{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/shuffle/?remaining=true</span> </code>&nbsp;<button class="copy-btn">copy</button>
 </pre>
 
 <p>Don't throw away a deck when all you want to do is shuffle. Include the <var>deck_id</var> on your call to shuffle your cards. Don't worry about reminding us how many decks you are playing with. Adding the <var>remaining=true</var> parameter will only shuffle those cards remaining in the main stack, leaving any piles or drawn cards alone.</p>
@@ -314,9 +307,7 @@
 <h2 class="section-header" id="brand-new-deck">A Brand New Deck:</h2>
 <pre>
   <code class="language-json">
-<span class="copy-text">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/new/</span>
-  </code>
-<button class="copy-btn">copy</button>
+<span class="copy-text">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/new/</span></code>&nbsp;<button class="copy-btn">copy</button>
 </pre>
 
 <p>Open a brand new deck of cards. <br>A-spades, 2-spades, 3-spades... followed by diamonds, clubs, then hearts.
@@ -337,9 +328,7 @@
 <h2 class="section-header" id="partial-deck">A Partial Deck:</h2>
 <pre>
   <code class="language-json">
-<span class="copy-text">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/new/shuffle/?cards=AS,2S,KS,AD,2D,KD,AC,2C,KC,AH,2H,KH</span>
-  </code>
-<button class="copy-btn">copy</button>
+<span class="copy-text">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/new/shuffle/?cards=AS,2S,KS,AD,2D,KD,AC,2C,KC,AH,2H,KH</span></code>&nbsp;<button class="copy-btn">copy</button>
 </pre>
 <p>If you want to use a partial deck, then you can pass the card codes you want to use using the <var>cards</var> parameter. Separate the card codes with commas, and each card code is a just a two character case-insensitive string:</p>
 <p><ol>
@@ -362,9 +351,7 @@
 <h2 class="section-header" id="add-to-pile">Adding to Piles</h2>
 <pre>
   <code class="language-json">
-<span class="copy-text">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/pile/&lt;&lt;pile_name&gt;&gt;/add/?cards=AS,2S</span>
-  </code>
-<button class="copy-btn">copy</button>
+<span class="copy-text">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/pile/&lt;&lt;pile_name&gt;&gt;/add/?cards=AS,2S</span></code>&nbsp;<button class="copy-btn">copy</button>
 </pre>
 <p>Piles can be used for discarding, players hands, or whatever else. Piles are created on the fly, just give a pile a name and add a drawn card to the pile. If the pile didn't exist before, it does now. After a card has been drawn from the deck it can be moved from pile to pile.</p>
 
@@ -389,9 +376,7 @@
 <h2 class="section-header" id="shuffle-pile">Shuffle Piles</h2>
 <pre>
   <code class="language-json">
-<span class="copy-text">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/pile/&lt;&lt;pile_name&gt;&gt;/shuffle/</span>
-  </code>
-<button class="copy-btn">copy</button>
+<span class="copy-text">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/pile/&lt;&lt;pile_name&gt;&gt;/shuffle/</span></code>&nbsp;<button class="copy-btn">copy</button>
 </pre>
 <p class="note"><span style="font-weight:300;">Note</span>: This will not work with multiple decks.</p>
 
@@ -413,7 +398,8 @@
 
 <h2 class="section-header" id="draw-from-pile">Listing Cards in Piles</h2>
 <pre>
-<span class="copy-text">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/pile/&lt;&lt;pile_name&gt;&gt;/list/</span> <button class="copy-btn">copy</button>
+  <code class="language-json">
+<span class="copy-text">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/pile/&lt;&lt;pile_name&gt;&gt;/list/</span></code>&nbsp;<button class="copy-btn">copy</button>
 </pre>
 
 
@@ -458,7 +444,7 @@
 <span class="copy-text">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/pile/&lt;&lt;pile_name&gt;&gt;/draw/?cards=AS</span>
 {{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/pile/&lt;&lt;pile_name&gt;&gt;/draw/?count=2
 {{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/pile/&lt;&lt;pile_name&gt;&gt;/draw/bottom/
-{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/pile/&lt;&lt;pile_name&gt;&gt;/draw/random/&nbsp;</code><button class="copy-btn">copy</button>
+{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/pile/&lt;&lt;pile_name&gt;&gt;/draw/random/&nbsp;</code>&nbsp;<button class="copy-btn">copy</button>
 </pre>
 <p>Specify the cards that you want to draw from the pile. The default is to just draw off the top of the pile (it's a <a href="http://en.wikipedia.org/wiki/Stack_(abstract_data_type)">stack</a>). Add <var>/bottom/</var> to the URL to draw from the bottom or <var>/random/</var> to draw random cards - both of these also accept the <var>count</var> parameter.</p>
 
@@ -492,7 +478,7 @@
 <span class="copy-text">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/return/</span>
 {{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/pile/&lt;&lt;pile_name&gt;&gt;/return/
 {{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/return/?cards=AS,2S
-{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/pile/&lt;&lt;pile_name&gt;&gt;/return/?cards=AS,2S&nbsp;</code><button class="copy-btn">copy</button>
+{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/pile/&lt;&lt;pile_name&gt;&gt;/return/?cards=AS,2S&nbsp;</code>&nbsp;<button class="copy-btn">copy</button>
 </pre>
 
 <p>Use this call to return cards which have been drawn or cards from a pile back to the main deck to re-use. Both versions can take the <var>cards</var> parameter for a list of cards to return (if valid).</p>
@@ -517,7 +503,7 @@
 <h2 class="section-header" id="return">Back of Card Image:</h2>
 <pre>
   <code class="language-json">
-<span class="copy-text">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/static/img/back.png</span></code><button class="copy-btn">copy</button>
+<span class="copy-text">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/static/img/back.png</span></code>&nbsp;<button class="copy-btn">copy</button>
 </pre>
 
 {% if v == 1 %}
@@ -600,4 +586,5 @@ buttons.forEach((button, index) => {
 })
 
 </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
 </html>
