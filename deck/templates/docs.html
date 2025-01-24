@@ -464,6 +464,7 @@
 
 <h3>Response:</h3>
 <pre>
+  <code class="language-json">
 {
     "success": true,
     "deck_id": "3p40paa87x90",
@@ -482,20 +483,23 @@
         }
     ]
 }
+  </code>
 </pre>
 
 <h2 class="section-header" id="return">Returning cards to the deck:</h2>
 <pre>
-<span class="copy-text">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/return/</span> <button class="copy-btn">copy</button>
+  <code class="language-json">
+<span class="copy-text">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/return/</span>
 {{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/pile/&lt;&lt;pile_name&gt;&gt;/return/
 {{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/return/?cards=AS,2S
-{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/pile/&lt;&lt;pile_name&gt;&gt;/return/?cards=AS,2S
+{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/pile/&lt;&lt;pile_name&gt;&gt;/return/?cards=AS,2S&nbsp;</code><button class="copy-btn">copy</button>
 </pre>
 
 <p>Use this call to return cards which have been drawn or cards from a pile back to the main deck to re-use. Both versions can take the <var>cards</var> parameter for a list of cards to return (if valid).</p>
 <br>
 <h3>Response:</h3>
 <pre>
+  <code class="language-json">
 {
     "success": true,
     "deck_id": "3p40paa87x90",
@@ -507,11 +511,13 @@
         }
     }
 }
+  </code>
 </pre>
 
 <h2 class="section-header" id="return">Back of Card Image:</h2>
 <pre>
-<span class="copy-text">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/static/img/back.png</span> <button class="copy-btn">copy</button>
+  <code class="language-json">
+<span class="copy-text">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/static/img/back.png</span></code><button class="copy-btn">copy</button>
 </pre>
 
 {% if v == 1 %}
