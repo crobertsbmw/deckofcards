@@ -69,7 +69,8 @@ ROOT_URLCONF = 'spades.urls'
 
 WSGI_APPLICATION = 'spades.wsgi.application'
 
-SECURE_SSL_REDIRECT = True
+
+SECURE_SSL_REDIRECT = not DEBUG
 
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases

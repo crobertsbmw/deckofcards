@@ -47,6 +47,7 @@
 
     <link href='https://fonts.googleapis.com/css?family=Source+Code+Pro:400,500' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Roboto:400,300,100' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css">
     <title>Deck of Cards API</title>
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -104,14 +105,14 @@
         border-radius:10px;
         padding:20px;
     }
-    button {
+    .copy-btn {
         border: none;
         border-radius: 5px;
         padding: 0.2em 0.6em;
         background-color:rgba(1,1,1,.3);
         color:#B1C725;
     }
-    button:hover {
+    .copy-btn:hover {
         color:#eee;
     }
     .section-header{
@@ -126,12 +127,13 @@
     }
     .icon{
         background:white;
+        text-align: center;
         color:#333;
-        padding:7px;
+        padding: 8.5px;
         width:38px;
         height:38px;
         border-radius:50%;
-        font-size:120%;
+        font-size: 2rem;
         text-align:center;
     }
     a{
@@ -166,29 +168,92 @@
         margin-top:0px;
         margin-bottom: 20px;
     }
-    .github-ribbon{
-        position: absolute;
+    /* From Uiverse.io by Creatlydev */ 
+.kickstart {
+  line-height: 1;
+  text-decoration: none;
+  display: inline-flex;
+  border: none;
+  cursor: pointer;
+  align-items: center;
+  gap: 0.75rem;
+  background-color: var(--clr);
+  color: #fff;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  border-radius: 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 1.4em;
+  font-weight: 300;
+  transition: background-color 0.3s;
+}
+
+.button__icon-wrapper {
+  flex-shrink: 0;
+  width: 25px;
+  height: 25px;
+  position: relative;
+  color: var(--clr);
+  background-color: #fff;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+
+.kickstart:hover {
+  background-color: #000;
+}
+
+.kickstart:hover .button__icon-wrapper {
+  color: #000;
+}
+
+.button__icon-svg--copy {
+  position: absolute;
+  transform: translate(-150%, 150%);
+}
+
+.kickstart:hover .button__icon-svg:first-child {
+  transition: transform 0.3s ease-in-out;
+  transform: translate(150%, -150%);
+}
+
+.kickstart:hover .button__icon-svg--copy {
+  transition: transform 0.3s ease-in-out 0.1s;
+  transform: translate(0);
+}
+    .github-corner:hover .octo-arm {
+      animation:octocat-wave 560ms ease-in-out;
     }
-    .kickstart {
-        background-color: #d23737;
-        color: #fff;
-        text-decoration: none;
-        padding-left: 20px;
-        padding-right: 20px;
-        padding-top: 8px;
-        padding-bottom: 8px;
-        border-radius: 8px;
-        font-size: 1.4em;
-        font-weight: 300;
+    @keyframes octocat-wave { 
+      0%,100% {
+        transform:rotate(0);
+      }
+      20%,60% {
+        transform:rotate(-25deg);
+      }
+      40%,80% {
+        transform:rotate(10deg);
+      }
     }
-    .kickstart:hover, .kickstart:active, .kickstart:visited {
-        text-decoration: none;
+    @media (max-width:500px) { 
+      .github-corner:hover .octo-arm { 
+        animation:none;
+      }
+      .github-corner .octo-arm { 
+        animation:octocat-wave 560ms ease-in-out;
+      }
     }
-    
+
     </style>
   </head>
 <body>
-<a href="https://github.com/crobertsbmw/deckofcards"><img width="149" height="149" src="https://github.blog/wp-content/uploads/2008/12/forkme_left_green_007200.png?resize=300%2C300" class="github-ribbon attachment-full size-full" alt="Fork me on GitHub" data-recalc-dims="1"></a>
+<a href="https://github.com/crobertsbmw/deckofcards" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#fff; color:#fff; position: absolute; top: 0; border: 0; left: 0; transform: scale(-1, 1);" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="#1A4A1C" style="transform-origin: 130px 106px;" class="octo-arm"/><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="#1A4A1C" class="octo-body"/></svg></a>
 
 <div class="page">
     <img src='{% static "img/blackjack2.png" %}' class="card-image">
@@ -201,7 +266,8 @@
 
 <h2 class="section-header" id="shuffle">Shuffle the Cards:</h2>
 <pre>
-<span class="copy-text">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/new/shuffle/?deck_count=1</span> <button class="copy-btn">copy</button>
+  <code class="language-json">
+<span class="copy-text">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/new/shuffle/?deck_count=1</span></code>&nbsp;<button class="copy-btn">copy</button>
 </pre>
 
 
@@ -210,23 +276,27 @@
 <br>
 <h3>Response:</h3>
 <pre>
+  <code class="language-json">
 {
     "success": true,
     "deck_id": "3p40paa87x90",
     "shuffled": true,
     "remaining": 52
 }
+  </code>
 </pre>
 
 <h2 class="section-header" id="draw-card">Draw a Card:</h2>
 <pre>
-<span class="copy-text">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/draw/?count=2</span> <button class="copy-btn">copy</button>
+  <code class="language-json">
+<span class="copy-text">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/draw/?count=2</span></code>&nbsp;<button class="copy-btn">copy</button>
 </pre>
 <p>The count variable defines how many cards to draw from the deck. Be sure to replace <var>deck_id</var> with a valid deck_id. We use the deck_id as an identifier so we know who is playing with what deck. After two weeks, if no actions have been made on the deck then we throw it away.</p>
 <p class="note"><span style="font-weight:300;">TIP</span>: replace <var>&lt;&lt;deck_id&gt;&gt;</var> with "<var>new</var>" to create a shuffled deck and draw cards from that deck in the same request.</p>
 <br>
 <h3>Response:</h3>
 <pre>
+  <code class="language-json">
 {
     "success": true, 
     "deck_id": "kxozasf3edqu", 
@@ -254,32 +324,35 @@
     ], 
     "remaining": 50
 }
+  </code>
 </pre>
 
 
 <h2 class="section-header" id="reshuffle">Reshuffle the Cards:</h2>
 <pre>
-
+  <code class="language-json">
 <span class="copy-text">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/shuffle/
-{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/shuffle/?remaining=true</span> <button class="copy-btn">copy</button>
-
+{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/shuffle/?remaining=true</span> </code>&nbsp;<button class="copy-btn">copy</button>
 </pre>
 
 <p>Don't throw away a deck when all you want to do is shuffle. Include the <var>deck_id</var> on your call to shuffle your cards. Don't worry about reminding us how many decks you are playing with. Adding the <var>remaining=true</var> parameter will only shuffle those cards remaining in the main stack, leaving any piles or drawn cards alone.</p>
 <br>
 <h3>Response:</h3>
 <pre>
+  <code class="language-json">
 {
     "success": true,
     "deck_id": "3p40paa87x90",
     "shuffled": true,
     "remaining": 52
 }
+  </code>
 </pre>
 
 <h2 class="section-header" id="brand-new-deck">A Brand New Deck:</h2>
 <pre>
-<span class="copy-text">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/new/</span> <button class="copy-btn">copy</button>
+  <code class="language-json">
+<span class="copy-text">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/new/</span></code>&nbsp;<button class="copy-btn">copy</button>
 </pre>
 
 <p>Open a brand new deck of cards. <br>A-spades, 2-spades, 3-spades... followed by diamonds, clubs, then hearts.
@@ -287,17 +360,20 @@
 
 <h3>Response:</h3>
 <pre>
+  <code class="language-json">
 {
     "success": true,
     "deck_id": "3p40paa87x90",
     "shuffled": false,
     "remaining": 52
 }
+  </code>
 </pre>
 
 <h2 class="section-header" id="partial-deck">A Partial Deck:</h2>
 <pre>
-<span class="copy-text">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/new/shuffle/?cards=AS,2S,KS,AD,2D,KD,AC,2C,KC,AH,2H,KH</span> <button class="copy-btn">copy</button>
+  <code class="language-json">
+<span class="copy-text">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/new/shuffle/?cards=AS,2S,KS,AD,2D,KD,AC,2C,KC,AH,2H,KH</span></code>&nbsp;<button class="copy-btn">copy</button>
 </pre>
 <p>If you want to use a partial deck, then you can pass the card codes you want to use using the <var>cards</var> parameter. Separate the card codes with commas, and each card code is a just a two character case-insensitive string:</p>
 <p><ol>
@@ -307,17 +383,20 @@
 <p>In this example, we are asking for a deck consisting of all the aces, twos, and kings.</p>
 <h3>Response:</h3>
 <pre>
+  <code class="language-json">
 {
     "success": true,
     "deck_id": "3p40paa87x90",
     "shuffled": true,
     "remaining": 12
 }
+  </code>
 </pre>
 
 <h2 class="section-header" id="add-to-pile">Adding to Piles</h2>
 <pre>
-<span class="copy-text">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/pile/&lt;&lt;pile_name&gt;&gt;/add/?cards=AS,2S</span> <button class="copy-btn">copy</button>
+  <code class="language-json">
+<span class="copy-text">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/pile/&lt;&lt;pile_name&gt;&gt;/add/?cards=AS,2S</span></code>&nbsp;<button class="copy-btn">copy</button>
 </pre>
 <p>Piles can be used for discarding, players hands, or whatever else. Piles are created on the fly, just give a pile a name and add a drawn card to the pile. If the pile didn't exist before, it does now. After a card has been drawn from the deck it can be moved from pile to pile.</p>
 
@@ -325,6 +404,7 @@
 
 <h3>Response:</h3>
 <pre>
+  <code class="language-json">
 {
     "success": true,
     "deck_id": "3p40paa87x90",
@@ -335,16 +415,19 @@
         }
     }
 }
+  </code>
 </pre>
 
 <h2 class="section-header" id="shuffle-pile">Shuffle Piles</h2>
 <pre>
-<span class="copy-text">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/pile/&lt;&lt;pile_name&gt;&gt;/shuffle/</span> <button class="copy-btn">copy</button>
+  <code class="language-json">
+<span class="copy-text">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/pile/&lt;&lt;pile_name&gt;&gt;/shuffle/</span></code>&nbsp;<button class="copy-btn">copy</button>
 </pre>
 <p class="note"><span style="font-weight:300;">Note</span>: This will not work with multiple decks.</p>
 
 <h3>Response:</h3>
 <pre>
+  <code class="language-json">
 {
     "success": true,
     "deck_id": "3p40paa87x90",
@@ -355,11 +438,13 @@
         }
     }
 }
+  </code>
 </pre>
 
 <h2 class="section-header" id="draw-from-pile">Listing Cards in Piles</h2>
 <pre>
-<span class="copy-text">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/pile/&lt;&lt;pile_name&gt;&gt;/list/</span> <button class="copy-btn">copy</button>
+  <code class="language-json">
+<span class="copy-text">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/pile/&lt;&lt;pile_name&gt;&gt;/list/</span></code>&nbsp;<button class="copy-btn">copy</button>
 </pre>
 
 
@@ -367,6 +452,7 @@
 
 <h3>Response:</h3>
 <pre>
+  <code class="language-json">
 {
     "success": true,
     "deck_id": "d5x0uw65g416",
@@ -394,19 +480,22 @@
         }
     },
 }
+  </code>
 </pre>
 
 <h2 class="section-header" id="draw-from-pile">Drawing from Piles</h2>
 <pre>
-<span class="copy-text">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/pile/&lt;&lt;pile_name&gt;&gt;/draw/?cards=AS</span> <button class="copy-btn">copy</button>
+  <code class="language-json">
+<span class="copy-text">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/pile/&lt;&lt;pile_name&gt;&gt;/draw/?cards=AS</span>
 {{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/pile/&lt;&lt;pile_name&gt;&gt;/draw/?count=2
 {{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/pile/&lt;&lt;pile_name&gt;&gt;/draw/bottom/
-{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/pile/&lt;&lt;pile_name&gt;&gt;/draw/random/
+{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/pile/&lt;&lt;pile_name&gt;&gt;/draw/random/&nbsp;</code>&nbsp;<button class="copy-btn">copy</button>
 </pre>
 <p>Specify the cards that you want to draw from the pile. The default is to just draw off the top of the pile (it's a <a href="http://en.wikipedia.org/wiki/Stack_(abstract_data_type)">stack</a>). Add <var>/bottom/</var> to the URL to draw from the bottom or <var>/random/</var> to draw random cards - both of these also accept the <var>count</var> parameter.</p>
 
 <h3>Response:</h3>
 <pre>
+  <code class="language-json">
 {
     "success": true,
     "deck_id": "3p40paa87x90",
@@ -425,20 +514,23 @@
         }
     ]
 }
+  </code>
 </pre>
 
 <h2 class="section-header" id="return">Returning cards to the deck:</h2>
 <pre>
-<span class="copy-text">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/return/</span> <button class="copy-btn">copy</button>
+  <code class="language-json">
+<span class="copy-text">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/return/</span>
 {{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/pile/&lt;&lt;pile_name&gt;&gt;/return/
 {{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/return/?cards=AS,2S
-{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/pile/&lt;&lt;pile_name&gt;&gt;/return/?cards=AS,2S
+{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/pile/&lt;&lt;pile_name&gt;&gt;/return/?cards=AS,2S&nbsp;</code>&nbsp;<button class="copy-btn">copy</button>
 </pre>
 
 <p>Use this call to return cards which have been drawn or cards from a pile back to the main deck to re-use. Both versions can take the <var>cards</var> parameter for a list of cards to return (if valid).</p>
 <br>
 <h3>Response:</h3>
 <pre>
+  <code class="language-json">
 {
     "success": true,
     "deck_id": "3p40paa87x90",
@@ -450,44 +542,55 @@
         }
     }
 }
+  </code>
 </pre>
 
 <h2 class="section-header" id="return">Back of Card Image:</h2>
 <pre>
-<span class="copy-text">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/static/img/back.png</span> <button class="copy-btn">copy</button>
+  <code class="language-json">
+<span class="copy-text">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/static/img/back.png</span></code>&nbsp;<button class="copy-btn">copy</button>
 </pre>
 
-{% if v == 1 %}
-<h3 class="section-header text-center" style="font-weight: 300;">Lastly, I am working on a kids' book, Computer Engineering for Babies. So if you know any babies or anyone else that enjoys gates buttons & LEDs, then check it out!</h3>
-<a href="https://computerengineeringforbabies.com/?utm-source=spades_var2" style="color:#fff300;">
-    <div class="text-center">
-        <div class="video_container">
-            <video width="400px" height="250px" autoplay muted loop>
-            <source src="/static/book_gif.mov" type="video/mp4">
-            </video> 
-        </div>
-    </div>
-</a>
-<div style="padding-bottom: 30px; padding-top: 0px; display: flex; justify-content: center;">
-    <a href="https://computerengineeringforbabies.com/?utm-source=spades_var1" class="kickstart" style="display: flex; justify-content:center; align-items: center;">
-        <div>CHECK IT OUT&nbsp;</div>
-        <span style="font-size:1.8em">&nbsp;&#128073;</span>
-    </a>
-</div>
-{% elif v == 2 %}
-<h3 class="section-header text-center" style="font-weight: 300;">One last thing, my side project, Computer Engineering for Babies, just wrapped up on Kickstarter, but I am still taking preorders. So if you know any babies, or anyone that enjoys gates buttons & LEDs, then check it out!</h3>
+
+<h3 class="section-header text-center" style="font-weight: 300;">One last thing, I sell a book: Computer Engineering for Babies. If you know any babies, or anyone that enjoys gates, buttons & LEDs, then check it out!</h3>
 <a href="https://computerengineeringforbabies.com/?utm-source=spades_var2" style="color:#fff300;">
     <div class="text-center">
         <img src='{% static "book_image.jpg" %}' style="max-width:100%; width:400px">
     </div>
 </a>
 <div style="padding-bottom: 30px; padding-top: 10px; display: flex; justify-content: center;">
-    <a href="https://computerengineeringforbabies.com/?utm-source=spades_var2" class="kickstart" style="display: flex; justify-content:center; align-items: center;">
-        <div>CHECK IT OUT&nbsp;</div>
-        <span style="font-size:1.8em">&nbsp;&#128073;</span>
-    </a>
+    <!-- From Uiverse.io by Creatlydev --> 
+<button class="kickstart" style="--clr: #d23737">
+  <span class="button__icon-wrapper">
+    <svg
+      viewBox="0 0 14 15"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      class="button__icon-svg"
+      width="10"
+    >
+      <path
+        d="M13.376 11.552l-.264-10.44-10.44-.24.024 2.28 6.96-.048L.2 12.56l1.488 1.488 9.432-9.432-.048 6.912 2.304.024z"
+        fill="currentColor"
+      ></path>
+    </svg>
+
+    <svg
+      viewBox="0 0 14 15"
+      fill="none"
+      width="10"
+      xmlns="http://www.w3.org/2000/svg"
+      class="button__icon-svg button__icon-svg--copy"
+    >
+      <path
+        d="M13.376 11.552l-.264-10.44-10.44-.24.024 2.28 6.96-.048L.2 12.56l1.488 1.488 9.432-9.432-.048 6.912 2.304.024z"
+        fill="currentColor"
+      ></path>
+    </svg>
+  </span>
+  Check It Out
+</button>
 </div>
-{% endif %}
 
 
 
@@ -505,13 +608,13 @@
 <h2 class="section-header text-center">Thank You!</h2>
 
 <br/>
-<p class="footer">
+<footer class="footer">
 -Chase Roberts.<br><br>
     <a href="https://twitter.com/crobertsbmw" target="_blank"><i class="fa fa-twitter icon"></i></a>
     <a href="https://github.com/crobertsbmw/" target="_blank"><i class="fa fa-github icon"></i></a>
 <br><br>
 Bugs? Features? View this on <a href="https://github.com/crobertsbmw/deckofcards">GitHub</a>.
-</p>
+</footer>
 
 <br><hr>
 
@@ -537,4 +640,6 @@ buttons.forEach((button, index) => {
 })
 
 </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
 </html>

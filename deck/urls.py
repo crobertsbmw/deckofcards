@@ -1,26 +1,27 @@
-from django.conf.urls import url
+from django.urls import path, re_path
 from deck import views
 
 app_name = 'deck'  # added
-
 urlpatterns = [
-    url(r'^new/$', views.new_deck, name='new_deck_d'),  # a week in and I am already deprecating things...
-    url(r'^shuffle/$', views.shuffle, name='shuffle_d'),  # deprecated - May 18, 2015
-    url(r'^shuffle/(?P<key>\w+)/$', views.shuffle, name='shuffle_key_d'),  # deprecated - May 18, 2015
-    url(r'^draw/(?P<key>\w+)/$', views.draw, name='draw_d'),  # deprecated - May 18, 2015
+    # Deprecated URL Patterns (Consider removing if no longer needed)
+    path('new/', views.new_deck, name='new_deck_d'),
+    path('shuffle/', views.shuffle, name='shuffle_d'),
+    path('shuffle/<slug:key>/', views.shuffle, name='shuffle_key_d'),
+    path('draw/<slug:key>/', views.draw, name='draw_d'),
 
-    url(r'^deck/new/$', views.new_deck, name='new_deck'),
-    url(r'^deck/new/shuffle/$', views.shuffle, name='shuffle'),
-    url(r'^deck/(?P<key>\w+)/shuffle/$', views.shuffle, name='shuffle_key'),
-    url(r'^deck/new/draw/$', views.draw, name='new_draw'),
-    url(r'^deck/(?P<key>\w+)/draw/$', views.draw, name='draw'),
-    url(r'^deck/(?P<key>\w+)/$', views.deck_info, name='info'),
-    url(r'^deck/(?P<key>\w+)/return/$', views.return_to_deck, name='return'),
+    # Current URL Patterns
+    path('deck/new/', views.new_deck, name='new_deck'),
+    path('deck/new/shuffle/', views.shuffle, name='shuffle'),
+    path('deck/<slug:key>/shuffle/', views.shuffle, name='shuffle_key'),
+    path('deck/new/draw/', views.draw, name='new_draw'),
+    path('deck/<slug:key>/draw/', views.draw, name='draw'),
+    path('deck/<slug:key>/', views.deck_info, name='info'),
+    path('deck/<slug:key>/return/', views.return_to_deck, name='return'),
 
-    url(r'^deck/(?P<key>\w+)/pile/(?P<pile>\w+)/add/$', views.add_to_pile, name='add'),
-    url(r'^deck/(?P<key>\w+)/pile/(?P<pile>\w+)/list/$', views.list_cards_in_pile, name='list_pile'),
-    url(r'^deck/(?P<key>\w+)/pile/(?P<pile>\w+)/shuffle/$', views.shuffle_pile, name='shuffle_pile'),
-    url(r'^deck/(?P<key>\w+)/pile/(?P<pile>\w+)/draw/$', views.draw_from_pile, name='draw_pile'),
-    url(r'^deck/(?P<key>\w+)/pile/(?P<pile>\w+)/draw/(?P<location>\w+)/$', views.draw_from_pile, name='draw_pile'),
-    url(r'^deck/(?P<key>\w+)/pile/(?P<pile>\w+)/return/$', views.return_pile_to_deck, name='return'),   
+    path('deck/<slug:key>/pile/<slug:pile>/add/', views.add_to_pile, name='add'),
+    path('deck/<slug:key>/pile/<slug:pile>/list/', views.list_cards_in_pile, name='list_pile'),
+    path('deck/<slug:key>/pile/<slug:pile>/shuffle/', views.shuffle_pile, name='shuffle_pile'),
+    path('deck/<slug:key>/pile/<slug:pile>/draw/', views.draw_from_pile, name='draw_pile'),
+    path('deck/<slug:key>/pile/<slug:pile>/draw/<slug:location>/', views.draw_from_pile, name='draw_pile'),
+    path('deck/<slug:key>/pile/<slug:pile>/return/', views.return_pile_to_deck, name='return'),   
 ]
