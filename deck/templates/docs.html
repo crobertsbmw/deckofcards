@@ -222,7 +222,10 @@
 
 <h2 class="section-header" id="shuffle">Shuffle the Cards:</h2>
 <pre>
-<span class="copy-text">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/new/shuffle/?deck_count=1</span> <button class="copy-btn">copy</button>
+  <code class="language-json">
+<span class="copy-text">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/new/shuffle/?deck_count=1</span>
+  </code>
+<button class="copy-btn">copy</button>
 </pre>
 
 
@@ -243,13 +246,17 @@
 
 <h2 class="section-header" id="draw-card">Draw a Card:</h2>
 <pre>
-<span class="copy-text">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/draw/?count=2</span> <button class="copy-btn">copy</button>
+  <code class="language-json">
+<span class="copy-text">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/draw/?count=2</span>
+  </code>
+<button class="copy-btn">copy</button>
 </pre>
 <p>The count variable defines how many cards to draw from the deck. Be sure to replace <var>deck_id</var> with a valid deck_id. We use the deck_id as an identifier so we know who is playing with what deck. After two weeks, if no actions have been made on the deck then we throw it away.</p>
 <p class="note"><span style="font-weight:300;">TIP</span>: replace <var>&lt;&lt;deck_id&gt;&gt;</var> with "<var>new</var>" to create a shuffled deck and draw cards from that deck in the same request.</p>
 <br>
 <h3>Response:</h3>
 <pre>
+  <code class="language-json">
 {
     "success": true, 
     "deck_id": "kxozasf3edqu", 
@@ -277,14 +284,16 @@
     ], 
     "remaining": 50
 }
+  </code>
 </pre>
 
 
 <h2 class="section-header" id="reshuffle">Reshuffle the Cards:</h2>
 <pre>
-
+  <code class="language-json">
 <span class="copy-text">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/shuffle/
 {{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/shuffle/?remaining=true</span> <button class="copy-btn">copy</button>
+  </code>
 
 </pre>
 
@@ -292,17 +301,22 @@
 <br>
 <h3>Response:</h3>
 <pre>
+  <code class="language-json">
 {
     "success": true,
     "deck_id": "3p40paa87x90",
     "shuffled": true,
     "remaining": 52
 }
+  </code>
 </pre>
 
 <h2 class="section-header" id="brand-new-deck">A Brand New Deck:</h2>
 <pre>
-<span class="copy-text">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/new/</span> <button class="copy-btn">copy</button>
+  <code class="language-json">
+<span class="copy-text">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/new/</span>
+  </code>
+<button class="copy-btn">copy</button>
 </pre>
 
 <p>Open a brand new deck of cards. <br>A-spades, 2-spades, 3-spades... followed by diamonds, clubs, then hearts.
@@ -310,17 +324,22 @@
 
 <h3>Response:</h3>
 <pre>
+  <code class="language-json">
 {
     "success": true,
     "deck_id": "3p40paa87x90",
     "shuffled": false,
     "remaining": 52
 }
+  </code>
 </pre>
 
 <h2 class="section-header" id="partial-deck">A Partial Deck:</h2>
 <pre>
-<span class="copy-text">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/new/shuffle/?cards=AS,2S,KS,AD,2D,KD,AC,2C,KC,AH,2H,KH</span> <button class="copy-btn">copy</button>
+  <code class="language-json">
+<span class="copy-text">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/new/shuffle/?cards=AS,2S,KS,AD,2D,KD,AC,2C,KC,AH,2H,KH</span>
+  </code>
+<button class="copy-btn">copy</button>
 </pre>
 <p>If you want to use a partial deck, then you can pass the card codes you want to use using the <var>cards</var> parameter. Separate the card codes with commas, and each card code is a just a two character case-insensitive string:</p>
 <p><ol>
@@ -330,17 +349,22 @@
 <p>In this example, we are asking for a deck consisting of all the aces, twos, and kings.</p>
 <h3>Response:</h3>
 <pre>
+  <code class="language-json">
 {
     "success": true,
     "deck_id": "3p40paa87x90",
     "shuffled": true,
     "remaining": 12
 }
+  </code>
 </pre>
 
 <h2 class="section-header" id="add-to-pile">Adding to Piles</h2>
 <pre>
-<span class="copy-text">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/pile/&lt;&lt;pile_name&gt;&gt;/add/?cards=AS,2S</span> <button class="copy-btn">copy</button>
+  <code class="language-json">
+<span class="copy-text">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/pile/&lt;&lt;pile_name&gt;&gt;/add/?cards=AS,2S</span>
+  </code>
+<button class="copy-btn">copy</button>
 </pre>
 <p>Piles can be used for discarding, players hands, or whatever else. Piles are created on the fly, just give a pile a name and add a drawn card to the pile. If the pile didn't exist before, it does now. After a card has been drawn from the deck it can be moved from pile to pile.</p>
 
@@ -348,6 +372,7 @@
 
 <h3>Response:</h3>
 <pre>
+  <code class="language-json">
 {
     "success": true,
     "deck_id": "3p40paa87x90",
@@ -358,16 +383,21 @@
         }
     }
 }
+  </code>
 </pre>
 
 <h2 class="section-header" id="shuffle-pile">Shuffle Piles</h2>
 <pre>
-<span class="copy-text">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/pile/&lt;&lt;pile_name&gt;&gt;/shuffle/</span> <button class="copy-btn">copy</button>
+  <code class="language-json">
+<span class="copy-text">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/pile/&lt;&lt;pile_name&gt;&gt;/shuffle/</span>
+  </code>
+<button class="copy-btn">copy</button>
 </pre>
 <p class="note"><span style="font-weight:300;">Note</span>: This will not work with multiple decks.</p>
 
 <h3>Response:</h3>
 <pre>
+  <code class="language-json">
 {
     "success": true,
     "deck_id": "3p40paa87x90",
@@ -378,6 +408,7 @@
         }
     }
 }
+  </code>
 </pre>
 
 <h2 class="section-header" id="draw-from-pile">Listing Cards in Piles</h2>
@@ -390,6 +421,7 @@
 
 <h3>Response:</h3>
 <pre>
+  <code class="language-json">
 {
     "success": true,
     "deck_id": "d5x0uw65g416",
@@ -417,11 +449,13 @@
         }
     },
 }
+  </code>
 </pre>
 
 <h2 class="section-header" id="draw-from-pile">Drawing from Piles</h2>
 <pre>
-<span class="copy-text">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/pile/&lt;&lt;pile_name&gt;&gt;/draw/?cards=AS</span> <button class="copy-btn">copy</button>
+<span class="copy-text">{{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/pile/&lt;&lt;pile_name&gt;&gt;/draw/?cards=AS</span>
+<button class="copy-btn">copy</button>
 {{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/pile/&lt;&lt;pile_name&gt;&gt;/draw/?count=2
 {{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/pile/&lt;&lt;pile_name&gt;&gt;/draw/bottom/
 {{ request.scheme }}://{{ request.META.HTTP_HOST }}/api/deck/&lt;&lt;deck_id&gt;&gt;/pile/&lt;&lt;pile_name&gt;&gt;/draw/random/
@@ -484,11 +518,11 @@
 <h3 class="section-header text-center" style="font-weight: 300;">Lastly, I am working on a kids' book, Computer Engineering for Babies. So if you know any babies or anyone else that enjoys gates buttons & LEDs, then check it out!</h3>
 <a href="https://computerengineeringforbabies.com/?utm-source=spades_var2" style="color:#fff300;">
     <div class="text-center">
-        <div class="video_container">
-            <video width="400px" height="250px" autoplay muted loop>
-            <source src="/static/book_gif.mov" type="video/mp4">
-            </video> 
-        </div>
+        <!--<div class="video_container">-->
+        <!--    <video width="400px" height="250px" autoplay muted loop>-->
+        <!--    <source src="/static/book_gif.mov" type="video/mp4">-->
+        <!--    </video> -->
+        <!--</div>-->
     </div>
 </a>
 <div style="padding-bottom: 30px; padding-top: 0px; display: flex; justify-content: center;">
