@@ -3,6 +3,7 @@ import random
 
 from django.shortcuts import HttpResponse, render
 from deck.models import Deck, card_to_dict, CARDS, JOKERS
+from deck.models import CARDS_ES
 from django.db import transaction
 
 def doc_page(request):
@@ -24,6 +25,10 @@ def get_jokers_enabled(request):
         if j.lower() == 'false': return False
     return
 
+def get_deck_type(request):
+    j = _get_request_var(request, 'deck_type')
+    return j
+
 def shuffle(request, key=''):
     remaining = _get_request_var(request, 'remaining')
     if isinstance(remaining, str) and key:
@@ -38,6 +43,11 @@ def shuffle(request, key=''):
             deck.save()
 
             resp = {'success': True, 'deck_id': deck.key, 'remaining': len(deck.stack), 'shuffled': deck.shuffled}
+            if deck.deck_type is None:
+                resp['deck_type'] = 'default'
+            else:
+                resp['deck_type'] = deck.deck_type
+    
             response = HttpResponse(json.dumps(resp), content_type="application/json")
             response['Access-Control-Allow-Origin'] = '*'
             return response
@@ -49,6 +59,8 @@ def new_deck(request, key='', shuffle=False):
     deck_count = int(_get_request_var(request, 'deck_count'))
     deck_cards = _get_request_var(request, 'cards', None)
     jokers_enabled = get_jokers_enabled(request)
+    deck_type = get_deck_type(request) if get_deck_type(request) != 1  else None
+    cards_excluded = _get_request_var(request, 'exclude', None)
     if deck_count > 20:
         response = HttpResponse(
             json.dumps({'success': False, 'error': 'The max number of Decks is 20.'}),
@@ -70,13 +82,15 @@ def new_deck(request, key='', shuffle=False):
             deck.piles = {}
             if jokers_enabled is None:
                 jokers_enabled = deck.include_jokers
+            if deck_type is None:
+                deck_type = deck.deck_type
         except Deck.DoesNotExist:
             print("we are here 3")
             return deck_id_does_not_exist()
     else: #creating a new deck
         deck = Deck()
         deck.deck_count = deck_count
-    deck.open_new(deck_cards, jokers_enabled)
+    deck.open_new(deck_cards, jokers_enabled, deck_type, cards_excluded)
     deck.shuffled = False
     if shuffle:
         random.shuffle(deck.stack)
@@ -84,7 +98,11 @@ def new_deck(request, key='', shuffle=False):
     deck.save()  # save the deck_count.
 
     resp = {'success': True, 'deck_id': deck.key, 'remaining': len(deck.stack), 'shuffled': deck.shuffled}
-
+    if deck_type is None:
+        resp['deck_type'] = 'default'
+    else:
+        resp['deck_type'] = deck_type
+        
     response = HttpResponse(json.dumps(resp), content_type="application/json")
     response['Access-Control-Allow-Origin'] = '*'
     return response
@@ -97,6 +115,10 @@ def deck_info(request, key=0):
         return deck_id_does_not_exist()
 
     resp = {'success': True, 'deck_id': deck.key, 'remaining': len(deck.stack), 'shuffled': deck.shuffled}
+    if deck.deck_type is None:
+        resp['deck_type'] = 'default'
+    else:
+        resp['deck_type'] = deck.deck_type
     response = HttpResponse(json.dumps(resp), content_type="application/json")
     response['Access-Control-Allow-Origin'] = '*'
     return response
@@ -104,12 +126,13 @@ def deck_info(request, key=0):
 @transaction.atomic
 def draw(request, key=None):
     jokers_enabled = get_jokers_enabled(request)
+    deck_type = get_deck_type(request) if get_deck_type(request) != 1  else None
     success = True
     card_count = int(_get_request_var(request, 'count'))
     if not key:
         deck = Deck()
         deck.deck_count = int(_get_request_var(request, 'deck_count'))
-        deck.open_new(jokers_enabled=jokers_enabled)
+        deck.open_new(jokers_enabled=jokers_enabled, deck_type=deck_type)
         random.shuffle(deck.stack)
         deck.shuffled = True
         deck.save()
@@ -127,7 +150,7 @@ def draw(request, key=None):
 
     a = []
     for card in cards:
-        a.append(card_to_dict(card))
+        a.append(card_to_dict(card,deck.deck_type))
 
     if not success:
         resp = {
@@ -140,6 +163,11 @@ def draw(request, key=None):
     else:
         resp = {'success': success, 'deck_id': deck.key, 'cards': a, 'remaining': len(deck.stack)}
 
+    if deck.deck_type is None:
+        resp['deck_type'] = 'default'
+    else:
+        resp['deck_type'] = deck.deck_type
+            
     response = HttpResponse(json.dumps(resp), content_type="application/json")
     response['Access-Control-Allow-Origin'] = '*'
     return response
@@ -158,7 +186,10 @@ def return_to_deck(request, key):
                 cards_in_use.append(card)
 
     cards_specified = _get_request_var(request, 'cards', None)
-    valid_cards = deck.deck_contents or (CARDS, CARDS + JOKERS)[deck.include_jokers]
+    if deck.deck_type == "spanish":
+        valid_cards = deck.deck_contents or (CARDS_ES, CARDS_ES + JOKERS)[deck.include_jokers]
+    else:
+        valid_cards = deck.deck_contents or (CARDS, CARDS + JOKERS)[deck.include_jokers]
 
     if cards_specified is None:
         # Return all free cards to the deck
@@ -171,7 +202,11 @@ def return_to_deck(request, key):
     deck.save()
 
     resp = {'success': True, 'deck_id': deck.key, 'remaining': len(deck.stack)}
-
+    if deck.deck_type is None:
+        resp['deck_type'] = 'default'
+    else:
+        resp['deck_type'] = deck.deck_type    
+    
     response = HttpResponse(json.dumps(resp), content_type="application/json")
     response['Access-Control-Allow-Origin'] = '*'
     return response
@@ -201,6 +236,12 @@ def return_pile_to_deck(request, key, pile):
             r = len(deck.piles[k])
             piles[k] = {"remaining": r}
         resp = {'success': True, 'deck_id': deck.key, 'remaining': len(deck.stack), 'piles': piles}
+        if deck.deck_type is None:
+            resp['deck_type'] = 'default'
+        else:
+            resp['deck_type'] = deck.deck_type
+    
+        
         response = HttpResponse(json.dumps(resp), content_type="application/json")
         response['Access-Control-Allow-Origin'] = '*'
         return response
@@ -222,7 +263,8 @@ def add_to_pile(request, key, pile):
         return deck_id_does_not_exist()
 
     jokers_enabled = deck.include_jokers
-
+    deck_type = deck.deck_type
+    
     cards_specified = _get_request_var(request, 'cards', None)
     if cards_specified is None:
         response = HttpResponse(
@@ -236,7 +278,11 @@ def add_to_pile(request, key, pile):
     cards_specified = cards_specified.upper()
     # Only allow real cards
 
-    all_cards = (CARDS, CARDS + JOKERS)[jokers_enabled]
+    if deck_type == "spanish":
+        all_cards = (CARDS_ES, CARDS_ES + JOKERS)[jokers_enabled]
+    else:
+        all_cards = (CARDS, CARDS + JOKERS)[jokers_enabled]
+        
     cards_specified = [x for x in cards_specified.split(',') if x not in deck.stack and x in all_cards]  # check that the cards has been drawn and is a valid card code.
 
     if not deck.piles:
@@ -260,6 +306,11 @@ def add_to_pile(request, key, pile):
         piles[k] = {'remaining': len(deck.piles[k])}
 
     resp = {'success': True, 'deck_id': deck.key, 'remaining': len(deck.stack), 'piles': piles}
+    if deck.deck_type is None:
+        resp['deck_type'] = 'default'
+    else:
+        resp['deck_type'] = deck.deck_type
+    
     response = HttpResponse(json.dumps(resp), content_type="application/json")
     response['Access-Control-Allow-Origin'] = '*'
     return response
@@ -290,6 +341,11 @@ def shuffle_pile(request, key, pile):
         piles[k] = {"remaining": r}
 
     resp = {'success': True, 'deck_id': deck.key, 'remaining': len(deck.stack), 'piles': piles}
+    if deck.deck_type is None:
+        resp['deck_type'] = 'default'
+    else:
+        resp['deck_type'] = deck.deck_type
+    
     response = HttpResponse(json.dumps(resp), content_type="application/json")
     response['Access-Control-Allow-Origin'] = '*'
     return response
@@ -310,10 +366,16 @@ def list_cards_in_pile(request, key, pile):
         else:
             a = []
             for card in deck.piles[k]:
-                a.append(card_to_dict(card))
+                a.append(card_to_dict(card,deck.deck_type))
+                    
             piles[k] = {"remaining": r, "cards": a}
 
     resp = {'success': True, 'deck_id': deck.key, 'remaining': len(deck.stack), 'piles': piles}
+    if deck.deck_type is None:
+        resp['deck_type'] = 'default'
+    else:
+        resp['deck_type'] = deck.deck_type
+    
     response = HttpResponse(json.dumps(resp), content_type="application/json")
     response['Access-Control-Allow-Origin'] = '*'
     return response
@@ -321,6 +383,7 @@ def list_cards_in_pile(request, key, pile):
 
 def draw_from_pile(request, key, pile, location=""):
     jokers_enabled = get_jokers_enabled(request)
+    #deck_type = get_deck_type(request)
     try:
         deck = Deck.objects.get(key=key)
     except Deck.DoesNotExist:
@@ -335,7 +398,10 @@ def draw_from_pile(request, key, pile, location=""):
         # Ignore case
         cards = cards.upper()
         # Only allow real cards
-        cards = [x for x in cards.split(',') if x in CARDS+JOKERS]
+        if deck.deck_type == "spanish":
+            cards = [x for x in cards.split(',') if x in CARDS_ES+JOKERS]
+        else:
+            cards = [x for x in cards.split(',') if x in CARDS+JOKERS]
    
         for card in cards:
             try:
@@ -381,13 +447,18 @@ def draw_from_pile(request, key, pile, location=""):
     a = []
 
     for card in cards_in_response:
-        a.append(card_to_dict(card))
+        a.append(card_to_dict(card,deck.deck_type))
 
     piles = {}
     for k in deck.piles:
         piles[k] = {"remaining": len(deck.piles[k])}
 
     resp = {'success': True, 'deck_id': deck.key, 'cards': a, 'piles': piles}
+    if deck.deck_type is None:
+        resp['deck_type'] = 'default'
+    else:
+        resp['deck_type'] = deck.deck_type
+    
     response = HttpResponse(json.dumps(resp), content_type="application/json")
     response['Access-Control-Allow-Origin'] = '*'
     return response
