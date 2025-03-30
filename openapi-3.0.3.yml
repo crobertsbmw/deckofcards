@@ -1,0 +1,447 @@
+openapi: 3.0.3
+info:
+  title: Deck of Cards API
+  description: Simple passthrough for use with the deckofcardsapi... API.
+  version: 1.0.0
+servers:
+  - url: https://deckofcardsapi.com/api
+  - url: http://localhost:6789
+tags:
+  - name: deck
+    description: Related to deck usage
+  - name: pile
+    description: Related to arbitrary card pile (hand) usage
+paths:
+  /deck/new/:
+    summary: Retrieve one or more combined decks of unshuffled cards.
+    get:
+      summary: Retrieves new deck(s) of unshuffled cards.
+      operationId: getUnshuffledDeck
+      tags:
+        - deck
+      parameters:
+        - name: deck_count
+          in: query
+          description: Number of decks to retrieve
+          required: false
+          schema:
+            type: string
+        - name: jokers_enabled
+          in: query
+          required: false
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: One or more combined card decks
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Deck'
+  /deck/new/shuffle/:
+    summary: Retrieve one or more combined decks of shuffled cards.
+    get:
+      summary: Retrieves new deck(s) of shuffled cards.
+      operationId: getShuffledDeck
+      tags:
+        - deck
+      parameters:
+        - name: deck_count
+          in: query
+          description: Number of decks to retrieve
+          required: false
+          example: 1
+          schema:
+            type: integer
+            format: int32
+        - name: cards
+          in: query
+          required: false
+          schema:
+            type: array
+            items: 
+              $ref: '#/components/schemas/CardCodes'
+      responses:
+        '200':
+          description: One or more combined card decks, or a partial deck if cards is specified in query string.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Deck'
+  /deck/{deck_id}/draw/:
+    summary: Draw a specified number of cards from given deck
+    get:
+      summary: Draws cards from deck
+      operationId: drawCardsExistingDeck
+      tags:
+        - deck
+      parameters:
+        - name: deck_id
+          in: path
+          required: true
+          description: Specified deck to draw from
+          schema:
+            type: string
+            example: 3p40paa87x90
+        - name: count
+          in: query
+          description: Number of cards to draw
+          required: false
+          schema:
+            type: integer
+            example: 2
+      responses:
+        '200':
+          description: One or more combined card decks
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DrawnCards'
+  /deck/new/draw/:
+    summary: Draw a specified number of cards from a brand new deck
+    get:
+      summary: Retrieves new deck and draws given number of cards
+      operationId: drawCardsNewDeck
+      tags:
+        - deck
+      parameters:
+        - name: count
+          in: query
+          description: Number of cards to draw
+          required: false
+          schema:
+            type: integer
+            example: 2
+      responses:
+        '200':
+          description: One or more combined card decks
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DrawnCards'
+  /deck/{deck_id}/draw/bottom/:
+    get:
+      summary: Draw from bottom of deck
+      operationId: drawFromDeckBottom
+      tags:
+        - deck
+      parameters:
+        - name: deck_id
+          in: path
+          required: true
+          schema:
+            type: string
+            example: hyi02vw0n72p
+      responses:
+        '200':
+          description: Drawn cards
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DrawnCards'
+  /deck/{deck_id}/draw/random/:
+    get:
+      summary: Draw randomly from deck
+      operationId: drawFromDeckRandom
+      tags:
+        - deck
+      parameters:
+        - name: deck_id
+          in: path
+          required: true
+          schema:
+            type: string
+            example: hyi02vw0n72p
+      responses:
+        '200':
+          description: Drawn cards
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DrawnCards'
+  /deck/{deck_id}/shuffle/:
+    get:
+      summary: Reshuffle an existing deck
+      operationId: reshuffleDeck
+      tags:
+        - deck
+      parameters:
+        - name: deck_id
+          in: path
+          required: true
+          schema:
+            type: string
+            example: hyi02vw0n72p
+        - name: remaining
+          in: query
+          required: false
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: One or more combined card decks
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Deck'
+  /deck/{deck_id}/return/:
+    get:
+      summary: Return cards to deck
+      operationId: returnCardsToDeck
+      tags:
+        - deck
+      parameters:
+        - name: cards
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/CardCodes'
+        - name: deck_id
+          in: path
+          required: true
+          schema:
+            type: string
+            example: hyi02vw0n72p
+      responses:
+        '200':
+          description: Result of adding to card pile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PileResult'
+  /deck/{deck_id}/pile/{pile_id}/add/:
+    get:
+      summary: Add cards to a new or existing pile. If pile doesn't exist, it will be created.
+      operationId: addCardsToPile
+      tags:
+        - pile
+      parameters:
+        - name: cards
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/CardCodes'
+        - name: deck_id
+          in: path
+          required: true
+          schema:
+            type: string
+            example: hyi02vw0n72p
+        - name: pile_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Result of adding to card pile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PileResult'
+  /deck/{deck_id}/pile/{pile_id}/shuffle/:
+    get:
+      summary: Shuffle a specified pile.
+      operationId: shufflePile
+      tags:
+        - pile
+      parameters:
+        - name: deck_id
+          in: path
+          required: true
+          schema:
+            type: string
+            example: hyi02vw0n72p
+        - name: pile_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Result of adding to card pile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PileResult'
+  /deck/{deck_id}/pile/{pile_id}/list/:
+    get:
+      summary: List contents of a pile
+      operationId: listPile
+      tags:
+        - pile
+      parameters:
+        - name: deck_id
+          in: path
+          required: true
+          schema:
+            type: string
+            example: hyi02vw0n72p
+        - name: pile_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Result of adding to card pile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PileResult'
+  /deck/{deck_id}/pile/{pile_id}/draw/:
+    get:
+      summary: Draw from pile
+      operationId: drawFromPile
+      tags:
+        - pile
+      parameters:
+        - name: count
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: cards
+          in: query
+          required: false
+          schema:
+            type: array
+            items: 
+              $ref: '#/components/schemas/CardCodes'
+        - name: deck_id
+          in: path
+          required: true
+          schema:
+            type: string
+            example: hyi02vw0n72p
+        - name: pile_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Drawn cards from pile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DrawnCards'
+  /deck/{deck_id}/pile/{pile_id}/return/:
+    get:
+      summary: Return cards to deck
+      operationId: returnCardsToPile
+      tags:
+        - pile
+      parameters:
+        - name: cards
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/CardCodes'
+        - name: deck_id
+          in: path
+          required: true
+          schema:
+            type: string
+            example: hyi02vw0n72p
+        - name: pile_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Result of adding to card pile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PileResult'
+components:
+  schemas:
+    Deck:
+      type: object
+      properties:
+        deck_id:
+          type: string
+          example: 3p40paa87x90
+        success:
+          type: boolean
+          example: true
+        shuffled:
+          type: boolean
+          example: true
+        remaining:
+          type: integer
+          format: int32
+          example: 52
+    DrawnCards:
+      type: object
+      properties:
+        success:
+          type: boolean
+        deck_id:
+          type: string
+        cards:
+          type: array
+          items:
+            $ref: '#/components/schemas/Card'
+        remaining:
+          type: integer
+          format: int32
+          example: 30
+    Card:
+      type: object
+      properties:
+        code:
+          type: string
+          example: AS
+        image:
+          type: string
+          format: url
+          example: https://deckofcardsapi.com/static/img/AS.png
+        images:
+          type: object
+          properties:
+            svg:
+              type: string
+              format: url
+            png:
+              type: string
+              format: url
+        value:
+          type: string
+          example: ACE
+        suit:
+          type: string
+          example: SPADES
+          enum:
+            - SPADES
+            - CLUBS
+            - HEARTS
+            - DIAMONDS
+    CardCodes:
+      type: array
+      items:
+        type: string
+        example: 2S
+    PileResult:
+      type: object
+      properties:
+        success:
+          type: boolean
+        deck_id:
+          type: string
+        remaining:
+          type: integer
+          format: int32
+        piles:
+          type: object
+          items:
+            $ref: '#/components/schemas/Pile'
+    Pile:
+      type: object
+      properties:
+        remaining:
+          type: integer
+          format: int32
